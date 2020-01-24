@@ -58,7 +58,7 @@ module OTTER_MCU(input CLK,
                 output logic IOBUS_WR 
 );           
 	wire [6:0] opcode;
-    wire [31:0] pc, pc_value, next_pc, jalr_pc, branch_pc, jump_pc, int_pc,A,B,
+    wire [31:0] pc, pc_value, next_pc, jalr_pc, branch_pc, jal_pc, int_pc,A,B,
         I_immed,S_immed,U_immed,aluBin,aluAin,aluResult,rfIn,csr_reg, mem_data;
     
     wire [31:0] ir;
@@ -117,6 +117,8 @@ module OTTER_MCU(input CLK,
     // Make structure that holds state
     instr_t de_ex_inst;
     
+    logic [31:0] de_ex_i_immed;
+    
     // Declare an opcode type logic
     opcode_t OPCODE;
     
@@ -146,7 +148,11 @@ module OTTER_MCU(input CLK,
             assign de_ex_inst.rs1_used=    de_ex_inst.rs1 != 0
                                         && de_ex_inst.opcode != LUI
                                         && de_ex_inst.opcode != AUIPC
-                                        && de_ex_inst.opcode != JAL;          
+                                        && de_ex_inst.opcode != JAL;    
+                                        
+            // SAVE I_immediate for use in target calculation later
+            assign de_ex_i_immed=I_immed;
+                  
         end
     end                                                             
     
@@ -188,6 +194,8 @@ module OTTER_MCU(input CLK,
     
 //==== Execute ======================================================
      logic [31:0] ex_mem_rs2;
+     logic [31:0] ex_mem_i_immed;
+     
      logic ex_mem_aluRes = 0;
      instr_t ex_mem_inst;
      logic [31:0] opA_forwarded;
@@ -212,6 +220,9 @@ module OTTER_MCU(input CLK,
             
             // SAVE state from previous register
             ex_mem_inst <= de_ex_inst;
+            
+            // SAVE i_immed from previous reg
+            ex_mem_i_immed <= de_ex_i_immed;
             
         end
      end
@@ -244,18 +255,15 @@ module OTTER_MCU(input CLK,
         end
     end
     
-     // Create program memory
+    assign jalr_pc = de_ex_i_immed + A;
+    assign branch_pc = pc + {{20{de_ex_inst.ir[31]}},de_ex_inst.ir[7],de_ex_inst.ir[30:25],de_ex_inst.ir[11:8],1'b0};   //byte aligned addresses
+    assign jal_pc = pc + {{12{de_ex_inst.ir[31]}}, de_ex_inst.ir[19:12], de_ex_inst.ir[20],de_ex_inst.ir[30:21],1'b0};
      
      
      
 //==== Write Back ==================================================
 
     logic wd[31:0];
-    
-
-
-
-
     
 
 
