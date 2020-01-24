@@ -271,11 +271,11 @@ module OTTER_MCU(input CLK,
 //==== Modules ===============
     
      OTTER_registerFile reg_file (.Read1(ir[19:15]), .Read2(ir[24:20]), .writeData(wd), .WriteReg(mem_wb_inst.regWrite),
-        .Data1(de_ex_inst.rs1), .Data2(de_ex_inst.rs2), .clock(clk));
+        .Data1(de_ex_inst.rs1), .Data2(de_ex_inst.rs2), .clock(CLK));
         
-     Mult4to1 reg_file_wd_mux (.In1(mem_wb_inst.pc + 4), .In2(0), .In3(mem_wb_data), .In4(mem_wb_aluRes), .Sel(mem_wb_rf_wr_sel), .Out(wd));
+     Mult4to1 reg_file_wd_mux (.In1(mem_wb_inst.pc + 4), .In2(0), .In3(mem_wb_data), .In4(mem_wb_aluRes), .Sel(mem_wr_inst.rf_wr_sel), .Out(wd));
         
-     OTTER_mem_byte memory (.MEM_CLK(clk), .MEM_ADDR1(pc), .MEM_ADDR2(ex_mem_aluRes), .MEM_DIN2(ex_mem_inst.rs2),
+     OTTER_mem_byte memory (.MEM_CLK(CLK), .MEM_ADDR1(pc), .MEM_ADDR2(ex_mem_aluRes), .MEM_DIN2(ex_mem_inst.rs2),
         .MEM_WRITE2(ex_mem_inst.memWrite), .MEM_READ1(memRead1), .ERR(), .MEM_DOUT1(ir), .MEM_DOUT2(mem_data), .IO_IN(IOBUS_IN),
         .IO_WR(IOBUS_WR), .MEM_SIZE(ex_mem.mem_type[1:0]), .MEM_SIGN(ex_mem.mem_type[2]));
        
@@ -284,12 +284,12 @@ module OTTER_MCU(input CLK,
      Mult2to1 alu_a_mux (.In1(ex_mem_inst.rs1), .In2(U_immed), .Sel(opA_sel), .Out(aluAin));
      Mult4to1 alu_b_mux (.In1(ex_mem_inst.rs2), .In2(I_immed), .In3(S_immed), .In4(ex_mem_inst.pc), .Sel(opB_sel), .Out(aluBin));
      
-     ProgCount prog_count (.PC_CLK(clk), .PC_RST(RESET), .PC_LD(pcWrite), .PC_DIN(pc_value), .PC_COUNT(pc));
+     ProgCount prog_count (.PC_CLK(CLK), .PC_RST(RESET), .PC_LD(pcWrite), .PC_DIN(pc_value), .PC_COUNT(pc));
      Mult4to1 prog_count_next_mux (.In1(ex_mem_inst.pc + 4), .In2(jalr_pc), .In3(branch_pc), .In4(jal_pc), .Sel(pc_sel), .Out(pc_value));
      
      OTTER_CU_Decoder decoder (.CU_OPCODE(de_ex_inst.opcode), .CU_FUNC3(de_ex_inst.ir[14:12]), .CU_FUNC7(de_ex_inst.ir[31:25]),
         .CU_BR_EQ(-1), .CU_BR_LT(-1), .CU_BR_LTU(-1), .INT_TAKEN(0), .CU_ALU_SRCA(opA_sel), .CU_ALU_SRCB(opB_sel),
-        .CU_ALU_FUN(de_ex_inst.alu_fun), .CU_RF_WR_SEL(de_ex_inst.rf_wr_sel), .CU_PC_SOURCE(pc_sel))
+        .CU_ALU_FUN(de_ex_inst.alu_fun), .CU_RF_WR_SEL(de_ex_inst.rf_wr_sel), .CU_PC_SOURCE(pc_sel));
      
         
        
