@@ -34,214 +34,193 @@
         
 typedef struct packed{
     opcode_t opcode;
-    logic [4:0] rf_addr1;
-    logic [4:0] rf_addr2;
+    logic [4:0] rfAddr1;
+    logic [4:0] rfAddr2;
     logic [4:0] rd;
-    logic rs1_used;
-    logic rs2_used;
-    logic rd_used;
-    logic [3:0] alu_fun;
+    logic rs1Used;
+    logic rs2Used;
+    logic rdUsed;
+    logic [3:0] aluFun;
     logic memWrite;
     logic memRead2;
     logic regWrite;
-    logic [1:0] rf_wr_sel;
-    logic [2:0] mem_type;  //sign, size
-    logic [31:0] pc, rs1, rs2;
+    logic [1:0] rfWrSel;
+    logic [2:0] memType;  //sign, size
+    logic [31:0] ir, pc, rs2;
 } instr_t;
 
-module OTTER_MCU(input CLK,
-                input INTR,
-                input RESET,
-                input [31:0] IOBUS_IN,
-                output [31:0] IOBUS_OUT,
-                output [31:0] IOBUS_ADDR,
-                output logic IOBUS_WR 
-);           
-	wire [6:0] opcode;
-    wire [31:0] pc, pc_value, next_pc, jalr_pc, branch_pc, jal_pc, int_pc,A,B,
-        I_immed,S_immed,U_immed,aluBin,aluAin,aluResult,rfIn,csr_reg, mem_data;
-    
-    wire [31:0] ir;
-    wire memRead1,memRead2;
-    
-    wire pcWrite,regWrite,memWrite, op1_sel,mem_op,IorD,pcWriteCond,memRead;
-    wire [1:0] opB_sel, rf_sel, wb_sel, mSize;
-    logic [1:0] pc_sel;
-    wire [3:0]alu_fun;
-    wire opA_sel;
-    
-    wire mepcWrite, csrWrite,intCLR, mie, intTaken;
-    wire [31:0] mepc, mtvec;
-    
-    logic [31:0] rs1_forwarded;
-    logic [31:0] rs2_forwarded;
-
-    logic br_lt,br_eq,br_ltu;
-              
-     logic stall_pc;
-     logic stall_if;
-     logic stall_de;
-     //The following stages are not stalled in our first piplined otter  (no interrupts, exceptions, memory delays)
-     logic stall_ex=0;
-     logic stall_mem=0;
-     logic stall_wb=0;
-     
-     logic if_de_invalid=0;
-     logic de_ex_invalid=0;
-     logic ex_mem_invalid=0;
-     logic mem_wb_invalid=0;
+module OTTER_MCU(input  CLK,
+                 input  INTR,
+                 input  RESET,
+                 input  [31:0] IOBUS_IN,
+                 output [31:0] IOBUS_OUT,
+                 output [31:0] IOBUS_ADDR,
+                 output logic IOBUS_WR 
+);   
+        
+	
+    wire [31:0]  pc, 
+                 pcValue, 
+                 nextPc, 
+                 jalrPc, branchPc, jalPc,
+                 A,B,
+                 ir,
+                 iTypeImmed,sTypeImmed,uTypeImmed,
+                 aluAin,aluBin,aluResult,
+                 rfIn,
+                 memData;                   
+    wire [3:0]   aluFun;
+    wire [1:0]   wbSel;
+    wire         memRead2,
+                 regWrite, memWrite;
+               
+    logic [1:0]  pcSel;
+    logic        brLt, brEq, brLtu,
+                 stallPc, stallIf, stallDe, stallEx=0, stallMem=0, stallWb=0,
+                 ifDeInvalid=0, deExInvalid=0, exMemInvalid=0, memWbInvalid=0;
      
 //==== Instruction Fetch ===========================================
 
-     // Save the PC on each clock cycle (if appropriate) 
+     // STATE VARIABLES
      logic [31:0] if_de_pc;
      
-     // On a clock edge, save PC to IF_DE register if this stage is not supposed to stall
+     // COMB VARIABLES
+     wire pcWrite, memRead1;
+     
+     
+     // ASSIGN STATE VARIABLES
      always_ff @(posedge CLK) begin
-            if(!stall_if) begin
+            if(!stallIf) begin
                 if_de_pc <= pc;
             end
      end
      
-     // Assert pcWrite control signal if we are not supposed to stall (used to increment PC)
-     assign pcWrite = !stall_if;
-     
-     // Assert memRead1 signal if we are not supposed to stall (used to fetch instruction)
-     assign memRead1 = !stall_if;
+     // ASSIGN COMB. VARIABLES
+     assign pcWrite = !stallIf;
+     assign memRead1 = !stallIf;
      
 
 
      
 //==== Instruction Decode ===========================================
     
-    // Make structure that holds state
-    instr_t de_ex_inst;
+    // STATE VARIABLES
+    logic [31:0] de_ex_iTypeImmed;
+    logic [31:0] de_ex_aluAin, de_ex_aluBin;
+    instr_t      de_ex_inst;
     
-    logic [31:0] de_ex_i_immed;
+    // COMB. VARIABLES
+    opcode_t   opcode;
+    wire [1:0] opBSel;
+    wire       opASel;
     
-    // Declare an opcode type logic
-    opcode_t OPCODE;
     
-    // Cast opcode to an opcode type logic
-    assign OPCODE = opcode_t'(ir[6:0]);     
-    
-    assign S_immed = {{20{de_ex_inst.ir[31]}},de_ex_inst.ir[31:25],de_ex_inst.ir[11:7]};
-    assign I_immed = {{20{de_ex_inst.ir[31]}},de_ex_inst.ir[31:20]};
-    assign U_immed = {de_ex_inst.ir[31:12],{12{1'b0}}};
-        
+    // ASSIGN STATE VARIABLES
     always_ff @(posedge CLK) begin
-        if (!stall_de) begin
+        if (!stallDe) begin
 
-            
-            // SAVE addr1, addr2, rd to DE_EX register
-            assign de_ex_inst.rf_addr1=ir[19:15];
-            assign de_ex_inst.rf_addr2=ir[24:20];
-            assign de_ex_inst.rd=ir[11:7];
-            
-            // SAVE current PC to DE_EX register
-            assign de_ex_inst.pc=pc;
-            
-            // SAVE OPCODE to DE_EX register
-            assign de_ex_inst.opcode=OPCODE;
-            
-            // SAVE whether rs1 should be used to DE_EX register
-            assign de_ex_inst.rs1_used=    de_ex_inst.rs1 != 0
-                                        && de_ex_inst.opcode != LUI
-                                        && de_ex_inst.opcode != AUIPC
-                                        && de_ex_inst.opcode != JAL;    
+            de_ex_aluAin <= aluAin;
+            de_ex_aluBin <= aluBin;
+            de_ex_inst.rs2 <= B;
+            de_ex_inst.rfAddr1 <= ir[19:15];
+            de_ex_inst.rfAddr2 <= ir[24:20];
+            de_ex_inst.rd <= ir[11:7];
+            de_ex_inst.pc <= pc;
+            de_ex_inst.opcode <= opcode;
+            de_ex_inst.ir <= ir;
+            de_ex_inst.rs1Used <= A                    != 0
+                                  && de_ex_inst.opcode != LUI
+                                  && de_ex_inst.opcode != AUIPC
+                                  && de_ex_inst.opcode != JAL;    
                                         
-            // SAVE I_immediate for use in target calculation later
-            assign de_ex_i_immed=I_immed;
+            de_ex_iTypeImmed <= iTypeImmed;
                   
         end
-    end                                                             
+    end         
+    
+    // ASSIGN COMB. VARIABLES
+    assign opcode = opcode_t'(ir[6:0]);
+    
+    assign sTypeImmed = {{20{de_ex_inst.ir[31]}},de_ex_inst.ir[31:25],de_ex_inst.ir[11:7]};
+    assign iTypeImmed = {{20{de_ex_inst.ir[31]}},de_ex_inst.ir[31:20]};
+    assign uTypeImmed = {de_ex_inst.ir[31:12],{12{1'b0}}};
+    
+    // [Notes]
+    // - opASel and opBSel are available via the decoder as soon as an instruction is available                                                    
+    
+    
     
     //===== HAZARD DETECTION =================================
     //stall on load-use
     //assign stall_if = 
 	
-	
-	
-    //For instruction that is branch/jump, if changes the PC,  
     logic branch_taken;
-    
-    // Set a flag if the branch is supposed to be taken
-    assign branch_taken = !de_ex_invalid && (pc_sel != 0);    
+    assign branch_taken = !deExInvalid && (pcSel != 0);    
 
     always_ff @ (posedge CLK) begin
-        // If a reset signal is given, mark all stages as invalid
         if(RESET) begin
-            if_de_invalid<=1;
-            de_ex_invalid<=1;
-            ex_mem_invalid<=1;
-            mem_wb_invalid<=1;
+            ifDeInvalid<=1;
+            deExInvalid<=1;
+            exMemInvalid<=1;
+            memWbInvalid<=1;
         end
         else begin         
-            // If we are not supposed to stall IF, IF_DE stage is marked as invalid if we branched
-            if(!stall_if) if_de_invalid <=branch_taken;
-            
-            // If we are not supposed to stall DE, DE_EX stage is marked as invalid if DE is invalid or we branched
-            if(!stall_de) de_ex_invalid <= if_de_invalid | branch_taken;
-            // Else, if we are not supposed to stall EX, DE_EX is marked as invalid
-            else if (!stall_ex) de_ex_invalid <= 1;
-            
-            // If we are not supposed to stall EX, EX_MEM is invalid if DE_EX is invalid
-            if(!stall_ex) ex_mem_invalid <= de_ex_invalid;
+            if(!stallIf) ifDeInvalid <=branch_taken;
+            if(!stallDe) deExInvalid <= ifDeInvalid | branch_taken;
+            else if (!stallEx) deExInvalid <= 1;
+           
+            if(!stallEx) exMemInvalid <= deExInvalid;
             // If we are not supposed to stall MEM, MEM_WB is invalid if EX_MEM is invalid
-            if(!stall_mem) mem_wb_invalid <= ex_mem_invalid;
+            if(!stallMem) memWbInvalid <= exMemInvalid;
         end
     end
     
 //==== Execute ======================================================
-     logic [31:0] ex_mem_rs2;
-     logic [31:0] ex_mem_i_immed;
+
+     // STATE VARIABLES
+     logic [31:0] ex_mem_iTypeImmed;
+     logic        ex_mem_aluRes = 0;
+     instr_t      ex_mem_inst;
+
      
-     logic ex_mem_aluRes = 0;
-     instr_t ex_mem_inst;
-     logic [31:0] opA_forwarded;
-     logic [31:0] opB_forwarded;
+     // COMB. VARIABLES
+     logic [31:0] opAForwarded, opBForwarded;
      
+     // ASSIGN STATE VARIABLES
      always_comb begin
-        if (!opA_forwarded) begin
-            assign opA_forwarded = aluAin;
+        if (!opAForwarded) begin
+            opAForwarded <= aluAin;
         end
-        if (!opB_forwarded) begin
-            assign opB_forwarded = aluBin;
+        if (!opBForwarded) begin
+            opBForwarded <= aluBin;
         end
      end
      
-    //Branch Condition Generator
-    always_comb
-    begin
-        br_lt=0; br_eq=0; br_ltu=0;
-        if($signed(ex_mem_inst.rs1) < $signed(ex_mem_inst.rs2)) br_lt=1;
-        if(ex_mem_inst.rs1==ex_mem_inst.rs2) br_eq=1;
-        if(ex_mem_inst.rs1<ex_mem_inst.rs2) br_ltu=1;
-    end
+     // ASSIGN COMB. VARIABLES
+     
+     //Branch Condition Generator
+     always_comb
+     begin
+         brLt=0; brEq=0; brLtu=0;
+         if($signed(de_ex_aluAin) < $signed(de_ex_aluBin)) brLt=1;
+         if(de_ex_aluAin==de_ex_aluBin) brEq=1;
+         if(de_ex_aluAin<de_ex_aluBin) brLtu=1;
+     end
     
     
      always_ff @(posedge CLK) begin
-     
-        // If this stage is not supposed to stall
-        if(!stall_ex) begin
-        
-            // SAVE the result of the ALU
-            ex_mem_aluRes <= aluResult;
-            
-            // SAVE state from previous register
-            ex_mem_inst <= de_ex_inst;
-            
-            // SAVE i_immed from previous reg
-            ex_mem_i_immed <= de_ex_i_immed;
-            
-        end
+         // If this stage is not supposed to stall
+         if(!stallEx) begin
+             // SAVE the result of the ALU
+             ex_mem_aluRes <= aluResult;
+             // SAVE state from previous register
+             ex_mem_inst <= de_ex_inst;
+             // SAVE iTypeImmed from previous reg
+             ex_mem_iTypeImmed <= de_ex_iTypeImmed;
+         end
      end
     
      
-
-
-
-
 //==== Memory ======================================================
      
     logic [31:0] mem_wb_data;
@@ -249,13 +228,13 @@ module OTTER_MCU(input CLK,
     instr_t mem_wb_inst;
     
     assign IOBUS_ADDR = ex_mem_aluRes;
-    assign IOBUS_OUT = ex_mem_rs2;
+    assign IOBUS_OUT = ex_mem_inst.rs2;
     
     always_ff @(posedge CLK) begin
-        if(!stall_mem) begin
+        if(!stallMem) begin
             // On clock edge... 
             // SAVE data from Memory Module DOUT2
-            mem_wb_data <= mem_data;
+            mem_wb_data <= memData;
             
             // SAVE state from previous register
             mem_wb_inst <= ex_mem_inst;
@@ -265,41 +244,92 @@ module OTTER_MCU(input CLK,
         end
     end
     
-    assign jalr_pc = de_ex_i_immed + A;
-    assign branch_pc = pc + {{20{de_ex_inst.ir[31]}},de_ex_inst.ir[7],de_ex_inst.ir[30:25],de_ex_inst.ir[11:8],1'b0};   //byte aligned addresses
-    assign jal_pc = pc + {{12{de_ex_inst.ir[31]}}, de_ex_inst.ir[19:12], de_ex_inst.ir[20],de_ex_inst.ir[30:21],1'b0};
+    assign jalrPc = de_ex_iTypeImmed + A;
+    assign branchPc = pc + {{20{de_ex_inst.ir[31]}},de_ex_inst.ir[7],de_ex_inst.ir[30:25],de_ex_inst.ir[11:8],1'b0};   //byte aligned addresses
+    assign jalPc = pc + {{12{de_ex_inst.ir[31]}}, de_ex_inst.ir[19:12], de_ex_inst.ir[20],de_ex_inst.ir[30:21],1'b0};
      
      
      
 //==== Write Back ==================================================
 
-    logic wd[31:0];
-    
+    logic [31:0] wd;
+
 
 
 
 //==== Modules ===============
     
-     OTTER_registerFile reg_file (.Read1(ir[19:15]), .Read2(ir[24:20]), .writeData(wd), .WriteReg(mem_wb_inst.regWrite),
-        .Data1(de_ex_inst.rs1), .Data2(de_ex_inst.rs2), .clock(CLK));
+     OTTER_registerFile reg_file(
+        .Read1(ir[19:15]), 
+        .Read2(ir[24:20]), 
+        .WriteReg(mem_wb_inst.rd), 
+        .WriteData(wd),
+        .RegWrite(mem_wb_inst.regWrite), .Data1(A), .Data2(B), .clock(CLK));
+     Mult4to1 reg_file_wd_mux(
+        .In1(mem_wb_inst.pc + 4),
+        .In2(0), .In3(mem_wb_data),
+        .In4(mem_wb_aluRes),
+        .Sel(mem_wb_inst.rfWrSel),
+        .Out(wd));
         
-     Mult4to1 reg_file_wd_mux (.In1(mem_wb_inst.pc + 4), .In2(0), .In3(mem_wb_data), .In4(mem_wb_aluRes), .Sel(mem_wr_inst.rf_wr_sel), .Out(wd));
-        
-     OTTER_mem_byte memory (.MEM_CLK(CLK), .MEM_ADDR1(pc), .MEM_ADDR2(ex_mem_aluRes), .MEM_DIN2(ex_mem_inst.rs2),
-        .MEM_WRITE2(ex_mem_inst.memWrite), .MEM_READ1(memRead1), .ERR(), .MEM_DOUT1(ir), .MEM_DOUT2(mem_data), .IO_IN(IOBUS_IN),
-        .IO_WR(IOBUS_WR), .MEM_SIZE(ex_mem.mem_type[1:0]), .MEM_SIGN(ex_mem.mem_type[2]));
+     OTTER_mem_byte memory(
+        .MEM_CLK(CLK),
+        .MEM_ADDR1(pc),
+        .MEM_ADDR2(ex_mem_aluRes),
+        .MEM_DIN2(ex_mem_inst.rs2),
+        .MEM_WRITE2(ex_mem_inst.memWrite),
+        .MEM_READ1(memRead1),
+        .ERR(),
+        .MEM_DOUT1(ir),
+        .MEM_DOUT2(memData),
+        .IO_IN(IOBUS_IN),
+        .IO_WR(IOBUS_WR),
+        .MEM_SIZE(ex_mem_inst.memType[1:0]),
+        .MEM_SIGN(ex_mem_inst.memType[2]));
        
-     OTTER_ALU alu (.ALU_FUN(de_ex_inst.alu_fun), .A(opA_forwarded), .B(opB_forwarded), .ALUOut(aluResult)); 
+     OTTER_ALU alu(
+        .ALU_fun(de_ex_inst.aluFun),
+        .A(opAForwarded),
+        .B(opBForwarded),
+        .ALUOut(aluResult)); 
+     Mult2to1 alu_a_mux(
+        .In1(A),
+        .In2(uTypeImmed),
+        .Sel(opASel),
+        .Out(aluAin));
+     Mult4to1 alu_b_mux(.In1(B),
+        .In2(iTypeImmed),
+        .In3(sTypeImmed),
+        .In4(ex_mem_inst.pc),
+        .Sel(opBSel),
+        .Out(aluBin));
      
-     Mult2to1 alu_a_mux (.In1(ex_mem_inst.rs1), .In2(U_immed), .Sel(opA_sel), .Out(aluAin));
-     Mult4to1 alu_b_mux (.In1(ex_mem_inst.rs2), .In2(I_immed), .In3(S_immed), .In4(ex_mem_inst.pc), .Sel(opB_sel), .Out(aluBin));
+     ProgCount prog_count(
+        .PC_CLK(CLK),
+        .PC_RST(RESET),
+        .PC_LD(pcWrite),
+        .PC_DIN(pcValue),
+        .PC_COUNT(pc));
+     Mult4to1 prog_count_next_mux(
+        .In1(ex_mem_inst.pc + 4),
+        .In2(jalrPc),
+        .In3(branchPc),
+        .In4(jalPc),
+        .Sel(pcSel),
+        .Out(pcValue));
      
-     ProgCount prog_count (.PC_CLK(CLK), .PC_RST(RESET), .PC_LD(pcWrite), .PC_DIN(pc_value), .PC_COUNT(pc));
-     Mult4to1 prog_count_next_mux (.In1(ex_mem_inst.pc + 4), .In2(jalr_pc), .In3(branch_pc), .In4(jal_pc), .Sel(pc_sel), .Out(pc_value));
-     
-     OTTER_CU_Decoder decoder (.CU_OPCODE(de_ex_inst.opcode), .CU_FUNC3(de_ex_inst.ir[14:12]), .CU_FUNC7(de_ex_inst.ir[31:25]),
-        .CU_BR_EQ(br_eq), .CU_BR_LT(br_lt), .CU_BR_LTU(br_ltu), .INT_TAKEN(0), .CU_ALU_SRCA(opA_sel), .CU_ALU_SRCB(opB_sel),
-        .CU_ALU_FUN(de_ex_inst.alu_fun), .CU_RF_WR_SEL(de_ex_inst.rf_wr_sel), .CU_PC_SOURCE(pc_sel));
+     OTTER_CU_Decoder decoder(
+        .CU_OPCODE(de_ex_inst.opcode),
+        .CU_FUNC3(de_ex_inst.ir[14:12]),
+        .CU_FUNC7(de_ex_inst.ir[31:25]),
+        .CU_BR_EQ(brEq), 
+        .CU_BR_LT(brLt), 
+        .CU_BR_LTU(brLtu), 
+        .CU_ALU_SRCA(opASel), 
+        .CU_ALU_SRCB(opBSel),
+        .CU_ALU_FUN(de_ex_inst.aluFun), 
+        .CU_RF_WR_SEL(de_ex_inst.rfWrSel), 
+        .CU_PCSOURCE(pcSel));
      
         
        

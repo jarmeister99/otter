@@ -1,0 +1,939 @@
+
+*** Running vivado
+    with args -log OTTER_Wrapper_Programmable.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source OTTER_Wrapper_Programmable.tcl
+
+
+****** Vivado v2019.2 (64-bit)
+  **** SW Build 2708876 on Wed Nov  6 21:39:14 MST 2019
+  **** IP Build 2700528 on Thu Nov  7 00:09:20 MST 2019
+    ** Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
+
+source OTTER_Wrapper_Programmable.tcl -notrace
+Command: synth_design -top OTTER_Wrapper_Programmable -part xc7a35tcpg236-1
+Starting synth_design
+Attempting to get a license for feature 'Synthesis' and/or device 'xc7a35t'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7a35t'
+INFO: [Device 21-403] Loading part xc7a35tcpg236-1
+INFO: Launching helper process for spawning children vivado processes
+INFO: Helper process launched with PID 21979 
+---------------------------------------------------------------------------------
+Starting RTL Elaboration : Time (s): cpu = 00:00:03 ; elapsed = 00:00:04 . Memory (MB): peak = 1820.453 ; gain = 203.715 ; free physical = 2749 ; free virtual = 6948
+---------------------------------------------------------------------------------
+INFO: [Synth 8-6157] synthesizing module 'OTTER_Wrapper_Programmable' [/home/jared/Dev/otter/otter_project/sources/OTTER_Wrapper.sv:28]
+	Parameter SWITCHES_AD bound to: 285212672 - type: integer 
+	Parameter CLKCNTLO_AD bound to: 289406976 - type: integer 
+	Parameter CLKCNTHI_AD bound to: 289406980 - type: integer 
+	Parameter LEDS_AD bound to: 285736960 - type: integer 
+	Parameter SSEG_AD bound to: 285999104 - type: integer 
+INFO: [Synth 8-6157] synthesizing module 'OTTER_MCU' [/home/jared/Dev/otter/otter_project/sources/otter_mcu_pipeline_template.sv:52]
+INFO: [Synth 8-6157] synthesizing module 'OTTER_registerFile' [/home/jared/Dev/otter/otter_project/sources/registerFile.sv:23]
+INFO: [Synth 8-6155] done synthesizing module 'OTTER_registerFile' (1#1) [/home/jared/Dev/otter/otter_project/sources/registerFile.sv:23]
+INFO: [Synth 8-6157] synthesizing module 'Mult4to1' [/home/jared/Dev/otter/otter_project/sources/Mult4to1.sv:55]
+INFO: [Synth 8-6155] done synthesizing module 'Mult4to1' (2#1) [/home/jared/Dev/otter/otter_project/sources/Mult4to1.sv:55]
+INFO: [Synth 8-6157] synthesizing module 'OTTER_mem_byte' [/home/jared/Dev/otter/otter_project/sources/bram_dualport.sv:101]
+	Parameter ACTUAL_WIDTH bound to: 14 - type: integer 
+	Parameter NUM_COL bound to: 4 - type: integer 
+	Parameter COL_WIDTH bound to: 8 - type: integer 
+INFO: [Synth 8-5534] Detected attribute (* rom_style = "{distributed | block}" *) [/home/jared/Dev/otter/otter_project/sources/bram_dualport.sv:133]
+INFO: [Synth 8-3876] $readmem data file 'otter_memory.mem' is read successfully [/home/jared/Dev/otter/otter_project/sources/bram_dualport.sv:136]
+INFO: [Synth 8-155] case statement is not full and has no default [/home/jared/Dev/otter/otter_project/sources/bram_dualport.sv:218]
+INFO: [Synth 8-155] case statement is not full and has no default [/home/jared/Dev/otter/otter_project/sources/bram_dualport.sv:204]
+WARNING: [Synth 8-6014] Unused sequential element j_reg was removed.  [/home/jared/Dev/otter/otter_project/sources/bram_dualport.sv:154]
+INFO: [Synth 8-5772] Detected attribute (* ram_decomp = "power" *) on RAM memory_reg 
+INFO: [Synth 8-6155] done synthesizing module 'OTTER_mem_byte' (3#1) [/home/jared/Dev/otter/otter_project/sources/bram_dualport.sv:101]
+WARNING: [Synth 8-7023] instance 'memory' of module 'OTTER_mem_byte' has 14 connections declared, but only 13 given [/home/jared/Dev/otter/otter_project/sources/otter_mcu_pipeline_template.sv:299]
+INFO: [Synth 8-6157] synthesizing module 'OTTER_ALU' [/home/jared/Dev/otter/otter_project/sources/ArithLogicUnit.sv:22]
+INFO: [Synth 8-6155] done synthesizing module 'OTTER_ALU' (4#1) [/home/jared/Dev/otter/otter_project/sources/ArithLogicUnit.sv:22]
+INFO: [Synth 8-6157] synthesizing module 'Mult2to1' [/home/jared/Dev/otter/otter_project/sources/Mult4to1.sv:68]
+INFO: [Synth 8-6155] done synthesizing module 'Mult2to1' (5#1) [/home/jared/Dev/otter/otter_project/sources/Mult4to1.sv:68]
+INFO: [Synth 8-6157] synthesizing module 'ProgCount' [/home/jared/Dev/otter/otter_project/sources/ProgCount.sv:23]
+INFO: [Synth 8-6155] done synthesizing module 'ProgCount' (6#1) [/home/jared/Dev/otter/otter_project/sources/ProgCount.sv:23]
+INFO: [Synth 8-6157] synthesizing module 'OTTER_CU_Decoder' [/home/jared/Dev/otter/otter_project/sources/CU_Decoder.sv:23]
+INFO: [Synth 8-6155] done synthesizing module 'OTTER_CU_Decoder' (7#1) [/home/jared/Dev/otter/otter_project/sources/CU_Decoder.sv:23]
+WARNING: [Synth 8-689] width (2) of port connection 'CU_PCSOURCE' does not match port width (4) of module 'OTTER_CU_Decoder' [/home/jared/Dev/otter/otter_project/sources/otter_mcu_pipeline_template.sv:313]
+WARNING: [Synth 8-7023] instance 'decoder' of module 'OTTER_CU_Decoder' has 12 connections declared, but only 11 given [/home/jared/Dev/otter/otter_project/sources/otter_mcu_pipeline_template.sv:311]
+WARNING: [Synth 8-6014] Unused sequential element if_de_pc_reg was removed.  [/home/jared/Dev/otter/otter_project/sources/otter_mcu_pipeline_template.sv:102]
+WARNING: [Synth 8-6014] Unused sequential element de_ex_inst_reg[rf_addr1] was removed.  [/home/jared/Dev/otter/otter_project/sources/otter_mcu_pipeline_template.sv:129]
+WARNING: [Synth 8-6014] Unused sequential element de_ex_inst_reg[rf_addr2] was removed.  [/home/jared/Dev/otter/otter_project/sources/otter_mcu_pipeline_template.sv:129]
+WARNING: [Synth 8-6014] Unused sequential element de_ex_inst_reg[rs1_used] was removed.  [/home/jared/Dev/otter/otter_project/sources/otter_mcu_pipeline_template.sv:129]
+WARNING: [Synth 8-6014] Unused sequential element if_de_invalid_reg was removed.  [/home/jared/Dev/otter/otter_project/sources/otter_mcu_pipeline_template.sv:181]
+WARNING: [Synth 8-6014] Unused sequential element de_ex_invalid_reg was removed.  [/home/jared/Dev/otter/otter_project/sources/otter_mcu_pipeline_template.sv:176]
+WARNING: [Synth 8-6014] Unused sequential element ex_mem_invalid_reg was removed.  [/home/jared/Dev/otter/otter_project/sources/otter_mcu_pipeline_template.sv:183]
+WARNING: [Synth 8-6014] Unused sequential element mem_wb_invalid_reg was removed.  [/home/jared/Dev/otter/otter_project/sources/otter_mcu_pipeline_template.sv:184]
+WARNING: [Synth 8-6014] Unused sequential element ex_mem_inst_reg[opcode] was removed.  [/home/jared/Dev/otter/otter_project/sources/otter_mcu_pipeline_template.sv:239]
+WARNING: [Synth 8-6014] Unused sequential element ex_mem_inst_reg[rf_addr1] was removed.  [/home/jared/Dev/otter/otter_project/sources/otter_mcu_pipeline_template.sv:239]
+WARNING: [Synth 8-6014] Unused sequential element ex_mem_inst_reg[rf_addr2] was removed.  [/home/jared/Dev/otter/otter_project/sources/otter_mcu_pipeline_template.sv:239]
+WARNING: [Synth 8-6014] Unused sequential element ex_mem_inst_reg[rs1_used] was removed.  [/home/jared/Dev/otter/otter_project/sources/otter_mcu_pipeline_template.sv:239]
+WARNING: [Synth 8-6014] Unused sequential element ex_mem_inst_reg[rs2_used] was removed.  [/home/jared/Dev/otter/otter_project/sources/otter_mcu_pipeline_template.sv:239]
+WARNING: [Synth 8-6014] Unused sequential element ex_mem_inst_reg[rd_used] was removed.  [/home/jared/Dev/otter/otter_project/sources/otter_mcu_pipeline_template.sv:239]
+WARNING: [Synth 8-6014] Unused sequential element ex_mem_inst_reg[alu_fun] was removed.  [/home/jared/Dev/otter/otter_project/sources/otter_mcu_pipeline_template.sv:239]
+WARNING: [Synth 8-6014] Unused sequential element ex_mem_inst_reg[memRead2] was removed.  [/home/jared/Dev/otter/otter_project/sources/otter_mcu_pipeline_template.sv:239]
+WARNING: [Synth 8-6014] Unused sequential element ex_mem_inst_reg[ir] was removed.  [/home/jared/Dev/otter/otter_project/sources/otter_mcu_pipeline_template.sv:239]
+WARNING: [Synth 8-6014] Unused sequential element ex_mem_i_immed_reg was removed.  [/home/jared/Dev/otter/otter_project/sources/otter_mcu_pipeline_template.sv:242]
+WARNING: [Synth 8-6014] Unused sequential element mem_wb_inst_reg[opcode] was removed.  [/home/jared/Dev/otter/otter_project/sources/otter_mcu_pipeline_template.sv:268]
+WARNING: [Synth 8-6014] Unused sequential element mem_wb_inst_reg[rf_addr1] was removed.  [/home/jared/Dev/otter/otter_project/sources/otter_mcu_pipeline_template.sv:268]
+WARNING: [Synth 8-6014] Unused sequential element mem_wb_inst_reg[rf_addr2] was removed.  [/home/jared/Dev/otter/otter_project/sources/otter_mcu_pipeline_template.sv:268]
+WARNING: [Synth 8-6014] Unused sequential element mem_wb_inst_reg[rs1_used] was removed.  [/home/jared/Dev/otter/otter_project/sources/otter_mcu_pipeline_template.sv:268]
+WARNING: [Synth 8-6014] Unused sequential element mem_wb_inst_reg[rs2_used] was removed.  [/home/jared/Dev/otter/otter_project/sources/otter_mcu_pipeline_template.sv:268]
+WARNING: [Synth 8-6014] Unused sequential element mem_wb_inst_reg[rd_used] was removed.  [/home/jared/Dev/otter/otter_project/sources/otter_mcu_pipeline_template.sv:268]
+WARNING: [Synth 8-6014] Unused sequential element mem_wb_inst_reg[alu_fun] was removed.  [/home/jared/Dev/otter/otter_project/sources/otter_mcu_pipeline_template.sv:268]
+WARNING: [Synth 8-6014] Unused sequential element mem_wb_inst_reg[memWrite] was removed.  [/home/jared/Dev/otter/otter_project/sources/otter_mcu_pipeline_template.sv:268]
+WARNING: [Synth 8-6014] Unused sequential element mem_wb_inst_reg[memRead2] was removed.  [/home/jared/Dev/otter/otter_project/sources/otter_mcu_pipeline_template.sv:268]
+WARNING: [Synth 8-6014] Unused sequential element mem_wb_inst_reg[mem_type] was removed.  [/home/jared/Dev/otter/otter_project/sources/otter_mcu_pipeline_template.sv:268]
+WARNING: [Synth 8-6014] Unused sequential element mem_wb_inst_reg[ir] was removed.  [/home/jared/Dev/otter/otter_project/sources/otter_mcu_pipeline_template.sv:268]
+WARNING: [Synth 8-6014] Unused sequential element mem_wb_inst_reg[rs2] was removed.  [/home/jared/Dev/otter/otter_project/sources/otter_mcu_pipeline_template.sv:268]
+INFO: [Synth 8-5772] Detected attribute (* ram_decomp = "power" *) on RAM memory_reg 
+WARNING: [Synth 8-87] always_comb on 'opA_forwarded_reg' did not result in combinational logic [/home/jared/Dev/otter/otter_project/sources/otter_mcu_pipeline_template.sv:212]
+WARNING: [Synth 8-87] always_comb on 'opB_forwarded_reg' did not result in combinational logic [/home/jared/Dev/otter/otter_project/sources/otter_mcu_pipeline_template.sv:215]
+WARNING: [Synth 8-3848] Net ex_mem_rs2 in module/entity OTTER_MCU does not have driver. [/home/jared/Dev/otter/otter_project/sources/otter_mcu_pipeline_template.sv:203]
+WARNING: [Synth 8-3848] Net de_ex_inst[rs2] in module/entity OTTER_MCU does not have driver. [/home/jared/Dev/otter/otter_project/sources/otter_mcu_pipeline_template.sv:118]
+WARNING: [Synth 8-3848] Net de_ex_inst[memWrite] in module/entity OTTER_MCU does not have driver. [/home/jared/Dev/otter/otter_project/sources/otter_mcu_pipeline_template.sv:118]
+WARNING: [Synth 8-3848] Net stall_if in module/entity OTTER_MCU does not have driver. [/home/jared/Dev/otter/otter_project/sources/otter_mcu_pipeline_template.sv:82]
+WARNING: [Synth 8-3848] Net de_ex_inst[mem_type] in module/entity OTTER_MCU does not have driver. [/home/jared/Dev/otter/otter_project/sources/otter_mcu_pipeline_template.sv:118]
+WARNING: [Synth 8-3848] Net stall_de in module/entity OTTER_MCU does not have driver. [/home/jared/Dev/otter/otter_project/sources/otter_mcu_pipeline_template.sv:83]
+WARNING: [Synth 8-3848] Net de_ex_inst[regWrite] in module/entity OTTER_MCU does not have driver. [/home/jared/Dev/otter/otter_project/sources/otter_mcu_pipeline_template.sv:118]
+INFO: [Synth 8-6155] done synthesizing module 'OTTER_MCU' (8#1) [/home/jared/Dev/otter/otter_project/sources/otter_mcu_pipeline_template.sv:52]
+INFO: [Synth 8-6157] synthesizing module 'SevSegDisp' [/home/jared/Dev/otter/otter_project/sources/SevSegDisp.sv:23]
+INFO: [Synth 8-6157] synthesizing module 'BCD' [/home/jared/Dev/otter/otter_project/sources/BCD.sv:23]
+INFO: [Synth 8-6155] done synthesizing module 'BCD' (9#1) [/home/jared/Dev/otter/otter_project/sources/BCD.sv:23]
+INFO: [Synth 8-6157] synthesizing module 'CathodeDriver' [/home/jared/Dev/otter/otter_project/sources/CathodeDriver.sv:19]
+INFO: [Synth 8-226] default block is never used [/home/jared/Dev/otter/otter_project/sources/CathodeDriver.sv:41]
+INFO: [Synth 8-226] default block is never used [/home/jared/Dev/otter/otter_project/sources/CathodeDriver.sv:44]
+INFO: [Synth 8-226] default block is never used [/home/jared/Dev/otter/otter_project/sources/CathodeDriver.sv:66]
+INFO: [Synth 8-226] default block is never used [/home/jared/Dev/otter/otter_project/sources/CathodeDriver.sv:88]
+INFO: [Synth 8-226] default block is never used [/home/jared/Dev/otter/otter_project/sources/CathodeDriver.sv:110]
+INFO: [Synth 8-6155] done synthesizing module 'CathodeDriver' (10#1) [/home/jared/Dev/otter/otter_project/sources/CathodeDriver.sv:19]
+INFO: [Synth 8-6155] done synthesizing module 'SevSegDisp' (11#1) [/home/jared/Dev/otter/otter_project/sources/SevSegDisp.sv:23]
+INFO: [Synth 8-6157] synthesizing module 'debounce_one_shot' [/home/jared/Dev/otter/otter_project/sources/debounce_one_shot.sv:25]
+INFO: [Synth 8-6155] done synthesizing module 'debounce_one_shot' (12#1) [/home/jared/Dev/otter/otter_project/sources/debounce_one_shot.sv:25]
+INFO: [Synth 8-155] case statement is not full and has no default [/home/jared/Dev/otter/otter_project/sources/OTTER_Wrapper.sv:92]
+INFO: [Synth 8-155] case statement is not full and has no default [/home/jared/Dev/otter/otter_project/sources/OTTER_Wrapper.sv:101]
+INFO: [Synth 8-5772] Detected attribute (* ram_decomp = "power" *) on RAM memory_reg 
+WARNING: [Synth 8-3848] Net TX in module/entity OTTER_Wrapper_Programmable does not have driver. [/home/jared/Dev/otter/otter_project/sources/OTTER_Wrapper.sv:34]
+INFO: [Synth 8-6155] done synthesizing module 'OTTER_Wrapper_Programmable' (13#1) [/home/jared/Dev/otter/otter_project/sources/OTTER_Wrapper.sv:28]
+WARNING: [Synth 8-3331] design OTTER_CU_Decoder has unconnected port CU_FUNC7[6]
+WARNING: [Synth 8-3331] design OTTER_CU_Decoder has unconnected port CU_FUNC7[4]
+WARNING: [Synth 8-3331] design OTTER_CU_Decoder has unconnected port CU_FUNC7[3]
+WARNING: [Synth 8-3331] design OTTER_CU_Decoder has unconnected port CU_FUNC7[2]
+WARNING: [Synth 8-3331] design OTTER_CU_Decoder has unconnected port CU_FUNC7[1]
+WARNING: [Synth 8-3331] design OTTER_CU_Decoder has unconnected port CU_FUNC7[0]
+WARNING: [Synth 8-3331] design OTTER_MCU has unconnected port IOBUS_OUT[31]
+WARNING: [Synth 8-3331] design OTTER_MCU has unconnected port IOBUS_OUT[30]
+WARNING: [Synth 8-3331] design OTTER_MCU has unconnected port IOBUS_OUT[29]
+WARNING: [Synth 8-3331] design OTTER_MCU has unconnected port IOBUS_OUT[28]
+WARNING: [Synth 8-3331] design OTTER_MCU has unconnected port IOBUS_OUT[27]
+WARNING: [Synth 8-3331] design OTTER_MCU has unconnected port IOBUS_OUT[26]
+WARNING: [Synth 8-3331] design OTTER_MCU has unconnected port IOBUS_OUT[25]
+WARNING: [Synth 8-3331] design OTTER_MCU has unconnected port IOBUS_OUT[24]
+WARNING: [Synth 8-3331] design OTTER_MCU has unconnected port IOBUS_OUT[23]
+WARNING: [Synth 8-3331] design OTTER_MCU has unconnected port IOBUS_OUT[22]
+WARNING: [Synth 8-3331] design OTTER_MCU has unconnected port IOBUS_OUT[21]
+WARNING: [Synth 8-3331] design OTTER_MCU has unconnected port IOBUS_OUT[20]
+WARNING: [Synth 8-3331] design OTTER_MCU has unconnected port IOBUS_OUT[19]
+WARNING: [Synth 8-3331] design OTTER_MCU has unconnected port IOBUS_OUT[18]
+WARNING: [Synth 8-3331] design OTTER_MCU has unconnected port IOBUS_OUT[17]
+WARNING: [Synth 8-3331] design OTTER_MCU has unconnected port IOBUS_OUT[16]
+WARNING: [Synth 8-3331] design OTTER_MCU has unconnected port IOBUS_OUT[15]
+WARNING: [Synth 8-3331] design OTTER_MCU has unconnected port IOBUS_OUT[14]
+WARNING: [Synth 8-3331] design OTTER_MCU has unconnected port IOBUS_OUT[13]
+WARNING: [Synth 8-3331] design OTTER_MCU has unconnected port IOBUS_OUT[12]
+WARNING: [Synth 8-3331] design OTTER_MCU has unconnected port IOBUS_OUT[11]
+WARNING: [Synth 8-3331] design OTTER_MCU has unconnected port IOBUS_OUT[10]
+WARNING: [Synth 8-3331] design OTTER_MCU has unconnected port IOBUS_OUT[9]
+WARNING: [Synth 8-3331] design OTTER_MCU has unconnected port IOBUS_OUT[8]
+WARNING: [Synth 8-3331] design OTTER_MCU has unconnected port IOBUS_OUT[7]
+WARNING: [Synth 8-3331] design OTTER_MCU has unconnected port IOBUS_OUT[6]
+WARNING: [Synth 8-3331] design OTTER_MCU has unconnected port IOBUS_OUT[5]
+WARNING: [Synth 8-3331] design OTTER_MCU has unconnected port IOBUS_OUT[4]
+WARNING: [Synth 8-3331] design OTTER_MCU has unconnected port IOBUS_OUT[3]
+WARNING: [Synth 8-3331] design OTTER_MCU has unconnected port IOBUS_OUT[2]
+WARNING: [Synth 8-3331] design OTTER_MCU has unconnected port IOBUS_OUT[1]
+WARNING: [Synth 8-3331] design OTTER_MCU has unconnected port IOBUS_OUT[0]
+WARNING: [Synth 8-3331] design OTTER_MCU has unconnected port INTR
+WARNING: [Synth 8-3331] design OTTER_Wrapper_Programmable has unconnected port TX
+WARNING: [Synth 8-3331] design OTTER_Wrapper_Programmable has unconnected port RX
+---------------------------------------------------------------------------------
+Finished RTL Elaboration : Time (s): cpu = 00:00:05 ; elapsed = 00:00:06 . Memory (MB): peak = 1882.203 ; gain = 265.465 ; free physical = 2777 ; free virtual = 6976
+---------------------------------------------------------------------------------
+
+Report Check Netlist: 
++------+------------------+-------+---------+-------+------------------+
+|      |Item              |Errors |Warnings |Status |Description       |
++------+------------------+-------+---------+-------+------------------+
+|1     |multi_driven_nets |      0|        0|Passed |Multi driven nets |
++------+------------------+-------+---------+-------+------------------+
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:05 ; elapsed = 00:00:07 . Memory (MB): peak = 1888.141 ; gain = 271.402 ; free physical = 2774 ; free virtual = 6973
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:05 ; elapsed = 00:00:07 . Memory (MB): peak = 1888.141 ; gain = 271.402 ; free physical = 2774 ; free virtual = 6973
+---------------------------------------------------------------------------------
+Netlist sorting complete. Time (s): cpu = 00:00:00.02 ; elapsed = 00:00:00.02 . Memory (MB): peak = 1888.141 ; gain = 0.000 ; free physical = 2767 ; free virtual = 6967
+INFO: [Project 1-570] Preparing netlist for logic optimization
+
+Processing XDC Constraints
+Initializing timing engine
+Parsing XDC File [/home/jared/Dev/otter/otter_project/sources/Basys-3-Master.xdc]
+Finished Parsing XDC File [/home/jared/Dev/otter/otter_project/sources/Basys-3-Master.xdc]
+INFO: [Project 1-236] Implementation specific constraints were found while reading constraint file [/home/jared/Dev/otter/otter_project/sources/Basys-3-Master.xdc]. These constraints will be ignored for synthesis but will be used in implementation. Impacted constraints are listed in the file [.Xil/OTTER_Wrapper_Programmable_propImpl.xdc].
+Resolution: To avoid this warning, move constraints listed in [.Xil/OTTER_Wrapper_Programmable_propImpl.xdc] to another XDC file and exclude this new file from synthesis with the used_in_synthesis property (File Properties dialog in GUI) and re-run elaboration/synthesis.
+Completed Processing XDC Constraints
+
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2053.922 ; gain = 0.000 ; free physical = 2660 ; free virtual = 6875
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+Constraint Validation Runtime : Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00 . Memory (MB): peak = 2053.922 ; gain = 0.000 ; free physical = 2660 ; free virtual = 6875
+---------------------------------------------------------------------------------
+Finished Constraint Validation : Time (s): cpu = 00:00:11 ; elapsed = 00:00:13 . Memory (MB): peak = 2053.922 ; gain = 437.184 ; free physical = 2733 ; free virtual = 6949
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Loading Part and Timing Information
+---------------------------------------------------------------------------------
+Loading part: xc7a35tcpg236-1
+---------------------------------------------------------------------------------
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:11 ; elapsed = 00:00:13 . Memory (MB): peak = 2053.922 ; gain = 437.184 ; free physical = 2733 ; free virtual = 6949
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying 'set_property' XDC Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:11 ; elapsed = 00:00:13 . Memory (MB): peak = 2053.922 ; gain = 437.184 ; free physical = 2733 ; free virtual = 6949
+---------------------------------------------------------------------------------
+INFO: [Synth 8-5546] ROM "CU_ALU_SRCB" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "CU_RF_WR_SEL" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-802] inferred FSM for state register 'PS_reg' in module 'debounce_one_shot'
+INFO: [Synth 8-7030] Implemented Non-Cascaded Block Ram (cascade_height = 1) of width 32 for RAM "OTTER_mem_byte:/memory_reg"
+INFO: [Synth 8-7030] Implemented Non-Cascaded Block Ram (cascade_height = 1) of width 32 for RAM "OTTER_mem_byte:/memory_reg"
+INFO: [Synth 8-7030] Implemented Non-Cascaded Block Ram (cascade_height = 1) of width 32 for RAM "OTTER_mem_byte:/memory_reg"
+INFO: [Synth 8-7030] Implemented Non-Cascaded Block Ram (cascade_height = 1) of width 32 for RAM "OTTER_mem_byte:/memory_reg"
+INFO: [Synth 8-7030] Implemented Non-Cascaded Block Ram (cascade_height = 1) of width 32 for RAM "OTTER_mem_byte:/memory_reg"
+INFO: [Synth 8-7030] Implemented Non-Cascaded Block Ram (cascade_height = 1) of width 32 for RAM "OTTER_mem_byte:/memory_reg"
+INFO: [Synth 8-7030] Implemented Non-Cascaded Block Ram (cascade_height = 1) of width 32 for RAM "OTTER_mem_byte:/memory_reg"
+INFO: [Synth 8-7030] Implemented Non-Cascaded Block Ram (cascade_height = 1) of width 32 for RAM "OTTER_mem_byte:/memory_reg"
+INFO: [Synth 8-7030] Implemented Non-Cascaded Block Ram (cascade_height = 1) of width 32 for RAM "OTTER_mem_byte:/memory_reg"
+INFO: [Synth 8-7030] Implemented Non-Cascaded Block Ram (cascade_height = 1) of width 32 for RAM "OTTER_mem_byte:/memory_reg"
+INFO: [Synth 8-7030] Implemented Non-Cascaded Block Ram (cascade_height = 1) of width 32 for RAM "OTTER_mem_byte:/memory_reg"
+INFO: [Synth 8-7030] Implemented Non-Cascaded Block Ram (cascade_height = 1) of width 32 for RAM "OTTER_mem_byte:/memory_reg"
+INFO: [Synth 8-7030] Implemented Non-Cascaded Block Ram (cascade_height = 1) of width 32 for RAM "OTTER_mem_byte:/memory_reg"
+INFO: [Synth 8-7030] Implemented Non-Cascaded Block Ram (cascade_height = 1) of width 32 for RAM "OTTER_mem_byte:/memory_reg"
+INFO: [Synth 8-7030] Implemented Non-Cascaded Block Ram (cascade_height = 1) of width 32 for RAM "OTTER_mem_byte:/memory_reg"
+INFO: [Synth 8-7030] Implemented Non-Cascaded Block Ram (cascade_height = 1) of width 32 for RAM "OTTER_mem_byte:/memory_reg"
+WARNING: [Synth 8-327] inferring latch for variable 'opA_forwarded_reg' [/home/jared/Dev/otter/otter_project/sources/otter_mcu_pipeline_template.sv:212]
+WARNING: [Synth 8-327] inferring latch for variable 'opB_forwarded_reg' [/home/jared/Dev/otter/otter_project/sources/otter_mcu_pipeline_template.sv:215]
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+                 ST_init |                              000 | 00000000000000000000000000000000
+              ST_BTN_low |                              001 | 00000000000000000000000000000001
+      ST_BTN_low_to_high |                              010 | 00000000000000000000000000000010
+             ST_BTN_high |                              011 | 00000000000000000000000000000011
+      ST_BTN_high_to_low |                              100 | 00000000000000000000000000000100
+             ST_one_shot |                              101 | 00000000000000000000000000000101
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'PS_reg' using encoding 'sequential' in module 'debounce_one_shot'
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:12 ; elapsed = 00:00:14 . Memory (MB): peak = 2053.922 ; gain = 437.184 ; free physical = 2724 ; free virtual = 6940
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+---------------------------------------------------------------------------------
+Start RTL Component Statistics 
+---------------------------------------------------------------------------------
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input     32 Bit       Adders := 6     
+	   3 Input     32 Bit       Adders := 1     
+	   2 Input     20 Bit       Adders := 1     
+	   2 Input      8 Bit       Adders := 2     
+	   2 Input      5 Bit       Adders := 1     
+	   2 Input      4 Bit       Adders := 35    
+	   2 Input      3 Bit       Adders := 7     
+	   2 Input      2 Bit       Adders := 1     
++---XORs : 
+	   2 Input     32 Bit         XORs := 1     
++---Registers : 
+	               32 Bit    Registers := 13    
+	               16 Bit    Registers := 2     
+	                8 Bit    Registers := 3     
+	                7 Bit    Registers := 1     
+	                5 Bit    Registers := 3     
+	                4 Bit    Registers := 1     
+	                3 Bit    Registers := 1     
+	                2 Bit    Registers := 3     
+	                1 Bit    Registers := 7     
++---Multipliers : 
+	                32x32  Multipliers := 1     
++---RAMs : 
+	             512K Bit         RAMs := 1     
+	             1024 Bit         RAMs := 1     
++---Muxes : 
+	   2 Input     32 Bit        Muxes := 9     
+	   4 Input     32 Bit        Muxes := 10    
+	   9 Input     32 Bit        Muxes := 2     
+	   7 Input     32 Bit        Muxes := 2     
+	   6 Input     32 Bit        Muxes := 2     
+	   2 Input     16 Bit        Muxes := 1     
+	   4 Input      8 Bit        Muxes := 1     
+	  19 Input      8 Bit        Muxes := 1     
+	   2 Input      8 Bit        Muxes := 2     
+	   2 Input      5 Bit        Muxes := 1     
+	   4 Input      5 Bit        Muxes := 1     
+	   5 Input      5 Bit        Muxes := 1     
+	   4 Input      4 Bit        Muxes := 2     
+	   2 Input      4 Bit        Muxes := 31    
+	   2 Input      3 Bit        Muxes := 21    
+	   5 Input      3 Bit        Muxes := 2     
+	   6 Input      3 Bit        Muxes := 2     
+	   4 Input      2 Bit        Muxes := 3     
+	   6 Input      2 Bit        Muxes := 1     
+	   5 Input      2 Bit        Muxes := 1     
+	   9 Input      1 Bit        Muxes := 1     
+	   7 Input      1 Bit        Muxes := 1     
+	   2 Input      1 Bit        Muxes := 12    
+	   3 Input      1 Bit        Muxes := 4     
+	   6 Input      1 Bit        Muxes := 6     
+---------------------------------------------------------------------------------
+Finished RTL Component Statistics 
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start RTL Hierarchical Component Statistics 
+---------------------------------------------------------------------------------
+Hierarchical RTL Component report 
+Module OTTER_Wrapper_Programmable 
+Detailed RTL Component Info : 
++---Registers : 
+	               16 Bit    Registers := 2     
+	                1 Bit    Registers := 1     
++---Muxes : 
+	   4 Input     32 Bit        Muxes := 1     
+	   2 Input     32 Bit        Muxes := 1     
+	   4 Input      2 Bit        Muxes := 1     
+	   2 Input      1 Bit        Muxes := 2     
+Module OTTER_registerFile 
+Detailed RTL Component Info : 
++---RAMs : 
+	             1024 Bit         RAMs := 1     
++---Muxes : 
+	   2 Input     32 Bit        Muxes := 2     
+Module Mult4to1 
+Detailed RTL Component Info : 
++---Muxes : 
+	   4 Input     32 Bit        Muxes := 1     
+Module OTTER_mem_byte 
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input      5 Bit       Adders := 1     
+	   2 Input      4 Bit       Adders := 1     
++---Registers : 
+	               32 Bit    Registers := 3     
++---RAMs : 
+	             512K Bit         RAMs := 1     
++---Muxes : 
+	   4 Input     32 Bit        Muxes := 6     
+	   2 Input     32 Bit        Muxes := 5     
+	   9 Input     32 Bit        Muxes := 2     
+	   7 Input     32 Bit        Muxes := 2     
+	   6 Input     32 Bit        Muxes := 2     
+	   4 Input      8 Bit        Muxes := 1     
+	   2 Input      5 Bit        Muxes := 1     
+	   4 Input      5 Bit        Muxes := 1     
+	   5 Input      5 Bit        Muxes := 1     
+	   4 Input      4 Bit        Muxes := 1     
+	   4 Input      2 Bit        Muxes := 1     
+	   9 Input      1 Bit        Muxes := 1     
+Module OTTER_ALU 
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input     32 Bit       Adders := 1     
+	   3 Input     32 Bit       Adders := 1     
++---XORs : 
+	   2 Input     32 Bit         XORs := 1     
++---Multipliers : 
+	                32x32  Multipliers := 1     
+Module Mult2to1 
+Detailed RTL Component Info : 
++---Muxes : 
+	   2 Input     32 Bit        Muxes := 1     
+Module ProgCount 
+Detailed RTL Component Info : 
++---Registers : 
+	               32 Bit    Registers := 1     
+Module OTTER_CU_Decoder 
+Detailed RTL Component Info : 
++---Muxes : 
+	   2 Input      4 Bit        Muxes := 1     
+	   2 Input      3 Bit        Muxes := 3     
+	   5 Input      3 Bit        Muxes := 2     
+	   4 Input      2 Bit        Muxes := 1     
+	   6 Input      2 Bit        Muxes := 1     
+	   5 Input      2 Bit        Muxes := 1     
+	   7 Input      1 Bit        Muxes := 1     
+Module OTTER_MCU 
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input     32 Bit       Adders := 5     
++---Registers : 
+	               32 Bit    Registers := 9     
+	                7 Bit    Registers := 1     
+	                5 Bit    Registers := 3     
+	                3 Bit    Registers := 1     
+	                2 Bit    Registers := 2     
+	                1 Bit    Registers := 5     
+Module BCD 
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input      4 Bit       Adders := 34    
+	   2 Input      3 Bit       Adders := 7     
++---Muxes : 
+	   2 Input      4 Bit        Muxes := 30    
+	   2 Input      3 Bit        Muxes := 4     
+Module CathodeDriver 
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input     20 Bit       Adders := 1     
+	   2 Input      2 Bit       Adders := 1     
++---Registers : 
+	                8 Bit    Registers := 1     
+	                4 Bit    Registers := 1     
+	                2 Bit    Registers := 1     
+	                1 Bit    Registers := 1     
++---Muxes : 
+	  19 Input      8 Bit        Muxes := 1     
+	   4 Input      4 Bit        Muxes := 1     
+Module SevSegDisp 
+Detailed RTL Component Info : 
++---Muxes : 
+	   2 Input     16 Bit        Muxes := 1     
+Module debounce_one_shot 
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input      8 Bit       Adders := 1     
++---Registers : 
+	                8 Bit    Registers := 1     
++---Muxes : 
+	   2 Input      8 Bit        Muxes := 1     
+	   6 Input      3 Bit        Muxes := 1     
+	   2 Input      3 Bit        Muxes := 7     
+	   2 Input      1 Bit        Muxes := 5     
+	   3 Input      1 Bit        Muxes := 2     
+	   6 Input      1 Bit        Muxes := 3     
+---------------------------------------------------------------------------------
+Finished RTL Hierarchical Component Statistics
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Part Resource Summary
+---------------------------------------------------------------------------------
+Part Resources:
+DSPs: 90 (col length:60)
+BRAMs: 100 (col length: RAMB18 60 RAMB36 30)
+---------------------------------------------------------------------------------
+Finished Part Resource Summary
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Cross Boundary and Area Optimization
+---------------------------------------------------------------------------------
+Warning: Parallel synthesis criteria is not met 
+INFO: [Synth 8-5845] Not enough pipeline registers after wide multiplier. Recommended levels of pipeline registers is 4 [/home/jared/Dev/otter/otter_project/sources/ArithLogicUnit.sv:41]
+DSP Report: Generating DSP ALUOut0, operation Mode is: A*B.
+DSP Report: operator ALUOut0 is absorbed into DSP ALUOut0.
+DSP Report: operator ALUOut0 is absorbed into DSP ALUOut0.
+DSP Report: Generating DSP ALUOut0, operation Mode is: (PCIN>>17)+A*B.
+DSP Report: operator ALUOut0 is absorbed into DSP ALUOut0.
+DSP Report: operator ALUOut0 is absorbed into DSP ALUOut0.
+DSP Report: Generating DSP ALUOut0, operation Mode is: A*B.
+DSP Report: operator ALUOut0 is absorbed into DSP ALUOut0.
+DSP Report: operator ALUOut0 is absorbed into DSP ALUOut0.
+DSP Report: Generating DSP ALUOut0, operation Mode is: (PCIN>>17)+A*B.
+DSP Report: operator ALUOut0 is absorbed into DSP ALUOut0.
+DSP Report: operator ALUOut0 is absorbed into DSP ALUOut0.
+INFO: [Synth 8-5546] ROM "CU_ALU_SRCB" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "CU_RF_WR_SEL" won't be mapped to RAM because it is too sparse
+WARNING: [Synth 8-3331] design OTTER_CU_Decoder has unconnected port CU_FUNC7[6]
+WARNING: [Synth 8-3331] design OTTER_CU_Decoder has unconnected port CU_FUNC7[4]
+WARNING: [Synth 8-3331] design OTTER_CU_Decoder has unconnected port CU_FUNC7[3]
+WARNING: [Synth 8-3331] design OTTER_CU_Decoder has unconnected port CU_FUNC7[2]
+WARNING: [Synth 8-3331] design OTTER_CU_Decoder has unconnected port CU_FUNC7[1]
+WARNING: [Synth 8-3331] design OTTER_CU_Decoder has unconnected port CU_FUNC7[0]
+WARNING: [Synth 8-3331] design OTTER_MCU has unconnected port IOBUS_OUT[31]
+WARNING: [Synth 8-3331] design OTTER_MCU has unconnected port IOBUS_OUT[30]
+WARNING: [Synth 8-3331] design OTTER_MCU has unconnected port IOBUS_OUT[29]
+WARNING: [Synth 8-3331] design OTTER_MCU has unconnected port IOBUS_OUT[28]
+WARNING: [Synth 8-3331] design OTTER_MCU has unconnected port IOBUS_OUT[27]
+WARNING: [Synth 8-3331] design OTTER_MCU has unconnected port IOBUS_OUT[26]
+WARNING: [Synth 8-3331] design OTTER_MCU has unconnected port IOBUS_OUT[25]
+WARNING: [Synth 8-3331] design OTTER_MCU has unconnected port IOBUS_OUT[24]
+WARNING: [Synth 8-3331] design OTTER_MCU has unconnected port IOBUS_OUT[23]
+WARNING: [Synth 8-3331] design OTTER_MCU has unconnected port IOBUS_OUT[22]
+WARNING: [Synth 8-3331] design OTTER_MCU has unconnected port IOBUS_OUT[21]
+WARNING: [Synth 8-3331] design OTTER_MCU has unconnected port IOBUS_OUT[20]
+WARNING: [Synth 8-3331] design OTTER_MCU has unconnected port IOBUS_OUT[19]
+WARNING: [Synth 8-3331] design OTTER_MCU has unconnected port IOBUS_OUT[18]
+WARNING: [Synth 8-3331] design OTTER_MCU has unconnected port IOBUS_OUT[17]
+WARNING: [Synth 8-3331] design OTTER_MCU has unconnected port IOBUS_OUT[16]
+WARNING: [Synth 8-3331] design OTTER_MCU has unconnected port IOBUS_OUT[15]
+WARNING: [Synth 8-3331] design OTTER_MCU has unconnected port IOBUS_OUT[14]
+WARNING: [Synth 8-3331] design OTTER_MCU has unconnected port IOBUS_OUT[13]
+WARNING: [Synth 8-3331] design OTTER_MCU has unconnected port IOBUS_OUT[12]
+WARNING: [Synth 8-3331] design OTTER_MCU has unconnected port IOBUS_OUT[11]
+WARNING: [Synth 8-3331] design OTTER_MCU has unconnected port IOBUS_OUT[10]
+WARNING: [Synth 8-3331] design OTTER_MCU has unconnected port IOBUS_OUT[9]
+WARNING: [Synth 8-3331] design OTTER_MCU has unconnected port IOBUS_OUT[8]
+WARNING: [Synth 8-3331] design OTTER_MCU has unconnected port IOBUS_OUT[7]
+WARNING: [Synth 8-3331] design OTTER_MCU has unconnected port IOBUS_OUT[6]
+WARNING: [Synth 8-3331] design OTTER_MCU has unconnected port IOBUS_OUT[5]
+WARNING: [Synth 8-3331] design OTTER_MCU has unconnected port IOBUS_OUT[4]
+WARNING: [Synth 8-3331] design OTTER_MCU has unconnected port IOBUS_OUT[3]
+WARNING: [Synth 8-3331] design OTTER_MCU has unconnected port IOBUS_OUT[2]
+WARNING: [Synth 8-3331] design OTTER_MCU has unconnected port IOBUS_OUT[1]
+WARNING: [Synth 8-3331] design OTTER_MCU has unconnected port IOBUS_OUT[0]
+WARNING: [Synth 8-3331] design OTTER_MCU has unconnected port INTR
+WARNING: [Synth 8-3331] design OTTER_Wrapper_Programmable has unconnected port TX
+WARNING: [Synth 8-3331] design OTTER_Wrapper_Programmable has unconnected port RX
+INFO: [Synth 8-7030] Implemented Non-Cascaded Block Ram (cascade_height = 1) of width 32 for RAM "MCU/memory/memory_reg"
+INFO: [Synth 8-7030] Implemented Non-Cascaded Block Ram (cascade_height = 1) of width 32 for RAM "MCU/memory/memory_reg"
+INFO: [Synth 8-7030] Implemented Non-Cascaded Block Ram (cascade_height = 1) of width 32 for RAM "MCU/memory/memory_reg"
+INFO: [Synth 8-7030] Implemented Non-Cascaded Block Ram (cascade_height = 1) of width 32 for RAM "MCU/memory/memory_reg"
+INFO: [Synth 8-7030] Implemented Non-Cascaded Block Ram (cascade_height = 1) of width 32 for RAM "MCU/memory/memory_reg"
+INFO: [Synth 8-7030] Implemented Non-Cascaded Block Ram (cascade_height = 1) of width 32 for RAM "MCU/memory/memory_reg"
+INFO: [Synth 8-7030] Implemented Non-Cascaded Block Ram (cascade_height = 1) of width 32 for RAM "MCU/memory/memory_reg"
+INFO: [Synth 8-7030] Implemented Non-Cascaded Block Ram (cascade_height = 1) of width 32 for RAM "MCU/memory/memory_reg"
+INFO: [Synth 8-7030] Implemented Non-Cascaded Block Ram (cascade_height = 1) of width 32 for RAM "MCU/memory/memory_reg"
+INFO: [Synth 8-7030] Implemented Non-Cascaded Block Ram (cascade_height = 1) of width 32 for RAM "MCU/memory/memory_reg"
+INFO: [Synth 8-7030] Implemented Non-Cascaded Block Ram (cascade_height = 1) of width 32 for RAM "MCU/memory/memory_reg"
+INFO: [Synth 8-7030] Implemented Non-Cascaded Block Ram (cascade_height = 1) of width 32 for RAM "MCU/memory/memory_reg"
+INFO: [Synth 8-7030] Implemented Non-Cascaded Block Ram (cascade_height = 1) of width 32 for RAM "MCU/memory/memory_reg"
+INFO: [Synth 8-7030] Implemented Non-Cascaded Block Ram (cascade_height = 1) of width 32 for RAM "MCU/memory/memory_reg"
+INFO: [Synth 8-7030] Implemented Non-Cascaded Block Ram (cascade_height = 1) of width 32 for RAM "MCU/memory/memory_reg"
+INFO: [Synth 8-7030] Implemented Non-Cascaded Block Ram (cascade_height = 1) of width 32 for RAM "MCU/memory/memory_reg"
+INFO: [Synth 8-3886] merging instance 'MCU/memory/ioIn_buffer_reg[0]' (FDE) to 'MCU/memory/ioIn_buffer_reg[1]'
+INFO: [Synth 8-3886] merging instance 'MCU/memory/ioIn_buffer_reg[1]' (FDE) to 'MCU/memory/ioIn_buffer_reg[2]'
+INFO: [Synth 8-3886] merging instance 'MCU/memory/ioIn_buffer_reg[2]' (FDE) to 'MCU/memory/ioIn_buffer_reg[3]'
+INFO: [Synth 8-3886] merging instance 'MCU/memory/ioIn_buffer_reg[3]' (FDE) to 'MCU/memory/ioIn_buffer_reg[4]'
+INFO: [Synth 8-3886] merging instance 'MCU/memory/ioIn_buffer_reg[4]' (FDE) to 'MCU/memory/ioIn_buffer_reg[5]'
+INFO: [Synth 8-3886] merging instance 'MCU/memory/ioIn_buffer_reg[5]' (FDE) to 'MCU/memory/ioIn_buffer_reg[6]'
+INFO: [Synth 8-3886] merging instance 'MCU/memory/ioIn_buffer_reg[6]' (FDE) to 'MCU/memory/ioIn_buffer_reg[7]'
+INFO: [Synth 8-3886] merging instance 'MCU/memory/ioIn_buffer_reg[7]' (FDE) to 'MCU/memory/ioIn_buffer_reg[8]'
+INFO: [Synth 8-3886] merging instance 'MCU/memory/ioIn_buffer_reg[8]' (FDE) to 'MCU/memory/ioIn_buffer_reg[9]'
+INFO: [Synth 8-3886] merging instance 'MCU/memory/ioIn_buffer_reg[9]' (FDE) to 'MCU/memory/ioIn_buffer_reg[10]'
+INFO: [Synth 8-3886] merging instance 'MCU/memory/ioIn_buffer_reg[10]' (FDE) to 'MCU/memory/ioIn_buffer_reg[11]'
+INFO: [Synth 8-3886] merging instance 'MCU/memory/ioIn_buffer_reg[11]' (FDE) to 'MCU/memory/ioIn_buffer_reg[12]'
+INFO: [Synth 8-3886] merging instance 'MCU/memory/ioIn_buffer_reg[12]' (FDE) to 'MCU/memory/ioIn_buffer_reg[13]'
+INFO: [Synth 8-3886] merging instance 'MCU/memory/ioIn_buffer_reg[13]' (FDE) to 'MCU/memory/ioIn_buffer_reg[14]'
+INFO: [Synth 8-3886] merging instance 'MCU/memory/ioIn_buffer_reg[14]' (FDE) to 'MCU/memory/ioIn_buffer_reg[15]'
+INFO: [Synth 8-3886] merging instance 'MCU/memory/ioIn_buffer_reg[15]' (FDE) to 'MCU/memory/ioIn_buffer_reg[16]'
+INFO: [Synth 8-3886] merging instance 'MCU/memory/ioIn_buffer_reg[16]' (FDE) to 'MCU/memory/ioIn_buffer_reg[17]'
+INFO: [Synth 8-3886] merging instance 'MCU/memory/ioIn_buffer_reg[17]' (FDE) to 'MCU/memory/ioIn_buffer_reg[18]'
+INFO: [Synth 8-3886] merging instance 'MCU/memory/ioIn_buffer_reg[18]' (FDE) to 'MCU/memory/ioIn_buffer_reg[19]'
+INFO: [Synth 8-3886] merging instance 'MCU/memory/ioIn_buffer_reg[19]' (FDE) to 'MCU/memory/ioIn_buffer_reg[20]'
+INFO: [Synth 8-3886] merging instance 'MCU/memory/ioIn_buffer_reg[20]' (FDE) to 'MCU/memory/ioIn_buffer_reg[21]'
+INFO: [Synth 8-3886] merging instance 'MCU/memory/ioIn_buffer_reg[21]' (FDE) to 'MCU/memory/ioIn_buffer_reg[22]'
+INFO: [Synth 8-3886] merging instance 'MCU/memory/ioIn_buffer_reg[22]' (FDE) to 'MCU/memory/ioIn_buffer_reg[23]'
+INFO: [Synth 8-3886] merging instance 'MCU/memory/ioIn_buffer_reg[23]' (FDE) to 'MCU/memory/ioIn_buffer_reg[24]'
+INFO: [Synth 8-3886] merging instance 'MCU/memory/ioIn_buffer_reg[24]' (FDE) to 'MCU/memory/ioIn_buffer_reg[25]'
+INFO: [Synth 8-3886] merging instance 'MCU/memory/ioIn_buffer_reg[25]' (FDE) to 'MCU/memory/ioIn_buffer_reg[26]'
+INFO: [Synth 8-3886] merging instance 'MCU/memory/ioIn_buffer_reg[26]' (FDE) to 'MCU/memory/ioIn_buffer_reg[27]'
+INFO: [Synth 8-3886] merging instance 'MCU/memory/ioIn_buffer_reg[27]' (FDE) to 'MCU/memory/ioIn_buffer_reg[28]'
+INFO: [Synth 8-3886] merging instance 'MCU/memory/ioIn_buffer_reg[28]' (FDE) to 'MCU/memory/ioIn_buffer_reg[29]'
+INFO: [Synth 8-3886] merging instance 'MCU/memory/ioIn_buffer_reg[29]' (FDE) to 'MCU/memory/ioIn_buffer_reg[30]'
+INFO: [Synth 8-3886] merging instance 'MCU/memory/ioIn_buffer_reg[30]' (FDE) to 'MCU/memory/ioIn_buffer_reg[31]'
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (MCU/memory/\ioIn_buffer_reg[31] )
+INFO: [Synth 8-3886] merging instance 'MCU/memory/i_0/memory_reg_mux_sel_reg_0' (FD) to 'MCU/memory/i_0/memory_reg_mux_sel_reg_3'
+INFO: [Synth 8-3886] merging instance 'MCU/memory/i_0/memory_reg_mux_sel_reg_1' (FD) to 'MCU/memory/i_0/memory_reg_mux_sel_reg_3'
+INFO: [Synth 8-3886] merging instance 'MCU/memory/i_0/memory_reg_mux_sel_reg_2' (FD) to 'MCU/memory/i_0/memory_reg_mux_sel_reg_3'
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (MCU/memory/i_0/memory_reg_mux_sel_reg_3)
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (MCU/\ex_mem_inst_reg[mem_type][2] )
+INFO: [Synth 8-3886] merging instance 'MCU/de_ex_inst_reg[rd][3]' (FDE) to 'MCU/de_ex_inst_reg[ir][10]'
+INFO: [Synth 8-3886] merging instance 'MCU/de_ex_inst_reg[rd][4]' (FDE) to 'MCU/de_ex_inst_reg[ir][11]'
+INFO: [Synth 8-3886] merging instance 'MCU/de_ex_inst_reg[rd][2]' (FDE) to 'MCU/de_ex_inst_reg[ir][9]'
+INFO: [Synth 8-3886] merging instance 'MCU/de_ex_inst_reg[rd][1]' (FDE) to 'MCU/de_ex_inst_reg[ir][8]'
+INFO: [Synth 8-3886] merging instance 'MCU/de_ex_inst_reg[rd][0]' (FDE) to 'MCU/de_ex_inst_reg[ir][7]'
+INFO: [Synth 8-3886] merging instance 'MCU/de_ex_i_immed_reg[11]' (FDE) to 'MCU/de_ex_i_immed_reg[12]'
+INFO: [Synth 8-3886] merging instance 'MCU/de_ex_i_immed_reg[12]' (FDE) to 'MCU/de_ex_i_immed_reg[13]'
+INFO: [Synth 8-3886] merging instance 'MCU/de_ex_i_immed_reg[13]' (FDE) to 'MCU/de_ex_i_immed_reg[14]'
+INFO: [Synth 8-3886] merging instance 'MCU/de_ex_i_immed_reg[14]' (FDE) to 'MCU/de_ex_i_immed_reg[15]'
+INFO: [Synth 8-3886] merging instance 'MCU/de_ex_i_immed_reg[15]' (FDE) to 'MCU/de_ex_i_immed_reg[16]'
+INFO: [Synth 8-3886] merging instance 'MCU/de_ex_i_immed_reg[16]' (FDE) to 'MCU/de_ex_i_immed_reg[17]'
+INFO: [Synth 8-3886] merging instance 'MCU/de_ex_i_immed_reg[17]' (FDE) to 'MCU/de_ex_i_immed_reg[18]'
+INFO: [Synth 8-3886] merging instance 'MCU/de_ex_i_immed_reg[18]' (FDE) to 'MCU/de_ex_i_immed_reg[19]'
+INFO: [Synth 8-3886] merging instance 'MCU/de_ex_i_immed_reg[19]' (FDE) to 'MCU/de_ex_i_immed_reg[20]'
+INFO: [Synth 8-3886] merging instance 'MCU/de_ex_i_immed_reg[20]' (FDE) to 'MCU/de_ex_i_immed_reg[21]'
+INFO: [Synth 8-3886] merging instance 'MCU/de_ex_i_immed_reg[21]' (FDE) to 'MCU/de_ex_i_immed_reg[22]'
+INFO: [Synth 8-3886] merging instance 'MCU/de_ex_i_immed_reg[22]' (FDE) to 'MCU/de_ex_i_immed_reg[23]'
+INFO: [Synth 8-3886] merging instance 'MCU/de_ex_i_immed_reg[23]' (FDE) to 'MCU/de_ex_i_immed_reg[24]'
+INFO: [Synth 8-3886] merging instance 'MCU/de_ex_i_immed_reg[24]' (FDE) to 'MCU/de_ex_i_immed_reg[25]'
+INFO: [Synth 8-3886] merging instance 'MCU/de_ex_i_immed_reg[25]' (FDE) to 'MCU/de_ex_i_immed_reg[26]'
+INFO: [Synth 8-3886] merging instance 'MCU/de_ex_i_immed_reg[26]' (FDE) to 'MCU/de_ex_i_immed_reg[27]'
+INFO: [Synth 8-3886] merging instance 'MCU/de_ex_i_immed_reg[27]' (FDE) to 'MCU/de_ex_i_immed_reg[28]'
+INFO: [Synth 8-3886] merging instance 'MCU/de_ex_i_immed_reg[28]' (FDE) to 'MCU/de_ex_i_immed_reg[29]'
+INFO: [Synth 8-3886] merging instance 'MCU/de_ex_i_immed_reg[29]' (FDE) to 'MCU/de_ex_i_immed_reg[30]'
+INFO: [Synth 8-3886] merging instance 'MCU/de_ex_i_immed_reg[30]' (FDE) to 'MCU/de_ex_i_immed_reg[31]'
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (MCU/\ex_mem_inst_reg[regWrite] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (MCU/\ex_mem_inst_reg[rs2][6] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (MCU/\ex_mem_inst_reg[rs2][22] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (MCU/\ex_mem_inst_reg[rs2][30] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (MCU/\ex_mem_inst_reg[rs2][14] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (MCU/\ex_mem_inst_reg[rs2][2] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (MCU/\ex_mem_inst_reg[rs2][18] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (MCU/\ex_mem_inst_reg[rs2][26] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (MCU/\ex_mem_inst_reg[rs2][10] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (MCU/\ex_mem_inst_reg[rs2][4] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (MCU/\ex_mem_inst_reg[rs2][20] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (MCU/\ex_mem_inst_reg[rs2][28] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (MCU/\ex_mem_inst_reg[rs2][12] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (MCU/\ex_mem_inst_reg[rs2][0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (MCU/\ex_mem_inst_reg[rs2][16] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (MCU/\ex_mem_inst_reg[rs2][24] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (MCU/\ex_mem_inst_reg[rs2][8] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (MCU/\ex_mem_inst_reg[rs2][5] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (MCU/\ex_mem_inst_reg[rs2][21] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (MCU/\ex_mem_inst_reg[rs2][29] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (MCU/\ex_mem_inst_reg[rs2][13] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (MCU/\ex_mem_inst_reg[rs2][1] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (MCU/\ex_mem_inst_reg[rs2][17] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (MCU/\ex_mem_inst_reg[rs2][25] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (MCU/\ex_mem_inst_reg[rs2][9] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (MCU/\ex_mem_inst_reg[rs2][3] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (MCU/\ex_mem_inst_reg[rs2][19] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (MCU/\ex_mem_inst_reg[rs2][27] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (MCU/\ex_mem_inst_reg[rs2][11] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (MCU/\ex_mem_inst_reg[rs2][15] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (MCU/\ex_mem_inst_reg[rs2][23] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (MCU/\ex_mem_inst_reg[rs2][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (MCU/\ex_mem_inst_reg[rs2][31] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (MCU/\ex_mem_inst_reg[mem_type][0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (MCU/\ex_mem_inst_reg[mem_type][1] )
+INFO: [Synth 8-3886] merging instance 'MCU/de_ex_inst_reg[ir][2]' (FDE) to 'MCU/de_ex_inst_reg[opcode][2]'
+INFO: [Synth 8-3886] merging instance 'MCU/de_ex_inst_reg[ir][5]' (FDE) to 'MCU/de_ex_inst_reg[opcode][5]'
+INFO: [Synth 8-3886] merging instance 'MCU/de_ex_inst_reg[ir][6]' (FDE) to 'MCU/de_ex_inst_reg[opcode][6]'
+INFO: [Synth 8-3886] merging instance 'MCU/de_ex_inst_reg[ir][0]' (FDE) to 'MCU/de_ex_inst_reg[opcode][0]'
+INFO: [Synth 8-3886] merging instance 'MCU/de_ex_inst_reg[ir][1]' (FDE) to 'MCU/de_ex_inst_reg[opcode][1]'
+INFO: [Synth 8-3886] merging instance 'MCU/de_ex_inst_reg[ir][3]' (FDE) to 'MCU/de_ex_inst_reg[opcode][3]'
+INFO: [Synth 8-3886] merging instance 'MCU/de_ex_inst_reg[ir][4]' (FDE) to 'MCU/de_ex_inst_reg[opcode][4]'
+INFO: [Synth 8-3886] merging instance 'r_SSEG_reg[0]' (FDE) to 'r_LEDS_reg[0]'
+INFO: [Synth 8-3886] merging instance 'r_SSEG_reg[2]' (FDE) to 'r_LEDS_reg[2]'
+INFO: [Synth 8-3886] merging instance 'r_SSEG_reg[3]' (FDE) to 'r_LEDS_reg[3]'
+INFO: [Synth 8-3886] merging instance 'r_SSEG_reg[1]' (FDE) to 'r_LEDS_reg[1]'
+INFO: [Synth 8-3886] merging instance 'r_SSEG_reg[4]' (FDE) to 'r_LEDS_reg[4]'
+INFO: [Synth 8-3886] merging instance 'r_SSEG_reg[5]' (FDE) to 'r_LEDS_reg[5]'
+INFO: [Synth 8-3886] merging instance 'r_SSEG_reg[6]' (FDE) to 'r_LEDS_reg[6]'
+INFO: [Synth 8-3886] merging instance 'r_SSEG_reg[7]' (FDE) to 'r_LEDS_reg[7]'
+INFO: [Synth 8-3886] merging instance 'r_SSEG_reg[12]' (FDE) to 'r_LEDS_reg[12]'
+INFO: [Synth 8-3886] merging instance 'r_SSEG_reg[13]' (FDE) to 'r_LEDS_reg[13]'
+INFO: [Synth 8-3886] merging instance 'r_SSEG_reg[14]' (FDE) to 'r_LEDS_reg[14]'
+INFO: [Synth 8-3886] merging instance 'r_SSEG_reg[15]' (FDE) to 'r_LEDS_reg[15]'
+INFO: [Synth 8-3886] merging instance 'r_SSEG_reg[8]' (FDE) to 'r_LEDS_reg[8]'
+INFO: [Synth 8-3886] merging instance 'r_SSEG_reg[9]' (FDE) to 'r_LEDS_reg[9]'
+INFO: [Synth 8-3886] merging instance 'r_SSEG_reg[10]' (FDE) to 'r_LEDS_reg[10]'
+INFO: [Synth 8-3886] merging instance 'r_SSEG_reg[11]' (FDE) to 'r_LEDS_reg[11]'
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (MCU/\ex_mem_inst_reg[memWrite] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\r_LEDS_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\r_LEDS_reg[1] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\r_LEDS_reg[2] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\r_LEDS_reg[3] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\r_LEDS_reg[4] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\r_LEDS_reg[5] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\r_LEDS_reg[6] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\r_LEDS_reg[7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\r_LEDS_reg[8] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\r_LEDS_reg[9] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\r_LEDS_reg[10] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\r_LEDS_reg[11] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\r_LEDS_reg[12] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\r_LEDS_reg[13] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\r_LEDS_reg[14] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\r_LEDS_reg[15] )
+INFO: [Synth 8-3886] merging instance 'SSG_DISP/CathMod/CATHODES_reg[1]' (FD) to 'SSG_DISP/CathMod/CATHODES_reg[6]'
+INFO: [Synth 8-3886] merging instance 'SSG_DISP/CathMod/CATHODES_reg[2]' (FD) to 'SSG_DISP/CathMod/CATHODES_reg[6]'
+INFO: [Synth 8-3886] merging instance 'SSG_DISP/CathMod/CATHODES_reg[3]' (FD) to 'SSG_DISP/CathMod/CATHODES_reg[6]'
+INFO: [Synth 8-3886] merging instance 'SSG_DISP/CathMod/CATHODES_reg[4]' (FD) to 'SSG_DISP/CathMod/CATHODES_reg[6]'
+INFO: [Synth 8-3886] merging instance 'SSG_DISP/CathMod/CATHODES_reg[5]' (FD) to 'SSG_DISP/CathMod/CATHODES_reg[6]'
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\SSG_DISP/CathMod/CATHODES_reg[6] )
+WARNING: [Synth 8-3332] Sequential element (i_0) is unused and will be removed from module OTTER_mem_byte.
+WARNING: [Synth 8-3332] Sequential element (i_2) is unused and will be removed from module OTTER_mem_byte.
+WARNING: [Synth 8-3332] Sequential element (i_4) is unused and will be removed from module OTTER_mem_byte.
+WARNING: [Synth 8-3332] Sequential element (i_6) is unused and will be removed from module OTTER_mem_byte.
+WARNING: [Synth 8-3332] Sequential element (i_8) is unused and will be removed from module OTTER_mem_byte.
+WARNING: [Synth 8-3332] Sequential element (i_10) is unused and will be removed from module OTTER_mem_byte.
+WARNING: [Synth 8-3332] Sequential element (i_12) is unused and will be removed from module OTTER_mem_byte.
+WARNING: [Synth 8-3332] Sequential element (i_14) is unused and will be removed from module OTTER_mem_byte.
+WARNING: [Synth 8-3332] Sequential element (i_16) is unused and will be removed from module OTTER_mem_byte.
+WARNING: [Synth 8-3332] Sequential element (i_18) is unused and will be removed from module OTTER_mem_byte.
+WARNING: [Synth 8-3332] Sequential element (i_20) is unused and will be removed from module OTTER_mem_byte.
+WARNING: [Synth 8-3332] Sequential element (i_22) is unused and will be removed from module OTTER_mem_byte.
+WARNING: [Synth 8-3332] Sequential element (i_24) is unused and will be removed from module OTTER_mem_byte.
+WARNING: [Synth 8-3332] Sequential element (i_26) is unused and will be removed from module OTTER_mem_byte.
+WARNING: [Synth 8-3332] Sequential element (i_28) is unused and will be removed from module OTTER_mem_byte.
+WARNING: [Synth 8-3332] Sequential element (i_30) is unused and will be removed from module OTTER_mem_byte.
+WARNING: [Synth 8-3332] Sequential element (i_32) is unused and will be removed from module OTTER_mem_byte.
+WARNING: [Synth 8-3332] Sequential element (i_34) is unused and will be removed from module OTTER_mem_byte.
+WARNING: [Synth 8-3332] Sequential element (i_36) is unused and will be removed from module OTTER_mem_byte.
+WARNING: [Synth 8-3332] Sequential element (i_38) is unused and will be removed from module OTTER_mem_byte.
+WARNING: [Synth 8-3332] Sequential element (i_40) is unused and will be removed from module OTTER_mem_byte.
+WARNING: [Synth 8-3332] Sequential element (i_42) is unused and will be removed from module OTTER_mem_byte.
+WARNING: [Synth 8-3332] Sequential element (i_44) is unused and will be removed from module OTTER_mem_byte.
+WARNING: [Synth 8-3332] Sequential element (i_46) is unused and will be removed from module OTTER_mem_byte.
+WARNING: [Synth 8-3332] Sequential element (i_48) is unused and will be removed from module OTTER_mem_byte.
+WARNING: [Synth 8-3332] Sequential element (i_50) is unused and will be removed from module OTTER_mem_byte.
+WARNING: [Synth 8-3332] Sequential element (i_52) is unused and will be removed from module OTTER_mem_byte.
+WARNING: [Synth 8-3332] Sequential element (i_54) is unused and will be removed from module OTTER_mem_byte.
+WARNING: [Synth 8-3332] Sequential element (i_56) is unused and will be removed from module OTTER_mem_byte.
+WARNING: [Synth 8-3332] Sequential element (i_58) is unused and will be removed from module OTTER_mem_byte.
+WARNING: [Synth 8-3332] Sequential element (i_60) is unused and will be removed from module OTTER_mem_byte.
+WARNING: [Synth 8-3332] Sequential element (i_62) is unused and will be removed from module OTTER_mem_byte.
+WARNING: [Synth 8-3332] Sequential element (i_64) is unused and will be removed from module OTTER_mem_byte.
+WARNING: [Synth 8-3332] Sequential element (memory_reg_mux_sel_reg_3) is unused and will be removed from module OTTER_mem_byte.
+WARNING: [Synth 8-3332] Sequential element (memory_reg_mux_sel_reg_4) is unused and will be removed from module OTTER_mem_byte.
+WARNING: [Synth 8-3332] Sequential element (memory_reg_mux_sel_reg_5) is unused and will be removed from module OTTER_mem_byte.
+WARNING: [Synth 8-3332] Sequential element (memory_reg_mux_sel_reg_6) is unused and will be removed from module OTTER_mem_byte.
+WARNING: [Synth 8-3332] Sequential element (memory_reg_mux_sel_reg_7) is unused and will be removed from module OTTER_mem_byte.
+WARNING: [Synth 8-3332] Sequential element (opA_forwarded_reg[31]) is unused and will be removed from module OTTER_MCU.
+WARNING: [Synth 8-3332] Sequential element (opA_forwarded_reg[30]) is unused and will be removed from module OTTER_MCU.
+WARNING: [Synth 8-3332] Sequential element (opA_forwarded_reg[29]) is unused and will be removed from module OTTER_MCU.
+WARNING: [Synth 8-3332] Sequential element (opA_forwarded_reg[28]) is unused and will be removed from module OTTER_MCU.
+WARNING: [Synth 8-3332] Sequential element (opA_forwarded_reg[27]) is unused and will be removed from module OTTER_MCU.
+WARNING: [Synth 8-3332] Sequential element (opA_forwarded_reg[26]) is unused and will be removed from module OTTER_MCU.
+WARNING: [Synth 8-3332] Sequential element (opA_forwarded_reg[25]) is unused and will be removed from module OTTER_MCU.
+WARNING: [Synth 8-3332] Sequential element (opA_forwarded_reg[24]) is unused and will be removed from module OTTER_MCU.
+WARNING: [Synth 8-3332] Sequential element (opA_forwarded_reg[23]) is unused and will be removed from module OTTER_MCU.
+WARNING: [Synth 8-3332] Sequential element (opA_forwarded_reg[22]) is unused and will be removed from module OTTER_MCU.
+WARNING: [Synth 8-3332] Sequential element (opA_forwarded_reg[21]) is unused and will be removed from module OTTER_MCU.
+WARNING: [Synth 8-3332] Sequential element (opA_forwarded_reg[20]) is unused and will be removed from module OTTER_MCU.
+WARNING: [Synth 8-3332] Sequential element (opA_forwarded_reg[19]) is unused and will be removed from module OTTER_MCU.
+WARNING: [Synth 8-3332] Sequential element (opA_forwarded_reg[18]) is unused and will be removed from module OTTER_MCU.
+WARNING: [Synth 8-3332] Sequential element (opA_forwarded_reg[17]) is unused and will be removed from module OTTER_MCU.
+WARNING: [Synth 8-3332] Sequential element (opA_forwarded_reg[16]) is unused and will be removed from module OTTER_MCU.
+WARNING: [Synth 8-3332] Sequential element (opA_forwarded_reg[15]) is unused and will be removed from module OTTER_MCU.
+WARNING: [Synth 8-3332] Sequential element (opA_forwarded_reg[14]) is unused and will be removed from module OTTER_MCU.
+WARNING: [Synth 8-3332] Sequential element (opA_forwarded_reg[13]) is unused and will be removed from module OTTER_MCU.
+WARNING: [Synth 8-3332] Sequential element (opA_forwarded_reg[12]) is unused and will be removed from module OTTER_MCU.
+WARNING: [Synth 8-3332] Sequential element (opA_forwarded_reg[11]) is unused and will be removed from module OTTER_MCU.
+WARNING: [Synth 8-3332] Sequential element (opA_forwarded_reg[10]) is unused and will be removed from module OTTER_MCU.
+WARNING: [Synth 8-3332] Sequential element (opA_forwarded_reg[9]) is unused and will be removed from module OTTER_MCU.
+WARNING: [Synth 8-3332] Sequential element (opA_forwarded_reg[8]) is unused and will be removed from module OTTER_MCU.
+WARNING: [Synth 8-3332] Sequential element (opA_forwarded_reg[7]) is unused and will be removed from module OTTER_MCU.
+WARNING: [Synth 8-3332] Sequential element (opA_forwarded_reg[6]) is unused and will be removed from module OTTER_MCU.
+WARNING: [Synth 8-3332] Sequential element (opA_forwarded_reg[5]) is unused and will be removed from module OTTER_MCU.
+WARNING: [Synth 8-3332] Sequential element (opA_forwarded_reg[4]) is unused and will be removed from module OTTER_MCU.
+WARNING: [Synth 8-3332] Sequential element (opA_forwarded_reg[3]) is unused and will be removed from module OTTER_MCU.
+WARNING: [Synth 8-3332] Sequential element (opA_forwarded_reg[2]) is unused and will be removed from module OTTER_MCU.
+WARNING: [Synth 8-3332] Sequential element (opA_forwarded_reg[1]) is unused and will be removed from module OTTER_MCU.
+WARNING: [Synth 8-3332] Sequential element (opA_forwarded_reg[0]) is unused and will be removed from module OTTER_MCU.
+WARNING: [Synth 8-3332] Sequential element (opB_forwarded_reg[31]) is unused and will be removed from module OTTER_MCU.
+WARNING: [Synth 8-3332] Sequential element (opB_forwarded_reg[30]) is unused and will be removed from module OTTER_MCU.
+WARNING: [Synth 8-3332] Sequential element (opB_forwarded_reg[29]) is unused and will be removed from module OTTER_MCU.
+WARNING: [Synth 8-3332] Sequential element (opB_forwarded_reg[28]) is unused and will be removed from module OTTER_MCU.
+WARNING: [Synth 8-3332] Sequential element (opB_forwarded_reg[27]) is unused and will be removed from module OTTER_MCU.
+WARNING: [Synth 8-3332] Sequential element (opB_forwarded_reg[26]) is unused and will be removed from module OTTER_MCU.
+WARNING: [Synth 8-3332] Sequential element (opB_forwarded_reg[25]) is unused and will be removed from module OTTER_MCU.
+WARNING: [Synth 8-3332] Sequential element (opB_forwarded_reg[24]) is unused and will be removed from module OTTER_MCU.
+WARNING: [Synth 8-3332] Sequential element (opB_forwarded_reg[23]) is unused and will be removed from module OTTER_MCU.
+WARNING: [Synth 8-3332] Sequential element (opB_forwarded_reg[22]) is unused and will be removed from module OTTER_MCU.
+WARNING: [Synth 8-3332] Sequential element (opB_forwarded_reg[21]) is unused and will be removed from module OTTER_MCU.
+WARNING: [Synth 8-3332] Sequential element (opB_forwarded_reg[20]) is unused and will be removed from module OTTER_MCU.
+WARNING: [Synth 8-3332] Sequential element (opB_forwarded_reg[19]) is unused and will be removed from module OTTER_MCU.
+WARNING: [Synth 8-3332] Sequential element (opB_forwarded_reg[18]) is unused and will be removed from module OTTER_MCU.
+WARNING: [Synth 8-3332] Sequential element (opB_forwarded_reg[17]) is unused and will be removed from module OTTER_MCU.
+WARNING: [Synth 8-3332] Sequential element (opB_forwarded_reg[16]) is unused and will be removed from module OTTER_MCU.
+WARNING: [Synth 8-3332] Sequential element (opB_forwarded_reg[15]) is unused and will be removed from module OTTER_MCU.
+WARNING: [Synth 8-3332] Sequential element (opB_forwarded_reg[14]) is unused and will be removed from module OTTER_MCU.
+WARNING: [Synth 8-3332] Sequential element (opB_forwarded_reg[13]) is unused and will be removed from module OTTER_MCU.
+WARNING: [Synth 8-3332] Sequential element (opB_forwarded_reg[12]) is unused and will be removed from module OTTER_MCU.
+WARNING: [Synth 8-3332] Sequential element (opB_forwarded_reg[11]) is unused and will be removed from module OTTER_MCU.
+WARNING: [Synth 8-3332] Sequential element (opB_forwarded_reg[10]) is unused and will be removed from module OTTER_MCU.
+WARNING: [Synth 8-3332] Sequential element (opB_forwarded_reg[9]) is unused and will be removed from module OTTER_MCU.
+WARNING: [Synth 8-3332] Sequential element (opB_forwarded_reg[8]) is unused and will be removed from module OTTER_MCU.
+WARNING: [Synth 8-3332] Sequential element (opB_forwarded_reg[7]) is unused and will be removed from module OTTER_MCU.
+WARNING: [Synth 8-3332] Sequential element (opB_forwarded_reg[6]) is unused and will be removed from module OTTER_MCU.
+WARNING: [Synth 8-3332] Sequential element (opB_forwarded_reg[5]) is unused and will be removed from module OTTER_MCU.
+WARNING: [Synth 8-3332] Sequential element (opB_forwarded_reg[4]) is unused and will be removed from module OTTER_MCU.
+WARNING: [Synth 8-3332] Sequential element (opB_forwarded_reg[3]) is unused and will be removed from module OTTER_MCU.
+WARNING: [Synth 8-3332] Sequential element (opB_forwarded_reg[2]) is unused and will be removed from module OTTER_MCU.
+INFO: [Common 17-14] Message 'Synth 8-3332' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+---------------------------------------------------------------------------------
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:14 ; elapsed = 00:00:17 . Memory (MB): peak = 2053.922 ; gain = 437.184 ; free physical = 2708 ; free virtual = 6932
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start ROM, RAM, DSP and Shift Register Reporting
+---------------------------------------------------------------------------------
+
+DSP: Preliminary Mapping	Report (see note below)
++------------+----------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+|Module Name | DSP Mapping    | A Size | B Size | C Size | D Size | P Size | AREG | BREG | CREG | DREG | ADREG | MREG | PREG | 
++------------+----------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+|OTTER_ALU   | A*B            | 18     | 16     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|OTTER_ALU   | (PCIN>>17)+A*B | 16     | 16     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|OTTER_ALU   | A*B            | 18     | 18     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|OTTER_ALU   | (PCIN>>17)+A*B | 18     | 16     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
++------------+----------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+
+Note: The table above is a preliminary report that shows the DSPs inferred at the current stage of the synthesis flow. Some DSP may be reimplemented as non DSP primitives later in the synthesis flow. Multiple instantiated DSPs are reported only once.
+---------------------------------------------------------------------------------
+Finished ROM, RAM, DSP and Shift Register Reporting
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+---------------------------------------------------------------------------------
+Start Applying XDC Timing Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:19 ; elapsed = 00:00:23 . Memory (MB): peak = 2053.922 ; gain = 437.184 ; free physical = 2577 ; free virtual = 6808
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Timing Optimization
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Timing Optimization : Time (s): cpu = 00:00:19 ; elapsed = 00:00:23 . Memory (MB): peak = 2053.922 ; gain = 437.184 ; free physical = 2576 ; free virtual = 6806
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+---------------------------------------------------------------------------------
+Start Technology Mapping
+---------------------------------------------------------------------------------
+INFO: [Synth 8-3886] merging instance 'SSG_DISP/CathMod/CATHODES_reg[0]' (FD) to 'SSG_DISP/CathMod/CATHODES_reg[7]'
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\SSG_DISP/CathMod/CATHODES_reg[7] )
+---------------------------------------------------------------------------------
+Finished Technology Mapping : Time (s): cpu = 00:00:19 ; elapsed = 00:00:23 . Memory (MB): peak = 2053.922 ; gain = 437.184 ; free physical = 2576 ; free virtual = 6806
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+---------------------------------------------------------------------------------
+Start IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished IO Insertion : Time (s): cpu = 00:00:22 ; elapsed = 00:00:26 . Memory (MB): peak = 2053.922 ; gain = 437.184 ; free physical = 2569 ; free virtual = 6799
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Instances
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:22 ; elapsed = 00:00:26 . Memory (MB): peak = 2053.922 ; gain = 437.184 ; free physical = 2569 ; free virtual = 6799
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+
+Report Check Netlist: 
++------+------------------+-------+---------+-------+------------------+
+|      |Item              |Errors |Warnings |Status |Description       |
++------+------------------+-------+---------+-------+------------------+
+|1     |multi_driven_nets |      0|        0|Passed |Multi driven nets |
++------+------------------+-------+---------+-------+------------------+
+---------------------------------------------------------------------------------
+Start Rebuilding User Hierarchy
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:22 ; elapsed = 00:00:26 . Memory (MB): peak = 2053.922 ; gain = 437.184 ; free physical = 2569 ; free virtual = 6799
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Ports
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:22 ; elapsed = 00:00:26 . Memory (MB): peak = 2053.922 ; gain = 437.184 ; free physical = 2569 ; free virtual = 6799
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:22 ; elapsed = 00:00:26 . Memory (MB): peak = 2053.922 ; gain = 437.184 ; free physical = 2569 ; free virtual = 6799
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Nets
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:22 ; elapsed = 00:00:26 . Memory (MB): peak = 2053.922 ; gain = 437.184 ; free physical = 2569 ; free virtual = 6799
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Writing Synthesis Report
+---------------------------------------------------------------------------------
+
+Report BlackBoxes: 
++-+--------------+----------+
+| |BlackBox name |Instances |
++-+--------------+----------+
++-+--------------+----------+
+
+Report Cell Usage: 
++------+-------+------+
+|      |Cell   |Count |
++------+-------+------+
+|1     |BUFG   |     1|
+|2     |CARRY4 |    10|
+|3     |LUT1   |     2|
+|4     |LUT2   |     5|
+|5     |LUT5   |     1|
+|6     |LUT6   |     4|
+|7     |FDRE   |    27|
+|8     |IBUF   |     1|
+|9     |OBUF   |    28|
+|10    |OBUFT  |     1|
++------+-------+------+
+
+Report Instance Areas: 
++------+------------+--------------+------+
+|      |Instance    |Module        |Cells |
++------+------------+--------------+------+
+|1     |top         |              |    80|
+|2     |  SSG_DISP  |SevSegDisp    |    49|
+|3     |    CathMod |CathodeDriver |    49|
++------+------------+--------------+------+
+---------------------------------------------------------------------------------
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:22 ; elapsed = 00:00:26 . Memory (MB): peak = 2053.922 ; gain = 437.184 ; free physical = 2569 ; free virtual = 6799
+---------------------------------------------------------------------------------
+Synthesis finished with 0 errors, 0 critical warnings and 151 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:21 ; elapsed = 00:00:24 . Memory (MB): peak = 2053.922 ; gain = 271.402 ; free physical = 2621 ; free virtual = 6852
+Synthesis Optimization Complete : Time (s): cpu = 00:00:23 ; elapsed = 00:00:27 . Memory (MB): peak = 2053.922 ; gain = 437.184 ; free physical = 2621 ; free virtual = 6852
+INFO: [Project 1-571] Translating synthesized netlist
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2053.922 ; gain = 0.000 ; free physical = 2688 ; free virtual = 6918
+INFO: [Netlist 29-17] Analyzing 10 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+INFO: [Project 1-570] Preparing netlist for logic optimization
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2053.922 ; gain = 0.000 ; free physical = 2633 ; free virtual = 6865
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+INFO: [Common 17-83] Releasing license: Synthesis
+237 Infos, 228 Warnings, 0 Critical Warnings and 0 Errors encountered.
+synth_design completed successfully
+synth_design: Time (s): cpu = 00:00:29 ; elapsed = 00:00:34 . Memory (MB): peak = 2053.922 ; gain = 576.500 ; free physical = 2767 ; free virtual = 6998
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2053.922 ; gain = 0.000 ; free physical = 2767 ; free virtual = 6998
+WARNING: [Constraints 18-5210] No constraints selected for write.
+Resolution: This message can indicate that there are no constraints for the design, or it can indicate that the used_in flags are set such that the constraints are ignored. This later case is used when running synth_design to not write synthesis constraints to the resulting checkpoint. Instead, project constraints are read when the synthesized design is opened.
+INFO: [Common 17-1381] The checkpoint '/home/jared/Dev/otter/otter_project/otter_project.runs/synth_1/OTTER_Wrapper_Programmable.dcp' has been generated.
+INFO: [runtcl-4] Executing : report_utilization -file OTTER_Wrapper_Programmable_utilization_synth.rpt -pb OTTER_Wrapper_Programmable_utilization_synth.pb
+INFO: [Common 17-206] Exiting Vivado at Fri Jan 24 11:17:38 2020...

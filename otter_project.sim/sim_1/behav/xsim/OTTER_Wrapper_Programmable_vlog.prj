@@ -1,0 +1,20 @@
+# compile verilog/system verilog design source files
+sv xil_defaultlib  \
+"../../../../sources/ArithLogicUnit.sv" \
+"../../../../sources/BCD.sv" \
+"../../../../sources/CU_Decoder.sv" \
+"../../../../sources/CathodeDriver.sv" \
+"../../../../sources/Mult4to1.sv" \
+"../../../../sources/ProgCount.sv" \
+"../../../../sources/SevSegDisp.sv" \
+"../../../../sources/bram_dualport.sv" \
+"../../../../sources/debounce_one_shot.sv" \
+"../../../../sources/otter_mcu_pipeline_template.sv" \
+"../../../../sources/registerFile.sv" \
+"../../../../sources/OTTER_Wrapper.sv" \
+
+# compile glbl module
+verilog xil_defaultlib "glbl.v"
+
+# Do not sort compile order
+nosort

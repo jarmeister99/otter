@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenRun Id="impl_1" LaunchPart="xc7a35tcpg236-1" LaunchTime="1579893599">
+  <File Type="WBT-USG" Name="usage_statistics_webtalk.html"/>
+  <File Type="BG-DRC" Name="OTTER_Wrapper_Programmable.drc"/>
+  <File Type="BG-BGN" Name="OTTER_Wrapper_Programmable.bgn"/>
+  <File Type="BITSTR-SYSDEF" Name="OTTER_Wrapper_Programmable.sysdef"/>
+  <File Type="BITSTR-LTX" Name="debug_nets.ltx"/>
+  <File Type="BITSTR-LTX" Name="OTTER_Wrapper_Programmable.ltx"/>
+  <File Type="RBD_FILE" Name="OTTER_Wrapper_Programmable.rbd"/>
+  <File Type="NPI_FILE" Name="OTTER_Wrapper_Programmable.npi"/>
+  <File Type="RNPI_FILE" Name="OTTER_Wrapper_Programmable.rnpi"/>
+  <File Type="CFI_FILE" Name="OTTER_Wrapper_Programmable.cfi"/>
+  <File Type="RDI-RDI" Name="OTTER_Wrapper_Programmable.vdi"/>
+  <File Type="RCFI_FILE" Name="OTTER_Wrapper_Programmable.rcfi"/>
+  <File Type="PDI-FILE" Name="OTTER_Wrapper_Programmable.pdi"/>
+  <File Type="BITSTR-MMI" Name="OTTER_Wrapper_Programmable.mmi"/>
+  <File Type="BITSTR-BMM" Name="OTTER_Wrapper_Programmable_bd.bmm"/>
+  <File Type="BITSTR-NKY" Name="OTTER_Wrapper_Programmable.nky"/>
+  <File Type="BITSTR-RBT" Name="OTTER_Wrapper_Programmable.rbt"/>
+  <File Type="BITSTR-MSK" Name="OTTER_Wrapper_Programmable.msk"/>
+  <File Type="BG-BIN" Name="OTTER_Wrapper_Programmable.bin"/>
+  <File Type="BG-BIT" Name="OTTER_Wrapper_Programmable.bit"/>
+  <File Type="POSTROUTE-PHYSOPT-BUS-SKEW-RPX" Name="OTTER_Wrapper_Programmable_bus_skew_postroute_physopted.rpx"/>
+  <File Type="POSTROUTE-PHYSOPT-BUS-SKEW-PB" Name="OTTER_Wrapper_Programmable_bus_skew_postroute_physopted.pb"/>
+  <File Type="POSTROUTE-PHYSOPT-BUS-SKEW" Name="OTTER_Wrapper_Programmable_bus_skew_postroute_physopted.rpt"/>
+  <File Type="POSTROUTE-PHYSOPT-TIMING-RPX" Name="OTTER_Wrapper_Programmable_timing_summary_postroute_physopted.rpx"/>
+  <File Type="POSTROUTE-PHYSOPT-TIMING-PB" Name="OTTER_Wrapper_Programmable_timing_summary_postroute_physopted.pb"/>
+  <File Type="POSTROUTE-PHYSOPT-TIMING" Name="OTTER_Wrapper_Programmable_timing_summary_postroute_physopted.rpt"/>
+  <File Type="POSTROUTE-PHYSOPT-BLACKBOX-DCP" Name="OTTER_Wrapper_Programmable_postroute_physopt_bb.dcp"/>
+  <File Type="POSTROUTE-PHYSOPT-DCP" Name="OTTER_Wrapper_Programmable_postroute_physopt.dcp"/>
+  <File Type="ROUTE-BUS-SKEW-RPX" Name="OTTER_Wrapper_Programmable_bus_skew_routed.rpx"/>
+  <File Type="INIT-TIMING" Name="OTTER_Wrapper_Programmable_timing_summary_init.rpt"/>
+  <File Type="OPT-DCP" Name="OTTER_Wrapper_Programmable_opt.dcp"/>
+  <File Type="OPT-DRC" Name="OTTER_Wrapper_Programmable_drc_opted.rpt"/>
+  <File Type="POSTPLACE-PWROPT-TIMING" Name="OTTER_Wrapper_Programmable_timing_summary_postplace_pwropted.rpt"/>
+  <File Type="OPT-METHODOLOGY-DRC" Name="OTTER_Wrapper_Programmable_methodology_drc_opted.rpt"/>
+  <File Type="PLACE-UTIL" Name="OTTER_Wrapper_Programmable_utilization_placed.rpt"/>
+  <File Type="OPT-HWDEF" Name="OTTER_Wrapper_Programmable.hwdef"/>
+  <File Type="PHYSOPT-TIMING" Name="OTTER_Wrapper_Programmable_timing_summary_physopted.rpt"/>
+  <File Type="PA-TCL" Name="OTTER_Wrapper_Programmable.tcl"/>
+  <File Type="OPT-TIMING" Name="OTTER_Wrapper_Programmable_timing_summary_opted.rpt"/>
+  <File Type="PWROPT-DCP" Name="OTTER_Wrapper_Programmable_pwropt.dcp"/>
+  <File Type="PWROPT-DRC" Name="OTTER_Wrapper_Programmable_drc_pwropted.rpt"/>
+  <File Type="REPORTS-TCL" Name="OTTER_Wrapper_Programmable_reports.tcl"/>
+  <File Type="PWROPT-TIMING" Name="OTTER_Wrapper_Programmable_timing_summary_pwropted.rpt"/>
+  <File Type="PLACE-DCP" Name="OTTER_Wrapper_Programmable_placed.dcp"/>
+  <File Type="PLACE-IO" Name="OTTER_Wrapper_Programmable_io_placed.rpt"/>
+  <File Type="PLACE-CLK" Name="OTTER_Wrapper_Programmable_clock_utilization_placed.rpt"/>
+  <File Type="PLACE-UTIL-PB" Name="OTTER_Wrapper_Programmable_utilization_placed.pb"/>
+  <File Type="ROUTE-METHODOLOGY-DRC" Name="OTTER_Wrapper_Programmable_methodology_drc_routed.rpt"/>
+  <File Type="PLACE-CTRL" Name="OTTER_Wrapper_Programmable_control_sets_placed.rpt"/>
+  <File Type="ROUTE-METHODOLOGY-DRC-PB" Name="OTTER_Wrapper_Programmable_methodology_drc_routed.pb"/>
+  <File Type="PLACE-SIMILARITY" Name="OTTER_Wrapper_Programmable_incremental_reuse_placed.rpt"/>
+  <File Type="ROUTE-DRC-RPX" Name="OTTER_Wrapper_Programmable_drc_routed.rpx"/>
+  <File Type="PLACE-PRE-SIMILARITY" Name="OTTER_Wrapper_Programmable_incremental_reuse_pre_placed.rpt"/>
+  <File Type="ROUTE-METHODOLOGY-DRC-RPX" Name="OTTER_Wrapper_Programmable_methodology_drc_routed.rpx"/>
+  <File Type="PLACE-TIMING" Name="OTTER_Wrapper_Programmable_timing_summary_placed.rpt"/>
+  <File Type="POSTPLACE-PWROPT-DCP" Name="OTTER_Wrapper_Programmable_postplace_pwropt.dcp"/>
+  <File Type="PHYSOPT-DCP" Name="OTTER_Wrapper_Programmable_physopt.dcp"/>
+  <File Type="PHYSOPT-DRC" Name="OTTER_Wrapper_Programmable_drc_physopted.rpt"/>
+  <File Type="ROUTE-ERROR-DCP" Name="OTTER_Wrapper_Programmable_routed_error.dcp"/>
+  <File Type="ROUTE-DCP" Name="OTTER_Wrapper_Programmable_routed.dcp"/>
+  <File Type="ROUTE-BLACKBOX-DCP" Name="OTTER_Wrapper_Programmable_routed_bb.dcp"/>
+  <File Type="ROUTE-DRC" Name="OTTER_Wrapper_Programmable_drc_routed.rpt"/>
+  <File Type="ROUTE-DRC-PB" Name="OTTER_Wrapper_Programmable_drc_routed.pb"/>
+  <File Type="ROUTE-PWR" Name="OTTER_Wrapper_Programmable_power_routed.rpt"/>
+  <File Type="ROUTE-PWR-SUM" Name="OTTER_Wrapper_Programmable_power_summary_routed.pb"/>
+  <File Type="ROUTE-PWR-RPX" Name="OTTER_Wrapper_Programmable_power_routed.rpx"/>
+  <File Type="ROUTE-STATUS" Name="OTTER_Wrapper_Programmable_route_status.rpt"/>
+  <File Type="ROUTE-STATUS-PB" Name="OTTER_Wrapper_Programmable_route_status.pb"/>
+  <File Type="ROUTE-TIMINGSUMMARY" Name="OTTER_Wrapper_Programmable_timing_summary_routed.rpt"/>
+  <File Type="ROUTE-TIMING-PB" Name="OTTER_Wrapper_Programmable_timing_summary_routed.pb"/>
+  <File Type="ROUTE-TIMING-RPX" Name="OTTER_Wrapper_Programmable_timing_summary_routed.rpx"/>
+  <File Type="ROUTE-SIMILARITY" Name="OTTER_Wrapper_Programmable_incremental_reuse_routed.rpt"/>
+  <File Type="ROUTE-CLK" Name="OTTER_Wrapper_Programmable_clock_utilization_routed.rpt"/>
+  <File Type="ROUTE-BUS-SKEW" Name="OTTER_Wrapper_Programmable_bus_skew_routed.rpt"/>
+  <File Type="ROUTE-BUS-SKEW-PB" Name="OTTER_Wrapper_Programmable_bus_skew_routed.pb"/>
+  <FileSet Name="sources" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1">
+    <Filter Type="Srcs"/>
+    <File Path="$PPRDIR/sources/ArithLogicUnit.sv">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/sources/BCD.sv">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/sources/CU_Decoder.sv">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/sources/CathodeDriver.sv">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/sources/Mult4to1.sv">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/sources/ProgCount.sv">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/sources/SevSegDisp.sv">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/sources/bram_dualport.sv">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/sources/debounce_one_shot.sv">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/sources/otter_mcu_pipeline_template.sv">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/sources/registerFile.sv">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/sources/OTTER_Wrapper.sv">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/sources/CSR.sv">
+      <FileInfo>
+        <Attr Name="UserDisabled" Val="1"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/sources/ControlUnit.sv">
+      <FileInfo>
+        <Attr Name="UserDisabled" Val="1"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/sources/programmer.sv">
+      <FileInfo>
+        <Attr Name="UserDisabled" Val="1"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/sources/uart_rx.sv">
+      <FileInfo>
+        <Attr Name="UserDisabled" Val="1"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/sources/uart_rx_word.sv">
+      <FileInfo>
+        <Attr Name="UserDisabled" Val="1"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/sources/uart_tx.sv">
+      <FileInfo>
+        <Attr Name="UserDisabled" Val="1"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/sources/uart_tx_word.sv">
+      <FileInfo>
+        <Attr Name="UserDisabled" Val="1"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/sources/OTTER_CPU.sv">
+      <FileInfo>
+        <Attr Name="UserDisabled" Val="1"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/sources/otter_memory.mem">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <Config>
+      <Option Name="DesignMode" Val="RTL"/>
+      <Option Name="TopModule" Val="OTTER_Wrapper_Programmable"/>
+      <Option Name="TopAutoSet" Val="TRUE"/>
+    </Config>
+  </FileSet>
+  <FileSet Name="constrs_in" Type="Constrs" RelSrcDir="$PSRCDIR/constrs_1">
+    <Filter Type="Constrs"/>
+    <File Path="$PPRDIR/sources/Basys-3-Master.xdc">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+      </FileInfo>
+    </File>
+    <Config>
+      <Option Name="ConstrsType" Val="XDC"/>
+    </Config>
+  </FileSet>
+  <FileSet Name="utils" Type="Utils" RelSrcDir="$PSRCDIR/utils_1">
+    <Filter Type="Utils"/>
+    <Config>
+      <Option Name="TopAutoSet" Val="TRUE"/>
+    </Config>
+  </FileSet>
+  <Strategy Version="1" Minor="2">
+    <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2019"/>
+    <Step Id="init_design"/>
+    <Step Id="opt_design"/>
+    <Step Id="power_opt_design"/>
+    <Step Id="place_design"/>
+    <Step Id="post_place_power_opt_design"/>
+    <Step Id="phys_opt_design" EnableStepBool="1"/>
+    <Step Id="route_design"/>
+    <Step Id="post_route_phys_opt_design"/>
+    <Step Id="write_bitstream"/>
+  </Strategy>
+</GenRun>

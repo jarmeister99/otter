@@ -12,3 +12,134 @@
 start_gui
 open_project /home/jared/Dev/otter/otter_project/otter_project.xpr
 update_compile_order -fileset sources_1
+set_property is_enabled false [get_files  /home/jared/Dev/otter/otter_project/sources/OTTER_CPU.sv]
+update_compile_order -fileset sources_1
+set_property is_enabled false [get_files  {/home/jared/Dev/otter/otter_project/sources/programmer.sv /home/jared/Dev/otter/otter_project/sources/CSR.sv /home/jared/Dev/otter/otter_project/sources/Mult4to1.sv /home/jared/Dev/otter/otter_project/sources/ControlUnit.sv}]
+set_property is_enabled false [get_files  {/home/jared/Dev/otter/otter_project/sources/uart_rx_word.sv /home/jared/Dev/otter/otter_project/sources/uart_tx_word.sv}]
+set_property is_enabled false [get_files  {/home/jared/Dev/otter/otter_project/sources/uart_rx.sv /home/jared/Dev/otter/otter_project/sources/uart_tx.sv}]
+launch_runs synth_1 -jobs 4
+wait_on_run synth_1
+reset_run synth_1
+launch_runs synth_1 -jobs 4
+wait_on_run synth_1
+reset_run synth_1
+launch_runs synth_1 -jobs 4
+wait_on_run synth_1
+reset_run synth_1
+launch_runs synth_1 -jobs 4
+wait_on_run synth_1
+set_property is_enabled true [get_files  /home/jared/Dev/otter/otter_project/sources/Mult4to1.sv]
+update_compile_order -fileset sources_1
+reset_run synth_1
+launch_runs synth_1 -jobs 4
+wait_on_run synth_1
+reset_run synth_1
+launch_runs synth_1 -jobs 4
+wait_on_run synth_1
+reset_run synth_1
+launch_runs synth_1 -jobs 4
+wait_on_run synth_1
+reset_run synth_1
+launch_runs synth_1 -jobs 4
+wait_on_run synth_1
+reset_run synth_1
+launch_runs synth_1 -jobs 4
+wait_on_run synth_1
+reset_run synth_1
+launch_runs synth_1 -jobs 4
+wait_on_run synth_1
+reset_run synth_1
+launch_runs synth_1 -jobs 4
+wait_on_run synth_1
+reset_run synth_1
+launch_runs synth_1 -jobs 4
+wait_on_run synth_1
+reset_run synth_1
+launch_runs synth_1 -jobs 4
+wait_on_run synth_1
+reset_run synth_1
+launch_runs synth_1 -jobs 4
+wait_on_run synth_1
+reset_run synth_1
+launch_runs synth_1 -jobs 4
+wait_on_run synth_1
+reset_run synth_1
+launch_runs synth_1 -jobs 4
+wait_on_run synth_1
+reset_run synth_1
+launch_runs synth_1 -jobs 4
+wait_on_run synth_1
+reset_run synth_1
+launch_runs synth_1 -jobs 4
+wait_on_run synth_1
+update_compile_order -fileset sources_1
+reset_run synth_1
+launch_runs synth_1 -jobs 4
+wait_on_run synth_1
+reset_run synth_1
+launch_runs synth_1 -jobs 4
+wait_on_run synth_1
+reset_run synth_1
+launch_runs synth_1 -jobs 4
+wait_on_run synth_1
+reset_run synth_1
+launch_runs synth_1 -jobs 4
+wait_on_run synth_1
+reset_run synth_1
+launch_runs synth_1 -jobs 4
+wait_on_run synth_1
+reset_run synth_1
+launch_runs synth_1 -jobs 4
+wait_on_run synth_1
+reset_run synth_1
+launch_runs synth_1 -jobs 4
+wait_on_run synth_1
+reset_run synth_1
+launch_runs synth_1 -jobs 4
+wait_on_run synth_1
+reset_run synth_1
+launch_runs synth_1 -jobs 4
+wait_on_run synth_1
+launch_runs impl_1 -jobs 4
+wait_on_run impl_1
+launch_runs impl_1 -to_step write_bitstream -jobs 4
+wait_on_run impl_1
+open_hw_manager
+connect_hw_server -allow_non_jtag
+open_hw_target
+set_property PROGRAM.FILE {/home/jared/Dev/otter/otter_project/otter_project.runs/impl_1/OTTER_Wrapper_Programmable.bit} [get_hw_devices xc7a35t_0]
+current_hw_device [get_hw_devices xc7a35t_0]
+refresh_hw_device -update_hw_probes false [lindex [get_hw_devices xc7a35t_0] 0]
+set_property PROBES.FILE {} [get_hw_devices xc7a35t_0]
+set_property FULL_PROBES.FILE {} [get_hw_devices xc7a35t_0]
+set_property PROGRAM.FILE {/home/jared/Dev/otter/otter_project/otter_project.runs/impl_1/OTTER_Wrapper_Programmable.bit} [get_hw_devices xc7a35t_0]
+program_hw_devices [get_hw_devices xc7a35t_0]
+refresh_hw_device [lindex [get_hw_devices xc7a35t_0] 0]
+close_hw_manager
+launch_simulation
+source OTTER_Wrapper_Programmable.tcl
+run 10 us
+run 10 us
+run 10 us
+run 10 us
+run 10 us
+close_sim
+launch_simulation
+source OTTER_Wrapper_Programmable.tcl
+run 50 ns
+run 50 ns
+run 50 ns
+run 50 ms
+run 50 ms
+add_force {/OTTER_Wrapper_Programmable/sclk} -radix bin {1 0ns} {1 50000ps} -repeat_every 100000ps
+add_force {/OTTER_Wrapper_Programmable/sclk} -radix bin {1 0ns} {0 50000ps} -repeat_every 100000ps
+run 50 ms
+run 50 ns
+restart
+run 50 ns
+run 50 ns
+run 50 ns
+run 50 ns
+add_force {/OTTER_Wrapper_Programmable/sclk} -radix bin {0 0ns} {1 50000ps} -repeat_every 100000ps
+run all
+close_sim

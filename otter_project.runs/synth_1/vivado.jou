@@ -1,0 +1,12 @@
+#-----------------------------------------------------------
+# Vivado v2019.2 (64-bit)
+# SW Build 2708876 on Wed Nov  6 21:39:14 MST 2019
+# IP Build 2700528 on Thu Nov  7 00:09:20 MST 2019
+# Start of session at: Fri Jan 24 11:16:55 2020
+# Process ID: 21952
+# Current directory: /home/jared/Dev/otter/otter_project/otter_project.runs/synth_1
+# Command line: vivado -log OTTER_Wrapper_Programmable.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source OTTER_Wrapper_Programmable.tcl
+# Log file: /home/jared/Dev/otter/otter_project/otter_project.runs/synth_1/OTTER_Wrapper_Programmable.vds
+# Journal file: /home/jared/Dev/otter/otter_project/otter_project.runs/synth_1/vivado.jou
+#-----------------------------------------------------------
+source OTTER_Wrapper_Programmable.tcl -notrace

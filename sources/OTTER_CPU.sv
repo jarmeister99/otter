@@ -23,7 +23,7 @@
 
 module OTTER_MCU(input CLK,
                 input INTR,
-                input EXT_RESET,  // CHANGED RESET TO EXT_RESET FOR PROGRAMMER
+                input RESET,  // CHANGED RESET TO EXT_RESET FOR PROGRAMMER
                 input [31:0] IOBUS_IN,
                 output [31:0] IOBUS_OUT,
                 output [31:0] IOBUS_ADDR,

@@ -1,0 +1,17 @@
+0.6
+2019.2
+Nov  6 2019
+21:42:20
+/home/jared/Dev/otter/otter_project/otter_project.sim/sim_1/behav/xsim/glbl.v,1573089660,verilog,,,,glbl,,,,,,,,
+/home/jared/Dev/otter/otter_project/sources/ArithLogicUnit.sv,1579057992,systemVerilog,/home/jared/Dev/otter/otter_project/sources/BCD.sv;/home/jared/Dev/otter/otter_project/sources/CU_Decoder.sv;/home/jared/Dev/otter/otter_project/sources/CathodeDriver.sv;/home/jared/Dev/otter/otter_project/sources/Mult4to1.sv;/home/jared/Dev/otter/otter_project/sources/OTTER_Wrapper.sv;/home/jared/Dev/otter/otter_project/sources/ProgCount.sv;/home/jared/Dev/otter/otter_project/sources/SevSegDisp.sv;/home/jared/Dev/otter/otter_project/sources/bram_dualport.sv;/home/jared/Dev/otter/otter_project/sources/debounce_one_shot.sv;/home/jared/Dev/otter/otter_project/sources/otter_mcu_pipeline_template.sv;/home/jared/Dev/otter/otter_project/sources/registerFile.sv,/home/jared/Dev/otter/otter_project/sources/BCD.sv,,$unit_ArithLogicUnit_sv;OTTER_ALU,,,,,,,,
+/home/jared/Dev/otter/otter_project/sources/BCD.sv,1579057992,systemVerilog,,/home/jared/Dev/otter/otter_project/sources/CU_Decoder.sv,,BCD,,,,,,,,
+/home/jared/Dev/otter/otter_project/sources/CU_Decoder.sv,1579057992,systemVerilog,,/home/jared/Dev/otter/otter_project/sources/CathodeDriver.sv,,OTTER_CU_Decoder,,,,,,,,
+/home/jared/Dev/otter/otter_project/sources/CathodeDriver.sv,1579057992,systemVerilog,,/home/jared/Dev/otter/otter_project/sources/Mult4to1.sv,,CathodeDriver,,,,,,,,
+/home/jared/Dev/otter/otter_project/sources/Mult4to1.sv,1579069334,systemVerilog,,/home/jared/Dev/otter/otter_project/sources/ProgCount.sv,,Mult2to1;Mult4to1;Mult6to1,,,,,,,,
+/home/jared/Dev/otter/otter_project/sources/OTTER_Wrapper.sv,1579893407,systemVerilog,,,,OTTER_Wrapper_Programmable,,,,,,,,
+/home/jared/Dev/otter/otter_project/sources/ProgCount.sv,1579226089,systemVerilog,,/home/jared/Dev/otter/otter_project/sources/SevSegDisp.sv,,ProgCount,,,,,,,,
+/home/jared/Dev/otter/otter_project/sources/SevSegDisp.sv,1579057992,systemVerilog,,/home/jared/Dev/otter/otter_project/sources/bram_dualport.sv,,SevSegDisp,,,,,,,,
+/home/jared/Dev/otter/otter_project/sources/bram_dualport.sv,1579486079,systemVerilog,,/home/jared/Dev/otter/otter_project/sources/debounce_one_shot.sv,,OTTER_mem_byte,,,,,,,,
+/home/jared/Dev/otter/otter_project/sources/debounce_one_shot.sv,1579057992,systemVerilog,,/home/jared/Dev/otter/otter_project/sources/otter_mcu_pipeline_template.sv,,debounce_one_shot,,,,,,,,
+/home/jared/Dev/otter/otter_project/sources/otter_mcu_pipeline_template.sv,1579893285,systemVerilog,,/home/jared/Dev/otter/otter_project/sources/registerFile.sv,,OTTER_MCU,,,,,,,,
+/home/jared/Dev/otter/otter_project/sources/registerFile.sv,1579831242,systemVerilog,,/home/jared/Dev/otter/otter_project/sources/OTTER_Wrapper.sv,,OTTER_registerFile,,,,,,,,

@@ -17,3 +17,340 @@ INFO: [IP_Flow 19-234] Refreshing IP repositories
 INFO: [IP_Flow 19-1704] No user IP repositories specified
 INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/tools/Xilinx/Vivado/2019.2/data/ip'.
 update_compile_order -fileset sources_1
+set_property is_enabled false [get_files  /home/jared/Dev/otter/otter_project/sources/OTTER_CPU.sv]
+update_compile_order -fileset sources_1
+set_property is_enabled false [get_files  {/home/jared/Dev/otter/otter_project/sources/programmer.sv /home/jared/Dev/otter/otter_project/sources/CSR.sv /home/jared/Dev/otter/otter_project/sources/Mult4to1.sv /home/jared/Dev/otter/otter_project/sources/ControlUnit.sv}]
+set_property is_enabled false [get_files  {/home/jared/Dev/otter/otter_project/sources/uart_rx_word.sv /home/jared/Dev/otter/otter_project/sources/uart_tx_word.sv}]
+set_property is_enabled false [get_files  {/home/jared/Dev/otter/otter_project/sources/uart_rx.sv /home/jared/Dev/otter/otter_project/sources/uart_tx.sv}]
+launch_runs synth_1 -jobs 4
+[Fri Jan 24 10:15:17 2020] Launched synth_1...
+Run output will be captured here: /home/jared/Dev/otter/otter_project/otter_project.runs/synth_1/runme.log
+reset_run synth_1
+launch_runs synth_1 -jobs 4
+[Fri Jan 24 10:16:51 2020] Launched synth_1...
+Run output will be captured here: /home/jared/Dev/otter/otter_project/otter_project.runs/synth_1/runme.log
+reset_run synth_1
+launch_runs synth_1 -jobs 4
+[Fri Jan 24 10:19:32 2020] Launched synth_1...
+Run output will be captured here: /home/jared/Dev/otter/otter_project/otter_project.runs/synth_1/runme.log
+reset_run synth_1
+launch_runs synth_1 -jobs 4
+[Fri Jan 24 10:21:21 2020] Launched synth_1...
+Run output will be captured here: /home/jared/Dev/otter/otter_project/otter_project.runs/synth_1/runme.log
+set_property is_enabled true [get_files  /home/jared/Dev/otter/otter_project/sources/Mult4to1.sv]
+update_compile_order -fileset sources_1
+reset_run synth_1
+launch_runs synth_1 -jobs 4
+[Fri Jan 24 10:28:29 2020] Launched synth_1...
+Run output will be captured here: /home/jared/Dev/otter/otter_project/otter_project.runs/synth_1/runme.log
+reset_run synth_1
+launch_runs synth_1 -jobs 4
+[Fri Jan 24 10:36:03 2020] Launched synth_1...
+Run output will be captured here: /home/jared/Dev/otter/otter_project/otter_project.runs/synth_1/runme.log
+reset_run synth_1
+launch_runs synth_1 -jobs 4
+[Fri Jan 24 10:38:13 2020] Launched synth_1...
+Run output will be captured here: /home/jared/Dev/otter/otter_project/otter_project.runs/synth_1/runme.log
+reset_run synth_1
+launch_runs synth_1 -jobs 4
+[Fri Jan 24 10:48:40 2020] Launched synth_1...
+Run output will be captured here: /home/jared/Dev/otter/otter_project/otter_project.runs/synth_1/runme.log
+reset_run synth_1
+launch_runs synth_1 -jobs 4
+[Fri Jan 24 10:49:57 2020] Launched synth_1...
+Run output will be captured here: /home/jared/Dev/otter/otter_project/otter_project.runs/synth_1/runme.log
+reset_run synth_1
+launch_runs synth_1 -jobs 4
+[Fri Jan 24 10:51:30 2020] Launched synth_1...
+Run output will be captured here: /home/jared/Dev/otter/otter_project/otter_project.runs/synth_1/runme.log
+reset_run synth_1
+launch_runs synth_1 -jobs 4
+[Fri Jan 24 10:52:15 2020] Launched synth_1...
+Run output will be captured here: /home/jared/Dev/otter/otter_project/otter_project.runs/synth_1/runme.log
+reset_run synth_1
+launch_runs synth_1 -jobs 4
+[Fri Jan 24 10:53:17 2020] Launched synth_1...
+Run output will be captured here: /home/jared/Dev/otter/otter_project/otter_project.runs/synth_1/runme.log
+reset_run synth_1
+launch_runs synth_1 -jobs 4
+[Fri Jan 24 10:56:01 2020] Launched synth_1...
+Run output will be captured here: /home/jared/Dev/otter/otter_project/otter_project.runs/synth_1/runme.log
+reset_run synth_1
+launch_runs synth_1 -jobs 4
+[Fri Jan 24 10:56:42 2020] Launched synth_1...
+Run output will be captured here: /home/jared/Dev/otter/otter_project/otter_project.runs/synth_1/runme.log
+reset_run synth_1
+launch_runs synth_1 -jobs 4
+[Fri Jan 24 10:57:21 2020] Launched synth_1...
+Run output will be captured here: /home/jared/Dev/otter/otter_project/otter_project.runs/synth_1/runme.log
+reset_run synth_1
+launch_runs synth_1 -jobs 4
+[Fri Jan 24 10:59:35 2020] Launched synth_1...
+Run output will be captured here: /home/jared/Dev/otter/otter_project/otter_project.runs/synth_1/runme.log
+reset_run synth_1
+launch_runs synth_1 -jobs 4
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/home/jared/Dev/otter/otter_project/sources/otter_mcu_pipeline_template.sv:298]
+[Fri Jan 24 10:59:54 2020] Launched synth_1...
+Run output will be captured here: /home/jared/Dev/otter/otter_project/otter_project.runs/synth_1/runme.log
+reset_run synth_1
+launch_runs synth_1 -jobs 4
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/home/jared/Dev/otter/otter_project/sources/otter_mcu_pipeline_template.sv:298]
+[Fri Jan 24 11:00:01 2020] Launched synth_1...
+Run output will be captured here: /home/jared/Dev/otter/otter_project/otter_project.runs/synth_1/runme.log
+update_compile_order -fileset sources_1
+reset_run synth_1
+launch_runs synth_1 -jobs 4
+[Fri Jan 24 11:00:13 2020] Launched synth_1...
+Run output will be captured here: /home/jared/Dev/otter/otter_project/otter_project.runs/synth_1/runme.log
+reset_run synth_1
+launch_runs synth_1 -jobs 4
+[Fri Jan 24 11:01:54 2020] Launched synth_1...
+Run output will be captured here: /home/jared/Dev/otter/otter_project/otter_project.runs/synth_1/runme.log
+reset_run synth_1
+launch_runs synth_1 -jobs 4
+[Fri Jan 24 11:03:19 2020] Launched synth_1...
+Run output will be captured here: /home/jared/Dev/otter/otter_project/otter_project.runs/synth_1/runme.log
+reset_run synth_1
+launch_runs synth_1 -jobs 4
+[Fri Jan 24 11:04:45 2020] Launched synth_1...
+Run output will be captured here: /home/jared/Dev/otter/otter_project/otter_project.runs/synth_1/runme.log
+reset_run synth_1
+launch_runs synth_1 -jobs 4
+[Fri Jan 24 11:09:21 2020] Launched synth_1...
+Run output will be captured here: /home/jared/Dev/otter/otter_project/otter_project.runs/synth_1/runme.log
+reset_run synth_1
+launch_runs synth_1 -jobs 4
+[Fri Jan 24 11:12:17 2020] Launched synth_1...
+Run output will be captured here: /home/jared/Dev/otter/otter_project/otter_project.runs/synth_1/runme.log
+reset_run synth_1
+launch_runs synth_1 -jobs 4
+[Fri Jan 24 11:15:04 2020] Launched synth_1...
+Run output will be captured here: /home/jared/Dev/otter/otter_project/otter_project.runs/synth_1/runme.log
+reset_run synth_1
+launch_runs synth_1 -jobs 4
+[Fri Jan 24 11:16:03 2020] Launched synth_1...
+Run output will be captured here: /home/jared/Dev/otter/otter_project/otter_project.runs/synth_1/runme.log
+reset_run synth_1
+launch_runs synth_1 -jobs 4
+[Fri Jan 24 11:16:53 2020] Launched synth_1...
+Run output will be captured here: /home/jared/Dev/otter/otter_project/otter_project.runs/synth_1/runme.log
+launch_runs impl_1 -jobs 4
+[Fri Jan 24 11:20:00 2020] Launched impl_1...
+Run output will be captured here: /home/jared/Dev/otter/otter_project/otter_project.runs/impl_1/runme.log
+launch_runs impl_1 -to_step write_bitstream -jobs 4
+[Fri Jan 24 11:21:01 2020] Launched impl_1...
+Run output will be captured here: /home/jared/Dev/otter/otter_project/otter_project.runs/impl_1/runme.log
+open_hw_manager
+connect_hw_server -allow_non_jtag
+INFO: [Labtools 27-2285] Connecting to hw_server url TCP:localhost:3121
+INFO: [Labtools 27-2222] Launching hw_server...
+INFO: [Labtools 27-2221] Launch Output:
+
+****** Xilinx hw_server v2019.2
+  **** Build date : Nov  6 2019 at 22:13:42
+    ** Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
+
+
+INFO: [Labtools 27-3415] Connecting to cs_server url TCP:localhost:3042
+INFO: [Labtools 27-3417] Launching cs_server...
+INFO: [Labtools 27-2221] Launch Output:
+[?1034h
+
+****** Xilinx cs_server v2019.2.0
+  **** Build date : Nov 06 2019-21:41:48
+    ** Copyright 2017-2019 Xilinx, Inc. All Rights Reserved.
+
+
+
+open_hw_target
+INFO: [Labtoolstcl 44-466] Opening hw_target localhost:3121/xilinx_tcf/Digilent/210183711509A
+set_property PROGRAM.FILE {/home/jared/Dev/otter/otter_project/otter_project.runs/impl_1/OTTER_Wrapper_Programmable.bit} [get_hw_devices xc7a35t_0]
+current_hw_device [get_hw_devices xc7a35t_0]
+refresh_hw_device -update_hw_probes false [lindex [get_hw_devices xc7a35t_0] 0]
+INFO: [Labtools 27-1434] Device xc7a35t (JTAG device index = 0) is programmed with a design that has no supported debug core(s) in it.
+set_property PROBES.FILE {} [get_hw_devices xc7a35t_0]
+set_property FULL_PROBES.FILE {} [get_hw_devices xc7a35t_0]
+set_property PROGRAM.FILE {/home/jared/Dev/otter/otter_project/otter_project.runs/impl_1/OTTER_Wrapper_Programmable.bit} [get_hw_devices xc7a35t_0]
+program_hw_devices [get_hw_devices xc7a35t_0]
+INFO: [Labtools 27-3164] End of startup status: HIGH
+refresh_hw_device [lindex [get_hw_devices xc7a35t_0] 0]
+INFO: [Labtools 27-1434] Device xc7a35t (JTAG device index = 0) is programmed with a design that has no supported debug core(s) in it.
+ERROR: [Labtoolstcl 44-513] HW Target shutdown. Closing target: localhost:3121/xilinx_tcf/Digilent/210183711509A
+close_hw_manager
+launch_simulation
+Command: launch_simulation 
+INFO: [Vivado 12-5682] Launching behavioral simulation in '/home/jared/Dev/otter/otter_project/otter_project.sim/sim_1/behav/xsim'
+INFO: [SIM-utils-51] Simulation object is 'sim_1'
+INFO: [SIM-utils-54] Inspecting design source files for 'OTTER_Wrapper_Programmable' in fileset 'sim_1'...
+INFO: [SIM-utils-43] Exported '/home/jared/Dev/otter/otter_project/otter_project.sim/sim_1/behav/xsim/otter_memory.mem'
+INFO: [USF-XSim-97] Finding global include files...
+INFO: [USF-XSim-98] Fetching design files from 'sim_1'...
+INFO: [USF-XSim-2] XSim::Compile design
+INFO: [USF-XSim-61] Executing 'COMPILE and ANALYZE' step in '/home/jared/Dev/otter/otter_project/otter_project.sim/sim_1/behav/xsim'
+xvlog --incr --relax -prj OTTER_Wrapper_Programmable_vlog.prj
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/jared/Dev/otter/otter_project/sources/ArithLogicUnit.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module OTTER_ALU
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/jared/Dev/otter/otter_project/sources/BCD.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module BCD
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/jared/Dev/otter/otter_project/sources/CU_Decoder.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module OTTER_CU_Decoder
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/jared/Dev/otter/otter_project/sources/CathodeDriver.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module CathodeDriver
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/jared/Dev/otter/otter_project/sources/Mult4to1.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module Mult6to1
+INFO: [VRFC 10-311] analyzing module Mult4to1
+INFO: [VRFC 10-311] analyzing module Mult2to1
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/jared/Dev/otter/otter_project/sources/ProgCount.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ProgCount
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/jared/Dev/otter/otter_project/sources/SevSegDisp.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module SevSegDisp
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/jared/Dev/otter/otter_project/sources/bram_dualport.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module OTTER_mem_byte
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/jared/Dev/otter/otter_project/sources/debounce_one_shot.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module debounce_one_shot
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/jared/Dev/otter/otter_project/sources/otter_mcu_pipeline_template.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module OTTER_MCU
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/jared/Dev/otter/otter_project/sources/registerFile.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module OTTER_registerFile
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/jared/Dev/otter/otter_project/sources/OTTER_Wrapper.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module OTTER_Wrapper_Programmable
+INFO: [VRFC 10-2263] Analyzing Verilog file "/home/jared/Dev/otter/otter_project/otter_project.sim/sim_1/behav/xsim/glbl.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module glbl
+INFO: [USF-XSim-69] 'compile' step finished in '2' seconds
+INFO: [USF-XSim-3] XSim::Elaborate design
+INFO: [USF-XSim-61] Executing 'ELABORATE' step in '/home/jared/Dev/otter/otter_project/otter_project.sim/sim_1/behav/xsim'
+xelab -wto f476bf0707864d349c8de5a339b72e32 --incr --debug typical --relax --mt 8 -L xil_defaultlib -L unisims_ver -L unimacro_ver -L secureip --snapshot OTTER_Wrapper_Programmable_behav xil_defaultlib.OTTER_Wrapper_Programmable xil_defaultlib.glbl -log elaborate.log
+Vivado Simulator 2019.2
+Copyright 1986-1999, 2001-2019 Xilinx, Inc. All Rights Reserved.
+Running: /tools/Xilinx/Vivado/2019.2/bin/unwrapped/lnx64.o/xelab -wto f476bf0707864d349c8de5a339b72e32 --incr --debug typical --relax --mt 8 -L xil_defaultlib -L unisims_ver -L unimacro_ver -L secureip --snapshot OTTER_Wrapper_Programmable_behav xil_defaultlib.OTTER_Wrapper_Programmable xil_defaultlib.glbl -log elaborate.log 
+Using 8 slave threads.
+Starting static elaboration
+Pass Through NonSizing Optimizer
+WARNING: [VRFC 10-3091] actual bit length 1 differs from formal bit length 32 for port 'MEM_ADDR2' [/home/jared/Dev/otter/otter_project/sources/otter_mcu_pipeline_template.sv:299]
+WARNING: [VRFC 10-3091] actual bit length 2 differs from formal bit length 4 for port 'CU_PCSOURCE' [/home/jared/Dev/otter/otter_project/sources/otter_mcu_pipeline_template.sv:313]
+Completed static elaboration
+Starting simulation data flow analysis
+Completed simulation data flow analysis
+Time Resolution for simulation is 1ps
+Compiling package xil_defaultlib.$unit_ArithLogicUnit_sv
+Compiling module xil_defaultlib.OTTER_registerFile
+Compiling module xil_defaultlib.Mult4to1
+Compiling module xil_defaultlib.OTTER_mem_byte
+Compiling module xil_defaultlib.OTTER_ALU
+Compiling module xil_defaultlib.Mult2to1
+Compiling module xil_defaultlib.ProgCount
+Compiling module xil_defaultlib.OTTER_CU_Decoder
+Compiling module xil_defaultlib.OTTER_MCU
+Compiling module xil_defaultlib.BCD
+Compiling module xil_defaultlib.CathodeDriver
+Compiling module xil_defaultlib.SevSegDisp
+Compiling module xil_defaultlib.debounce_one_shot
+Compiling module xil_defaultlib.OTTER_Wrapper_Programmable
+Compiling module xil_defaultlib.glbl
+Built simulation snapshot OTTER_Wrapper_Programmable_behav
+
+****** Webtalk v2019.2 (64-bit)
+  **** SW Build 2708876 on Wed Nov  6 21:39:14 MST 2019
+  **** IP Build 2700528 on Thu Nov  7 00:09:20 MST 2019
+    ** Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
+
+source /home/jared/Dev/otter/otter_project/otter_project.sim/sim_1/behav/xsim/xsim.dir/OTTER_Wrapper_Programmable_behav/webtalk/xsim_webtalk.tcl -notrace
+INFO: [Common 17-186] '/home/jared/Dev/otter/otter_project/otter_project.sim/sim_1/behav/xsim/xsim.dir/OTTER_Wrapper_Programmable_behav/webtalk/usage_statistics_ext_xsim.xml' has been successfully sent to Xilinx on Fri Jan 24 11:28:14 2020. For additional details about this file, please refer to the WebTalk help file at /tools/Xilinx/Vivado/2019.2/doc/webtalk_introduction.html.
+INFO: [Common 17-206] Exiting Webtalk at Fri Jan 24 11:28:14 2020...
+INFO: [USF-XSim-69] 'elaborate' step finished in '5' seconds
+INFO: [USF-XSim-4] XSim::Simulate design
+INFO: [USF-XSim-61] Executing 'SIMULATE' step in '/home/jared/Dev/otter/otter_project/otter_project.sim/sim_1/behav/xsim'
+INFO: [USF-XSim-98] *** Running xsim
+   with args "OTTER_Wrapper_Programmable_behav -key {Behavioral:sim_1:Functional:OTTER_Wrapper_Programmable} -tclbatch {OTTER_Wrapper_Programmable.tcl} -log {simulate.log}"
+INFO: [USF-XSim-8] Loading simulator feature
+Vivado Simulator 2019.2
+Time resolution is 1 ps
+source OTTER_Wrapper_Programmable.tcl
+# set curr_wave [current_wave_config]
+# if { [string length $curr_wave] == 0 } {
+#   if { [llength [get_objects]] > 0} {
+#     add_wave /
+#     set_property needs_save false [current_wave_config]
+#   } else {
+#      send_msg_id Add_Wave-1 WARNING "No top level signals found. Simulator will start without a wave window. If you want to open a wave window go to 'File->New Waveform Configuration' or type 'create_wave_config' in the TCL console."
+#   }
+# }
+# run 1000ns
+INFO: [USF-XSim-96] XSim completed. Design snapshot 'OTTER_Wrapper_Programmable_behav' loaded.
+INFO: [USF-XSim-97] XSim simulation ran for 1000ns
+launch_simulation: Time (s): cpu = 00:00:12 ; elapsed = 00:00:10 . Memory (MB): peak = 8957.996 ; gain = 114.469 ; free physical = 2018 ; free virtual = 6388
+run 10 us
+run 10 us
+run 10 us
+run 10 us
+run 10 us
+close_sim
+INFO: [Simtcl 6-16] Simulation closed
+launch_simulation
+Command: launch_simulation 
+INFO: [Vivado 12-5682] Launching behavioral simulation in '/home/jared/Dev/otter/otter_project/otter_project.sim/sim_1/behav/xsim'
+INFO: [SIM-utils-51] Simulation object is 'sim_1'
+INFO: [SIM-utils-54] Inspecting design source files for 'OTTER_Wrapper_Programmable' in fileset 'sim_1'...
+INFO: [SIM-utils-43] Exported '/home/jared/Dev/otter/otter_project/otter_project.sim/sim_1/behav/xsim/otter_memory.mem'
+INFO: [USF-XSim-97] Finding global include files...
+INFO: [USF-XSim-98] Fetching design files from 'sim_1'...
+INFO: [USF-XSim-2] XSim::Compile design
+INFO: [USF-XSim-61] Executing 'COMPILE and ANALYZE' step in '/home/jared/Dev/otter/otter_project/otter_project.sim/sim_1/behav/xsim'
+xvlog --incr --relax -prj OTTER_Wrapper_Programmable_vlog.prj
+INFO: [USF-XSim-69] 'compile' step finished in '1' seconds
+INFO: [USF-XSim-3] XSim::Elaborate design
+INFO: [USF-XSim-61] Executing 'ELABORATE' step in '/home/jared/Dev/otter/otter_project/otter_project.sim/sim_1/behav/xsim'
+xelab -wto f476bf0707864d349c8de5a339b72e32 --incr --debug typical --relax --mt 8 -L xil_defaultlib -L unisims_ver -L unimacro_ver -L secureip --snapshot OTTER_Wrapper_Programmable_behav xil_defaultlib.OTTER_Wrapper_Programmable xil_defaultlib.glbl -log elaborate.log
+Vivado Simulator 2019.2
+Copyright 1986-1999, 2001-2019 Xilinx, Inc. All Rights Reserved.
+Running: /tools/Xilinx/Vivado/2019.2/bin/unwrapped/lnx64.o/xelab -wto f476bf0707864d349c8de5a339b72e32 --incr --debug typical --relax --mt 8 -L xil_defaultlib -L unisims_ver -L unimacro_ver -L secureip --snapshot OTTER_Wrapper_Programmable_behav xil_defaultlib.OTTER_Wrapper_Programmable xil_defaultlib.glbl -log elaborate.log 
+Using 8 slave threads.
+Starting static elaboration
+Pass Through NonSizing Optimizer
+WARNING: [VRFC 10-3091] actual bit length 1 differs from formal bit length 32 for port 'MEM_ADDR2' [/home/jared/Dev/otter/otter_project/sources/otter_mcu_pipeline_template.sv:299]
+WARNING: [VRFC 10-3091] actual bit length 2 differs from formal bit length 4 for port 'CU_PCSOURCE' [/home/jared/Dev/otter/otter_project/sources/otter_mcu_pipeline_template.sv:313]
+Completed static elaboration
+INFO: [XSIM 43-4323] No Change in HDL. Linking previously generated obj files to create kernel
+INFO: [USF-XSim-69] 'elaborate' step finished in '2' seconds
+INFO: [USF-XSim-4] XSim::Simulate design
+INFO: [USF-XSim-61] Executing 'SIMULATE' step in '/home/jared/Dev/otter/otter_project/otter_project.sim/sim_1/behav/xsim'
+INFO: [USF-XSim-98] *** Running xsim
+   with args "OTTER_Wrapper_Programmable_behav -key {Behavioral:sim_1:Functional:OTTER_Wrapper_Programmable} -tclbatch {OTTER_Wrapper_Programmable.tcl} -log {simulate.log}"
+INFO: [USF-XSim-8] Loading simulator feature
+Vivado Simulator 2019.2
+Time resolution is 1 ps
+source OTTER_Wrapper_Programmable.tcl
+# set curr_wave [current_wave_config]
+# if { [string length $curr_wave] == 0 } {
+#   if { [llength [get_objects]] > 0} {
+#     add_wave /
+#     set_property needs_save false [current_wave_config]
+#   } else {
+#      send_msg_id Add_Wave-1 WARNING "No top level signals found. Simulator will start without a wave window. If you want to open a wave window go to 'File->New Waveform Configuration' or type 'create_wave_config' in the TCL console."
+#   }
+# }
+# run 1000ns
+INFO: [USF-XSim-96] XSim completed. Design snapshot 'OTTER_Wrapper_Programmable_behav' loaded.
+INFO: [USF-XSim-97] XSim simulation ran for 1000ns
+launch_simulation: Time (s): cpu = 00:00:06 ; elapsed = 00:00:05 . Memory (MB): peak = 8983.707 ; gain = 0.000 ; free physical = 1744 ; free virtual = 6116
+run 50 ns
+run 50 ns
+run 50 ns
+run 50 ms
+run 50 ms
+add_force {/OTTER_Wrapper_Programmable/sclk} -radix bin {1 0ns} {1 50000ps} -repeat_every 100000ps
+ERROR: [Simtcl 6-179] Couldn't add force for the following reason: Value '1' is present in two consecutive events.
+add_force {/OTTER_Wrapper_Programmable/sclk} -radix bin {1 0ns} {0 50000ps} -repeat_every 100000ps
+run 50 ms
+run 50 ns
+restart
+INFO: [Simtcl 6-17] Simulation restarted
+run 50 ns
+run 50 ns
+run 50 ns
+run 50 ns
+add_force {/OTTER_Wrapper_Programmable/sclk} -radix bin {0 0ns} {1 50000ps} -repeat_every 100000ps
+run all
+run: Time (s): cpu = 00:00:10 ; elapsed = 00:00:09 . Memory (MB): peak = 8983.707 ; gain = 0.000 ; free physical = 1628 ; free virtual = 6116
+close_sim
+INFO: [Simtcl 6-16] Simulation closed
