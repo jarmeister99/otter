@@ -30,8 +30,6 @@ module OTTER_Wrapper_Programmable(
     input BTNL,
     input BTNC,
     input [15:0] SWITCHES,
-    input RX,
-    output TX,
     output [15:0] LEDS,
     output [7:0] CATHODES,
     output [3:0] ANODES

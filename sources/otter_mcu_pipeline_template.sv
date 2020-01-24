@@ -57,22 +57,23 @@ module OTTER_MCU(input  CLK,
                  output [31:0] IOBUS_ADDR,
                  output logic IOBUS_WR 
 );   
-        
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
+    // TODO: Handle memRead2, memWrite, and regWrite (should be set according to state & instruction) //
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 	
-    wire [31:0]  pc, 
-                 pcValue, 
-                 nextPc, 
-                 jalrPc, branchPc, jalPc,
-                 A,B,
-                 ir,
-                 iTypeImmed,sTypeImmed,uTypeImmed,
-                 aluAin,aluBin,aluResult,
-                 rfIn,
-                 memData;                   
-    wire [3:0]   aluFun;
-    wire [1:0]   wbSel;
-    wire         memRead2,
-                 regWrite, memWrite;
+    wire [31:0]  pc,                               // Tied to the output of the PROG_COUNTER
+                 nextPc,                           // Tied to the output of the PC 4-1 MUX
+                 jalrPc, branchPc, jalPc,          // Tied to the outputs of the TARGET_GENERATOR (uses EXECUTE state)
+                 A,B,                              // Tied to the asynchronous outputs of the REG_FILE
+                 ir,                               // Tied to the output of the PROGRAM_MEMORY 
+                 iTypeImmed,sTypeImmed,uTypeImmed, // Tied to the outputs of the IMMEDIATE_GENERATOR (uses DECODE state)
+                 aluAin,aluBin,                    // Tied to the outputs of the ALU 2-1 and 4-2 MUX's (uses DECODE state)
+                 aluResult,                        // Tied to the output of the ALU (uses EXECUTE state)
+                 rfIn,                             // Tied to the output of the REG_FILE 4-1 MUX
+                 memData;                          // Tied to the output of the MEMORY_FILE (uses MEMORY state)                             
+    wire         memRead2,                         // see toDo 
+                 regWrite,                         // see toDo
+                 memWrite;                         // see toDo
                
     logic [1:0]  pcSel;
     logic        brLt, brEq, brLtu,
@@ -111,8 +112,8 @@ module OTTER_MCU(input  CLK,
     
     // COMB. VARIABLES
     opcode_t   opcode;
-    wire [1:0] opBSel;
-    wire       opASel;
+    wire [1:0] opBSel; // given by decoder 
+    wire       opASel; // ...
     
     
     // ASSIGN STATE VARIABLES
@@ -141,13 +142,10 @@ module OTTER_MCU(input  CLK,
     // ASSIGN COMB. VARIABLES
     assign opcode = opcode_t'(ir[6:0]);
     
+    // Immediate Generator
     assign sTypeImmed = {{20{de_ex_inst.ir[31]}},de_ex_inst.ir[31:25],de_ex_inst.ir[11:7]};
     assign iTypeImmed = {{20{de_ex_inst.ir[31]}},de_ex_inst.ir[31:20]};
     assign uTypeImmed = {de_ex_inst.ir[31:12],{12{1'b0}}};
-    
-    // [Notes]
-    // - opASel and opBSel are available via the decoder as soon as an instruction is available                                                    
-    
     
     
     //===== HAZARD DETECTION =================================
@@ -182,11 +180,19 @@ module OTTER_MCU(input  CLK,
      logic        ex_mem_aluRes = 0;
      instr_t      ex_mem_inst;
 
-     
      // COMB. VARIABLES
-     logic [31:0] opAForwarded, opBForwarded;
+     logic [31:0] opAForwarded, opBForwarded; // assigned via forwarding logic
      
      // ASSIGN STATE VARIABLES
+     always_ff @(posedge CLK) begin
+         if(!stallEx) begin
+             ex_mem_aluRes <= aluResult;
+             ex_mem_inst <= de_ex_inst;
+             ex_mem_iTypeImmed <= de_ex_iTypeImmed;
+         end
+     end
+         
+     // ASSIGN COMB. VARIABLES
      always_comb begin
         if (!opAForwarded) begin
             opAForwarded <= aluAin;
@@ -196,57 +202,45 @@ module OTTER_MCU(input  CLK,
         end
      end
      
-     // ASSIGN COMB. VARIABLES
-     
      //Branch Condition Generator
-     always_comb
-     begin
+     always_comb begin
          brLt=0; brEq=0; brLtu=0;
          if($signed(de_ex_aluAin) < $signed(de_ex_aluBin)) brLt=1;
          if(de_ex_aluAin==de_ex_aluBin) brEq=1;
          if(de_ex_aluAin<de_ex_aluBin) brLtu=1;
      end
-    
-    
-     always_ff @(posedge CLK) begin
-         // If this stage is not supposed to stall
-         if(!stallEx) begin
-             // SAVE the result of the ALU
-             ex_mem_aluRes <= aluResult;
-             // SAVE state from previous register
-             ex_mem_inst <= de_ex_inst;
-             // SAVE iTypeImmed from previous reg
-             ex_mem_iTypeImmed <= de_ex_iTypeImmed;
-         end
-     end
-    
+
      
 //==== Memory ======================================================
      
+     
+    // STATE VARIABLES
     logic [31:0] mem_wb_data;
     logic [31:0] mem_wb_aluRes;
     instr_t mem_wb_inst;
     
-    assign IOBUS_ADDR = ex_mem_aluRes;
-    assign IOBUS_OUT = ex_mem_inst.rs2;
     
+    // COMB. VARIABLES
+    
+    
+    
+    // ASSIGN STATE VARIABLES
     always_ff @(posedge CLK) begin
         if(!stallMem) begin
-            // On clock edge... 
-            // SAVE data from Memory Module DOUT2
             mem_wb_data <= memData;
-            
-            // SAVE state from previous register
             mem_wb_inst <= ex_mem_inst;
-            
-            // SAVE aluRes from previous register
             mem_wb_aluRes <= ex_mem_aluRes;
         end
     end
     
+    // ASSIGN COMB. VARIABLES
+    assign IOBUS_ADDR = ex_mem_aluRes;
+    assign IOBUS_OUT = ex_mem_inst.rs2;
+    
+    // Target Generator
     assign jalrPc = de_ex_iTypeImmed + A;
-    assign branchPc = pc + {{20{de_ex_inst.ir[31]}},de_ex_inst.ir[7],de_ex_inst.ir[30:25],de_ex_inst.ir[11:8],1'b0};   //byte aligned addresses
-    assign jalPc = pc + {{12{de_ex_inst.ir[31]}}, de_ex_inst.ir[19:12], de_ex_inst.ir[20],de_ex_inst.ir[30:21],1'b0};
+    assign branchPc = de_ex_inst.pc + {{20{de_ex_inst.ir[31]}},de_ex_inst.ir[7],de_ex_inst.ir[30:25],de_ex_inst.ir[11:8],1'b0};   //byte aligned addresses
+    assign jalPc = de_ex_inst.pc + {{12{de_ex_inst.ir[31]}}, de_ex_inst.ir[19:12], de_ex_inst.ir[20],de_ex_inst.ir[30:21],1'b0};
      
      
      
@@ -270,7 +264,7 @@ module OTTER_MCU(input  CLK,
         .In2(0), .In3(mem_wb_data),
         .In4(mem_wb_aluRes),
         .Sel(mem_wb_inst.rfWrSel),
-        .Out(wd));
+        .Out(rfIn));
         
      OTTER_mem_byte memory(
         .MEM_CLK(CLK),
@@ -308,7 +302,7 @@ module OTTER_MCU(input  CLK,
         .PC_CLK(CLK),
         .PC_RST(RESET),
         .PC_LD(pcWrite),
-        .PC_DIN(pcValue),
+        .PC_DIN(nextPc),
         .PC_COUNT(pc));
      Mult4to1 prog_count_next_mux(
         .In1(ex_mem_inst.pc + 4),
@@ -316,7 +310,7 @@ module OTTER_MCU(input  CLK,
         .In3(branchPc),
         .In4(jalPc),
         .Sel(pcSel),
-        .Out(pcValue));
+        .Out(nextPc));
      
      OTTER_CU_Decoder decoder(
         .CU_OPCODE(de_ex_inst.opcode),
