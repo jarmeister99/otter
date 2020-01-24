@@ -122,6 +122,10 @@ module OTTER_MCU(input CLK,
     
     // Cast opcode to an opcode type logic
     assign OPCODE = opcode_t'(ir[6:0]);     
+    
+    assign S_immed = {{20{de_ex_inst.ir[31]}},de_ex_inst.ir[31:25],de_ex_inst.ir[11:7]};
+    assign I_immed = {{20{de_ex_inst.ir[31]}},de_ex_inst.ir[31:20]};
+    assign U_immed = {de_ex_inst.ir[31:12],{12{1'b0}}};
         
     always_ff @(posedge CLK) begin
         if (!stall_de) begin
