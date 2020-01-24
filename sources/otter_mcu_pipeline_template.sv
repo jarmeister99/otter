@@ -192,7 +192,15 @@ module OTTER_MCU(input CLK,
      instr_t ex_mem_inst;
      logic [31:0] opA_forwarded;
      logic [31:0] opB_forwarded;
-
+     
+     always_comb begin
+        if (!opA_forwarded) begin
+            assign opA_forwarded = aluAin;
+        end
+        if (!opB_forwarded) begin
+            assign opB_forwarded = aluBin;
+        end
+     end
     
      always_ff @(posedge CLK) begin
      
@@ -263,9 +271,10 @@ module OTTER_MCU(input CLK,
         .MEM_WRITE2(ex_mem_inst.memWrite), .MEM_READ1(memRead1), .ERR(), .MEM_DOUT1(ir), .MEM_DOUT2(mem_data), .IO_IN(IOBUS_IN),
         .IO_WR(IOBUS_WR), .MEM_SIZE(ex_mem.mem_type[1:0]), .MEM_SIGN(ex_mem.mem_type[2]));
        
-     OTTER_ALU alu (de_ex_inst.alu_fun, opA_forwarded, opB_forwarded, aluResult); 
-     Mult2to1 alu_a_mux (.In1(ex_mem_inst.rs1), .In2(U_immed), .Sel(opA_sel), .Out(A));
-     Mult4to1 alu_b_mux (.In1(ex_mem_inst.rs2), .In2(I_immed), .In3(S_immed), .In4(ex_mem_inst.pc), .Sel(opB_sel), .Out(B));
+     OTTER_ALU alu (.ALU_FUN(de_ex_inst.alu_fun), .A(opA_forwarded), .B(opB_forwarded), .ALUOut(aluResult)); 
+     
+     Mult2to1 alu_a_mux (.In1(ex_mem_inst.rs1), .In2(U_immed), .Sel(opA_sel), .Out(aluAin));
+     Mult4to1 alu_b_mux (.In1(ex_mem_inst.rs2), .In2(I_immed), .In3(S_immed), .In4(ex_mem_inst.pc), .Sel(opB_sel), .Out(aluBin));
      
      ProgCount prog_count (.PC_CLK(clk), .PC_RST(RESET), .PC_LD(pcWrite), .PC_DIN(pc_value), .PC_COUNT(pc));
      Mult4to1 prog_count_next_mux (.In1(ex_mem_inst.pc + 4), .In2(jalr_pc), .In3(branch_pc), .In4(jal_pc), .Sel(pc_sel), .Out(pc_value));
