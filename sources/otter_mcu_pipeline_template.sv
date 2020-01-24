@@ -209,6 +209,16 @@ module OTTER_MCU(input CLK,
             assign opB_forwarded = aluBin;
         end
      end
+     
+    //Branch Condition Generator
+    always_comb
+    begin
+        br_lt=0; br_eq=0; br_ltu=0;
+        if($signed(ex_mem_inst.rs1) < $signed(ex_mem_inst.rs2)) br_lt=1;
+        if(ex_mem_inst.rs1==ex_mem_inst.rs2) br_eq=1;
+        if(ex_mem_inst.rs1<ex_mem_inst.rs2) br_ltu=1;
+    end
+    
     
      always_ff @(posedge CLK) begin
      
@@ -288,7 +298,7 @@ module OTTER_MCU(input CLK,
      Mult4to1 prog_count_next_mux (.In1(ex_mem_inst.pc + 4), .In2(jalr_pc), .In3(branch_pc), .In4(jal_pc), .Sel(pc_sel), .Out(pc_value));
      
      OTTER_CU_Decoder decoder (.CU_OPCODE(de_ex_inst.opcode), .CU_FUNC3(de_ex_inst.ir[14:12]), .CU_FUNC7(de_ex_inst.ir[31:25]),
-        .CU_BR_EQ(-1), .CU_BR_LT(-1), .CU_BR_LTU(-1), .INT_TAKEN(0), .CU_ALU_SRCA(opA_sel), .CU_ALU_SRCB(opB_sel),
+        .CU_BR_EQ(br_eq), .CU_BR_LT(br_lt), .CU_BR_LTU(br_ltu), .INT_TAKEN(0), .CU_ALU_SRCA(opA_sel), .CU_ALU_SRCB(opB_sel),
         .CU_ALU_FUN(de_ex_inst.alu_fun), .CU_RF_WR_SEL(de_ex_inst.rf_wr_sel), .CU_PC_SOURCE(pc_sel));
      
         
