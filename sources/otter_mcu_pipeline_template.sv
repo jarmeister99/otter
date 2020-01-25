@@ -57,9 +57,6 @@ module OTTER_MCU(input  CLK,
                  output [31:0] IOBUS_ADDR,
                  output logic IOBUS_WR 
 );   
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
-    // TODO: Handle memRead2, memWrite, and regWrite (should be set according to state & instruction) //
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 	
     wire [31:0]  pc,                               // Tied to the output of the PROG_COUNTER
                  nextPc,                           // Tied to the output of the PC 4-1 MUX
@@ -71,9 +68,6 @@ module OTTER_MCU(input  CLK,
                  aluResult,                        // Tied to the output of the ALU (uses EXECUTE state)
                  rfIn,                             // Tied to the output of the REG_FILE 4-1 MUX
                  memData;                          // Tied to the output of the MEMORY_FILE (uses MEMORY state)                             
-    wire         memRead2,                         // see toDo 
-                 regWrite,                         // see toDo
-                 memWrite;                         // see toDo
                
     logic [1:0]  pcSel;
     logic        brLt, brEq, brLtu,
@@ -129,7 +123,12 @@ module OTTER_MCU(input  CLK,
             de_ex_inst.pc <= pc;
             de_ex_inst.opcode <= opcode;
             de_ex_inst.ir <= ir;
-            de_ex_inst.rs1Used <= A                    != 0
+            de_ex_inst.memRead2 <= opcode==LOAD;                // Set memory reading control signal if appropriate
+            de_ex_inst.memWrite <= opcode==STORE;               // Set memory writing control signal if appropriate
+            de_ex_inst.regWrite <= opcode != BRANCH &&          // Set register writing control signal if appropriate
+                                   opcode != LOAD   &&
+                                   opcode != STORE;                          
+            de_ex_inst.rs1Used <= A                    != 0      
                                   && de_ex_inst.opcode != LUI
                                   && de_ex_inst.opcode != AUIPC
                                   && de_ex_inst.opcode != JAL;    
@@ -273,6 +272,7 @@ module OTTER_MCU(input  CLK,
         .MEM_DIN2(ex_mem_inst.rs2),
         .MEM_WRITE2(ex_mem_inst.memWrite),
         .MEM_READ1(memRead1),
+        .MEM_READ2(memRead2),
         .ERR(),
         .MEM_DOUT1(ir),
         .MEM_DOUT2(memData),
