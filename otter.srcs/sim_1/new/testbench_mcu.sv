@@ -4,7 +4,7 @@ module testbench_mcu();
 
 logic clock;
 
-OTTER_MCU MCU(
+otter_mcu mcu(
     .CLK(clock)
 );
 
