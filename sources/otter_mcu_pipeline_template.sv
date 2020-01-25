@@ -51,8 +51,9 @@ typedef struct packed{
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 // ----------------- BIG LIST OF ISSUES ------------------ //
-// - Signals are straight up broken (source: TestBench)
-// - PC is not incrementing every clock cycle [FIXED]
+// - Breaks at branch
+// - REG_FILE isn't always outputting proper values
+// - REG_FILE may be getting regWrite signal too early?
 
 module OTTER_MCU(input  CLK,
                  input  INTR,
@@ -148,9 +149,9 @@ module OTTER_MCU(input  CLK,
     assign opcode = opcode_t'(ir[6:0]);
     
     // Immediate Generator
-    assign sTypeImmed = {{20{de_ex_inst.ir[31]}},de_ex_inst.ir[31:25],de_ex_inst.ir[11:7]};
-    assign iTypeImmed = {{20{de_ex_inst.ir[31]}},de_ex_inst.ir[31:20]};
-    assign uTypeImmed = {de_ex_inst.ir[31:12],{12{1'b0}}};
+    assign sTypeImmed = {{20{ir[31]}},ir[31:25],ir[11:7]};
+    assign iTypeImmed = {{20{ir[31]}},ir[31:20]};
+    assign uTypeImmed = {ir[31:12],{12{1'b0}}};
     
     
     //===== HAZARD DETECTION =================================
@@ -168,7 +169,7 @@ module OTTER_MCU(input  CLK,
             memWbInvalid<=1;
         end
         else begin         
-            if(!stallIf) ifDeInvalid <=branch_taken;
+            if(!stallIf) ifDeInvalid <= branch_taken;
             if(!stallDe) deExInvalid <= ifDeInvalid | branch_taken;
             else if (!stallEx) deExInvalid <= 1;
            
@@ -250,15 +251,6 @@ module OTTER_MCU(input  CLK,
      
 //==== Write Back ==================================================
 
-    // STATE VARIABLES
-    logic [31:0] wd;
-    
-//    // COMB. VARIABLES
-//    logic [31:0] pcPlus4;
-    
-//    // ASSIGN COMB. VARIABLES
-//    assign pcPlus4 = pc + 4;
-    
 
 
 //==== Modules ===============
@@ -267,8 +259,11 @@ module OTTER_MCU(input  CLK,
         .Read1(ir[19:15]), 
         .Read2(ir[24:20]), 
         .WriteReg(mem_wb_inst.rd), 
-        .WriteData(wd),
-        .RegWrite(mem_wb_inst.regWrite), .Data1(A), .Data2(B), .clock(CLK));
+        .WriteData(rfIn),
+        .RegWrite(mem_wb_inst.regWrite), 
+        .Data1(A), 
+        .Data2(B), 
+        .clock(CLK));
      Mult4to1 reg_file_wd_mux(
         .In1(mem_wb_inst.pc + 4),
         .In2(0), 
@@ -325,9 +320,9 @@ module OTTER_MCU(input  CLK,
         .Out(nextPc));
      
      OTTER_CU_Decoder decoder(
-        .CU_OPCODE(de_ex_inst.opcode),
-        .CU_FUNC3(de_ex_inst.ir[14:12]),
-        .CU_FUNC7(de_ex_inst.ir[31:25]),
+        .CU_OPCODE(opcode),
+        .CU_FUNC3(ir[14:12]),
+        .CU_FUNC7(ir[31:25]),
         .CU_BR_EQ(brEq), 
         .CU_BR_LT(brLt), 
         .CU_BR_LTU(brLtu), 
