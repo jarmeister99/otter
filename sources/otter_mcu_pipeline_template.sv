@@ -49,6 +49,11 @@ typedef struct packed{
     logic [31:0] ir, pc, rs2;
 } instr_t;
 
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
+// ----------------- BIG LIST OF ISSUES ------------------ //
+// - Signals are straight up broken (source: TestBench)
+// - PC is not incrementing every clock cycle [FIXED]
+
 module OTTER_MCU(input  CLK,
                  input  INTR,
                  input  RESET,
@@ -59,8 +64,7 @@ module OTTER_MCU(input  CLK,
 );   
 	
     wire [31:0]  pc,                               // Tied to the output of the PROG_COUNTER
-                 nextPc,                           // Tied to the output of the PC 4-1 MUX
-                 jalrPc, branchPc, jalPc,          // Tied to the outputs of the TARGET_GENERATOR (uses EXECUTE state)
+                 nextPc,                           // Tied to the output of the PC 4-1 MUX    
                  A,B,                              // Tied to the asynchronous outputs of the REG_FILE
                  ir,                               // Tied to the output of the PROGRAM_MEMORY 
                  iTypeImmed,sTypeImmed,uTypeImmed, // Tied to the outputs of the IMMEDIATE_GENERATOR (uses DECODE state)
@@ -69,6 +73,7 @@ module OTTER_MCU(input  CLK,
                  rfIn,                             // Tied to the output of the REG_FILE 4-1 MUX
                  memData;                          // Tied to the output of the MEMORY_FILE (uses MEMORY state)                             
                
+    logic [31:0] jalrPc, branchPc, jalPc;          // Tied to the outputs of the TARGET_GENERATOR (uses EXECUTE state)
     logic [1:0]  pcSel;
     logic        brLt, brEq, brLtu,
                  stallPc=0, stallIf=0, stallDe=0, stallEx=0, stallMem=0, stallWb=0,
@@ -77,7 +82,7 @@ module OTTER_MCU(input  CLK,
 //==== Instruction Fetch ===========================================
 
      // STATE VARIABLES
-     logic [31:0] if_de_pc;
+     logic [31:0] if_de_pc=0;
      
      // COMB VARIABLES
      wire pcWrite, memRead1;
@@ -100,8 +105,8 @@ module OTTER_MCU(input  CLK,
 //==== Instruction Decode ===========================================
     
     // STATE VARIABLES
-    logic [31:0] de_ex_iTypeImmed;
-    logic [31:0] de_ex_aluAin, de_ex_aluBin;
+    logic [31:0] de_ex_iTypeImmed=0;
+    logic [31:0] de_ex_aluAin=0, de_ex_aluBin=0;
     instr_t      de_ex_inst;
     
     // COMB. VARIABLES
@@ -176,8 +181,8 @@ module OTTER_MCU(input  CLK,
 //==== Execute ======================================================
 
      // STATE VARIABLES
-     logic [31:0] ex_mem_iTypeImmed;
-     logic        ex_mem_aluRes = 0;
+     logic [31:0] ex_mem_iTypeImmed=0;
+     logic        ex_mem_aluRes=0;
      instr_t      ex_mem_inst;
 
      // COMB. VARIABLES
@@ -215,8 +220,8 @@ module OTTER_MCU(input  CLK,
      
      
     // STATE VARIABLES
-    logic [31:0] mem_wb_data;
-    logic [31:0] mem_wb_aluRes;
+    logic [31:0] mem_wb_data=0;
+    logic [31:0] mem_wb_aluRes=0;
     instr_t mem_wb_inst;
     
     
@@ -236,17 +241,24 @@ module OTTER_MCU(input  CLK,
     // ASSIGN COMB. VARIABLES
     assign IOBUS_ADDR = ex_mem_aluRes;
     assign IOBUS_OUT = ex_mem_inst.rs2;
-    
+            
     // Target Generator
     assign jalrPc = de_ex_iTypeImmed + A;
     assign branchPc = de_ex_inst.pc + {{20{de_ex_inst.ir[31]}},de_ex_inst.ir[7],de_ex_inst.ir[30:25],de_ex_inst.ir[11:8],1'b0};   //byte aligned addresses
     assign jalPc = de_ex_inst.pc + {{12{de_ex_inst.ir[31]}}, de_ex_inst.ir[19:12], de_ex_inst.ir[20],de_ex_inst.ir[30:21],1'b0};
      
      
-     
 //==== Write Back ==================================================
 
+    // STATE VARIABLES
     logic [31:0] wd;
+    
+//    // COMB. VARIABLES
+//    logic [31:0] pcPlus4;
+    
+//    // ASSIGN COMB. VARIABLES
+//    assign pcPlus4 = pc + 4;
+    
 
 
 //==== Modules ===============
@@ -259,7 +271,8 @@ module OTTER_MCU(input  CLK,
         .RegWrite(mem_wb_inst.regWrite), .Data1(A), .Data2(B), .clock(CLK));
      Mult4to1 reg_file_wd_mux(
         .In1(mem_wb_inst.pc + 4),
-        .In2(0), .In3(mem_wb_data),
+        .In2(0), 
+        .In3(mem_wb_data),
         .In4(mem_wb_aluRes),
         .Sel(mem_wb_inst.rfWrSel),
         .Out(rfIn));
@@ -304,7 +317,7 @@ module OTTER_MCU(input  CLK,
         .PC_DIN(nextPc),
         .PC_COUNT(pc));
      Mult4to1 prog_count_next_mux(
-        .In1(ex_mem_inst.pc + 4),
+        .In1(pc + 4),
         .In2(jalrPc),
         .In3(branchPc),
         .In4(jalPc),
