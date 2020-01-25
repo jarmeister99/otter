@@ -114,18 +114,19 @@ module OTTER_MCU(input  CLK,
     always_ff @(posedge CLK) begin
         if (!stallDe) begin
 
-            de_ex_aluAin <= aluAin;
-            de_ex_aluBin <= aluBin;
-            de_ex_inst.rs2 <= B;
-            de_ex_inst.rfAddr1 <= ir[19:15];
-            de_ex_inst.rfAddr2 <= ir[24:20];
-            de_ex_inst.rd <= ir[11:7];
-            de_ex_inst.pc <= pc;
-            de_ex_inst.opcode <= opcode;
-            de_ex_inst.ir <= ir;
-            de_ex_inst.memRead2 <= opcode==LOAD;                // Set memory reading control signal if appropriate
-            de_ex_inst.memWrite <= opcode==STORE;               // Set memory writing control signal if appropriate
-            de_ex_inst.regWrite <= opcode != BRANCH &&          // Set register writing control signal if appropriate
+            de_ex_aluAin <= aluAin;                             // Save the current output from the ALU_A_MUX to be passed down the pipeline (Needed in branch generation)
+            de_ex_aluBin <= aluBin;                             // Save the current output from the ALU_B_MUX to be passed down the pipeline (Needed in branch generation)
+            de_ex_inst.rs2 <= B;                                // Save the current output from Register: B, to be passed down the pipeline (Needed in MEMORY stage as potential DIN for store)
+            de_ex_inst.rfAddr1 <= ir[19:15];                    // Save the current regFileAddr1 to be passed down the pipeline [NOTE: MAY NOT BE NEEDED, forwarding?]
+            de_ex_inst.rfAddr2 <= ir[24:20];                    // Save the current regFileAddr2 to be passed down the pipeline [NOTE: MAY NOT BE NEEDED, forwarding?]
+            de_ex_inst.rd <= ir[11:7];                          // Save the current rd to be passed down the pipeline (Needed in WRITEBACK stage as location to save instruction results)
+            de_ex_inst.pc <= pc;                                // Save the current pc to be passed down the pipeline (Needed in MEMORY stage for target generation)
+            de_ex_inst.opcode <= opcode;                        // Save the current opcode to be passed down the pipeline [NOTE: MAY NOT BE NEEDED]
+            de_ex_inst.ir <= ir;                                // Save current instruction to be passed down the pipeline (Needed in MEMORY stage for target generation)
+            de_ex_inst.memType <= {ir[14], ir[13:12]};          // Save the current memType to be passed down the pipeline [Needed in MEMORY stage as memory type for module]
+            de_ex_inst.memRead2 <= opcode==LOAD;                // Set memory reading control signal if appropriate (Needed in MEMORY stage as signal for loading)
+            de_ex_inst.memWrite <= opcode==STORE;               // Set memory writing control signal if appropriate (Needed in MEMORY stage as signal for storing)
+            de_ex_inst.regWrite <= opcode != BRANCH &&          // Set register writing control signal if appropriate (Needed in WRITEBACK stage as signal for writing to a register)
                                    opcode != LOAD   &&
                                    opcode != STORE;                          
             de_ex_inst.rs1Used <= A                    != 0      
@@ -194,10 +195,10 @@ module OTTER_MCU(input  CLK,
      // ASSIGN COMB. VARIABLES
      always_comb begin
         if (!opAForwarded) begin
-            opAForwarded <= aluAin;
+            assign opAForwarded = aluAin;
         end
         if (!opBForwarded) begin
-            opBForwarded <= aluBin;
+            assign opBForwarded = aluBin;
         end
      end
      
@@ -246,8 +247,6 @@ module OTTER_MCU(input  CLK,
 //==== Write Back ==================================================
 
     logic [31:0] wd;
-
-
 
 
 //==== Modules ===============
@@ -323,23 +322,12 @@ module OTTER_MCU(input  CLK,
         .CU_ALU_SRCB(opBSel),
         .CU_ALU_FUN(de_ex_inst.aluFun), 
         .CU_RF_WR_SEL(de_ex_inst.rfWrSel), 
-        .CU_PCSOURCE(pcSel));
-     
-        
-       
-    
-
-
- 
- 
-
-
- 
+        .CU_PCSOURCE(pcSel));       
        
  //==== Forwarding Logic ===========================================
  
  
- //==== Modules ===========================================
+
      
 
 

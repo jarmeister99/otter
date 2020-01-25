@@ -27,13 +27,11 @@ module OTTER_CU_Decoder(
     input CU_BR_EQ,
     input CU_BR_LT,
     input CU_BR_LTU,
-    input intTaken,
     output logic CU_ALU_SRCA,
     output logic [1:0] CU_ALU_SRCB,
     output logic [3:0] CU_ALU_FUN,
     output logic [1:0] CU_RF_WR_SEL,   
     output logic [3:0] CU_PCSOURCE
-    //output logic [1:0] CU_MSIZE
    );
         typedef enum logic [6:0] {
                    LUI      = 7'b0110111,
@@ -124,9 +122,7 @@ module OTTER_CU_Decoder(
                     BRANCH: CU_PCSOURCE=(brn_cond)?3'b010:2'b000;
                     SYSTEM: CU_PCSOURCE = (CU_FUNC3==Func3_PRIV)? 3'b101:3'b000;
                     default: CU_PCSOURCE=3'b000; 
-                endcase
-                if(intTaken)    
-                    CU_PCSOURCE=3'b100;   
+                endcase  
         end
          
         
