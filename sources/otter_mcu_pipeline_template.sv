@@ -71,7 +71,7 @@ module OTTER_MCU(input  CLK,
                
     logic [1:0]  pcSel;
     logic        brLt, brEq, brLtu,
-                 stallPc, stallIf, stallDe, stallEx=0, stallMem=0, stallWb=0,
+                 stallPc=0, stallIf=0, stallDe=0, stallEx=0, stallMem=0, stallWb=0,
                  ifDeInvalid=0, deExInvalid=0, exMemInvalid=0, memWbInvalid=0;
      
 //==== Instruction Fetch ===========================================

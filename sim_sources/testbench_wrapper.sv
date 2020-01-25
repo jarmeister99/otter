@@ -14,10 +14,10 @@ logic [3:0] ANODES;
 
 
 initial begin
-CLK = 1'B0;
-BTNC = 1'B0;
-BTNL = 1'b0;
-SWITCHES = 8'B00000000;
+CLK = 0;
+BTNC = 0;
+BTNL = 0;
+SWITCHES = 0;
 end
 
 OTTER_Wrapper_Programmable uut(.CLK(CLK), .BTNL(BTNL), .BTNC(BTNC), 
