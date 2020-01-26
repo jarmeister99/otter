@@ -60,29 +60,54 @@ module otter_mcu(
 // PIPELINE CONTROLS
 logic stallIf=0, stallDe=0, stallEx=0, stallMem=0, stallWb=0; 
 
-// FETCH STAGE
+// ~~~~~~~~~~~ //
+// FETCH STAGE //
+// ~~~~~~~~~~~ //
+
 wire  [31:0] pc, nextPc;
 wire  [31:0] rs1;
 logic [1:0]  pcSel;
 
-// DECODE STAGE
-wire [31:0] sTypeImmed, iTypeImmed, uTypeImmed;
+// ~~~~~~~~~~~~ //
+// DECODE STAGE //
+// ~~~~~~~~~~~~ //
 
-// EXECUTE STAGE
-
-logic [31:0] de_ex_pc=0;
+wire  [31:0] sTypeImmed, iTypeImmed, uTypeImmed;
+wire  [31:0] ir;         // May need to be stage reg?
+wire  [1:0]  aluSrcB;
+wire         aluSrcA;
+logic [31:0] if_de_pc=0;
 
 always_ff @(posedge CLK) begin
     if (!stallDe) begin
-        de_ex_pc <= pc;
+        if_de_pc <= pc;
     end
 end
 
-// MEMORY STAGE
-logic [31:0] jalrPc, branchPc, jalPc;     // Set by Target Generator
+// ~~~~~~~~~~~~~ //
+// EXECUTE STAGE //
+// ~~~~~~~~~~~~~ //
 
+logic [31:0] de_ex_pc=0;
+inst_t de_ex_inst;
+
+always_ff @(posedge CLK) begin
+    if (!stallEx) begin
+        de_ex_pc <= if_de_pc;
+    end
+end
+
+// ~~~~~~~~~~~~ //
+// MEMORY STAGE //
+// ~~~~~~~~~~~~ //
+wire [31:0] jalrPc, branchPc, jalPc;      // Set by Target Generator
 logic [1:0] ex_mem_pcSel=0;               // Set by Branch Condition Generator
+inst_t ex_mem_inst;
+
 assign pcSel = ex_mem_pcSel;
+
+// WRITEBACK STAGE
+wire [31:0] memData;     // Tied to MEM2 output
 
 ProgCount prog_count(
     .PC_CLK(CLK),    
@@ -99,6 +124,37 @@ Mult4to1 prog_count_next_mux(
     .Sel(pcSel),       // Control signal set by EX/MEM stage, otherwise 0
     .Out(nextPc)
 );    
+
+OTTER_mem_byte mem(
+    .MEM_CLK(CLK),
+    .MEM_ADDR1(pc),
+    .MEM_ADDR2(aluRes),               // May need to be stage reg?
+    .MEM_DIN2(ex_mem_inst.rs2),
+    .MEM_WRITE2(ex_mem_inst.memWrite),
+    .MEM_READ1(~stallIf),
+    .MEM_READ2(ex_mem_inst.memRead2),
+    .IO_IN(IOBUS_IN),
+    .MEM_SIZE(ex_mem_inst.memType[2:1]),
+    .MEM_SIGN(ex_mem_inst.memType[0]),
+    .ERR(0),
+    .MEM_DOUT1(ir),
+    .MEM_DOUT2(memData),
+    .IO_WR(IO_WR)
+);
+
+OTTER_CU_Decoder decoder(
+    .CU_OPCODE(ir[6:0]),
+    .CU_FUNC3(ir[14:12]),
+    .CU_FUNC7(ir[31:25]),
+    .CU_BR_EQ(-0000),
+    .CU_BR_LT(-0000),
+    .CU_BR_LTU(-0000),
+    .CU_PCSOURCE(),          // TODO
+    .CU_ALU_SRCA(aluSrcA),
+    .CU_ALU_SRCB(aluSrcB),
+    .CU_ALU_FUN(),           // TODO
+    .CU_RF_WR_SEL()          // TODO
+);
     
 target_gen target_gen(
     .RS1(rs1),            
