@@ -19,20 +19,47 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-
 module branch_cond_gen(
     input  [31:0] A,
     input  [31:0] B,
-    output logic BR_LT,
-    output logic BR_EQ,
-    output logic BR_LTU
+    input  [6:0]  OPCODE,
+    input  [2:0]  FUNC3,
+    output logic  PC_SEL
 );
 
+logic brLt;
+logic brEq;
+logic brLtu;
+
 always_comb begin
-    BR_LTU=0; BR_EQ=0; BR_LTU=0;
-    if($signed(A) < $signed(B)) BR_LT=1;
-    if(A==B)                    BR_EQ=1;
-    if(A<B)                     BR_LTU=1;    
+    brLt=0; brEq=0; brLtu=0;
+    if($signed(A) < $signed(B)) brLt=1;
+    if(A==B)                    brEq=1;
+    if(A<B)                     brLtu=1;    
+end
+
+logic brnCond;
+
+always_comb
+ begin
+    case(FUNC3)
+        3'b000: brnCond = brEq;     //BEQ 
+        3'b001: brnCond = ~brEq;    //BNE
+        3'b100: brnCond = brLt;     //BLT
+        3'b101: brnCond = ~brLt;    //BGE
+        3'b110: brnCond = brLtu;    //BLTU
+        3'b111: brnCond = ~brLtu;   //BGEU
+        default: brnCond =0;
+   endcase
+end
+
+always_comb begin
+    case(OPCODE)
+        7'b1101111: assign PC_SEL=2'b11;
+        7'b1100111: assign PC_SEL=2'b01;
+        7'b1100011: assign PC_SEL=(brnCond)?2'b10:2'b00;
+        default:    assign PC_SEL=2'b00; 
+    endcase  
 end
 
 endmodule

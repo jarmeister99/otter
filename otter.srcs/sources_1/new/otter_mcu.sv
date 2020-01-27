@@ -88,23 +88,34 @@ end
 // EXECUTE STAGE //
 // ~~~~~~~~~~~~~ //
 
+wire [31:0] aluAIn, aluBIn;
 logic [31:0] de_ex_pc=0;
+logic [31:0] de_ex_aluAIn=0, de_ex_aluBIn=0;
+logic        brLt, brEq, brLtu;
 inst_t de_ex_inst;
 
 always_ff @(posedge CLK) begin
     if (!stallEx) begin
         de_ex_pc <= if_de_pc;
+        de_ex_aluAIn <= aluAIn;
+        de_ex_aluBIn <= aluBIn;
     end
 end
 
 // ~~~~~~~~~~~~ //
 // MEMORY STAGE //
 // ~~~~~~~~~~~~ //
+
+
 wire [31:0] jalrPc, branchPc, jalPc;      // Set by Target Generator
-logic [1:0] ex_mem_pcSel=0;               // Set by Branch Condition Generator
+logic [1:0] ex_mem_pcSel=0;               // Set by Decoder
 inst_t ex_mem_inst;
 
 assign pcSel = ex_mem_pcSel;
+
+
+
+
 
 // WRITEBACK STAGE
 wire [31:0] memData;     // Tied to MEM2 output
@@ -140,6 +151,14 @@ OTTER_mem_byte mem(
     .MEM_DOUT1(ir),
     .MEM_DOUT2(memData),
     .IO_WR(IO_WR)
+);
+
+branch_cond_gen branch_cond_gen(
+    .A(de_ex_aluAIn),         
+    .B(de_ex_aluBIn),          
+    .BR_LT(brLt),
+    .BR_EQ(brEq),
+    .BR_LTU(brLtu)
 );
 
 OTTER_CU_Decoder decoder(

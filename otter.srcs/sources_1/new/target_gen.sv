@@ -21,10 +21,10 @@
 
 
 module target_gen(
-    input [31:0] RS1,         // A, aka the output from reg_file port 1
-    input [31:0] I_IMMED,
-    input [31:0] PC,
-    input [31:0] IR,
+    input  [31:0] RS1,         // A, aka the output from reg_file port 1
+    input  [31:0] I_IMMED,
+    input  [31:0] PC,
+    input  [31:0] IR,
     output [31:0] JALR_PC,
     output [31:0] BRANCH_PC,
     output [31:0] JUMP_PC
