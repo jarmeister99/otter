@@ -89,13 +89,13 @@ always_ff @(posedge CLK) begin
         if_de_pc            <= pc;       // May need to happen in fetch stage
         if_de_ir            <= ir;
     end
+end
     
-    opcode <= opcode_t'(ir[6:0]);
+    assign opcode              = opcode_t'(ir[6:0]);
     
     assign if_de_inst.rfAddr1  = ir[19:15];
     assign if_de_inst.rfAddr2  = ir[24:20];
-    assign if_de_pc            = pc;
-    assign if_de_ir            = ir;
+
     assign if_de_inst.opcode   = opcode;
     assign if_de_inst.aluFun   = aluFun;
     assign if_de_inst.rfWrSel  = rfWrSel;
@@ -109,7 +109,7 @@ always_ff @(posedge CLK) begin
                                  ir[6:0] != LOAD   &&            // How does this make sense?
                                  ir[6:0] != STORE; 
     
-end
+
 
 
 // ~~~~~~~~~~~~~ //
@@ -158,7 +158,7 @@ always_ff @(posedge CLK) begin
         ex_mem_jalPc    <= jalPc;
         ex_mem_inst     <= de_ex_inst;
         ex_mem_pc       <= de_ex_pc;
-        IOBUS_OUT       <= ex_mem_inst.rs2;
+        IOBUS_OUT       <= ex_mem_inst.rs2;   // Maybe a stage off?
     end
 end
 
