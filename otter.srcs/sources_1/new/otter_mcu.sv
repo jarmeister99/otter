@@ -197,7 +197,7 @@ OTTER_mem_byte mem(
     .IO_IN       (IOBUS_IN),
     .MEM_SIZE    (ex_mem_inst.memType[2:1]),
     .MEM_SIGN    (ex_mem_inst.memType[0]),
-    .ERR         (0),
+    .ERR         (),
     .MEM_DOUT1   (ir),
     .MEM_DOUT2   (memData),
     .IO_WR       (IO_WR)
