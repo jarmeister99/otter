@@ -149,8 +149,7 @@ module OTTER_mem_dualport(MEM_CLK,MEM_ADDR1,MEM_ADDR2,MEM_DIN2,MEM_WRITE2,MEM_RE
     integer i,j;
     always_ff @(posedge MEM_CLK) begin
         //PORT 2  //Data
-        if(memWrite2)
-        begin
+        if(memWrite2) begin
             j=0;
             for(i=0;i<NUM_COL;i=i+1) begin
                 if(weA[i]) begin
@@ -165,7 +164,7 @@ module OTTER_mem_dualport(MEM_CLK,MEM_ADDR1,MEM_ADDR2,MEM_DIN2,MEM_WRITE2,MEM_RE
                         endcase
                 end
             end
-         end
+        end
         if(MEM_READ2)
             memOut2 = memory[memAddr2]; 
         //PORT 1  //Instructions

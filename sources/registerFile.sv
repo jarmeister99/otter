@@ -30,12 +30,14 @@ module OTTER_registerFile(READ1,READ2,DEST_REG,DIN,WRITE_ENABLE,OUT1,OUT2,CLK);
     
     //assign OUT1 = RF[READ1];
     //assign OUT2 = RF[READ2];
-    always_comb
+    always_comb begin
         if(READ1==0) OUT1 =0;
         else OUT1 = RF[READ1];
-    always_comb
+    end
+    always_comb begin
         if(READ2==0) OUT2 =0;
         else OUT2 = RF[READ2];
+    end
     
     always@(negedge CLK) begin // write the register with the new value if WRITE_ENABLE is high
         if(WRITE_ENABLE && DEST_REG!=0) RF[DEST_REG] <= DIN;
