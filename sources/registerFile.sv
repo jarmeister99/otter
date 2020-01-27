@@ -20,25 +20,25 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module OTTER_registerFile(Read1,Read2,WriteReg,WriteData,RegWrite,Data1,Data2,clock);
-    input [4:0] Read1,Read2,WriteReg; //the register numbers to read or write
-    input [31:0] WriteData; //data to write
-    input RegWrite, //the write control
-        clock;  // the clock to trigger write
-    output logic [31:0] Data1, Data2; // the register values read
+module OTTER_registerFile(READ1,READ2,DEST_REG,DIN,WRITE_ENABLE,OUT1,OUT2,CLK);
+    input [4:0] READ1,READ2,DEST_REG; //the register numbers to read or write
+    input [31:0] DIN; //data to write
+    input WRITE_ENABLE; //the write control
+    input CLK;  // the CLK to trigger write
+    output logic [31:0] OUT1, OUT2; // the register values read
     logic [31:0] RF [31:0]; //32 registers each 32 bits long
     
-    //assign Data1 = RF[Read1];
-    //assign Data2 = RF[Read2];
+    //assign OUT1 = RF[READ1];
+    //assign OUT2 = RF[READ2];
     always_comb
-        if(Read1==0) Data1 =0;
-        else Data1 = RF[Read1];
+        if(READ1==0) OUT1 =0;
+        else OUT1 = RF[READ1];
     always_comb
-        if(Read2==0) Data2 =0;
-        else Data2 = RF[Read2];
+        if(READ2==0) OUT2 =0;
+        else OUT2 = RF[READ2];
     
-    always@(negedge clock) begin // write the register with the new value if Regwrite is high
-        if(RegWrite && WriteReg!=0) RF[WriteReg] <= WriteData;
+    always@(negedge CLK) begin // write the register with the new value if WRITE_ENABLE is high
+        if(WRITE_ENABLE && DEST_REG!=0) RF[DEST_REG] <= DIN;
         
     end
  endmodule

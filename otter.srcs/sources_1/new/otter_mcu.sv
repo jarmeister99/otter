@@ -67,7 +67,7 @@ logic stallIf=0, stallDe=0, stallEx=0, stallMem=0, stallWb=0;
 
 wire  [31:0] pc, nextPc;
 wire  [31:0] rs1;
-logic [1:0]  pcSel;
+logic  [1:0] pcSel;
 
 // ~~~~~~~~~~~~ //
 // DECODE STAGE //
@@ -75,7 +75,7 @@ logic [1:0]  pcSel;
 
 wire  [31:0] sTypeImmed, iTypeImmed, uTypeImmed;
 wire  [31:0] ir;         // May need to be stage reg?
-wire  [1:0]  aluSrcB;
+wire   [1:0] aluSrcB;
 wire         aluSrcA;
 logic [31:0] if_de_pc=0;
 logic [31:0] if_de_ir=0;
@@ -91,10 +91,12 @@ end
 // EXECUTE STAGE //
 // ~~~~~~~~~~~~~ //
 
-wire [31:0] aluAIn, aluBIn;
+wire  [31:0] aluAIn, aluBIn;
+wire  [31:0] rs1, rs2;
 logic [31:0] de_ex_ir=0;
 logic [31:0] de_ex_pc=0;
 logic [31:0] de_ex_aluAIn=0, de_ex_aluBIn=0;
+logic  [1:0] rfWrSel;
 logic        brLt, brEq, brLtu;
 inst_t de_ex_inst;
 
@@ -108,8 +110,11 @@ always_ff @(posedge CLK) begin
 end
 
 always_comb begin
-    assign de_ex_inst.opcode = de_ex_ir[6:0];
-    assign de_ex_inst.func3  = de_ex_ir[14:12];
+    assign de_ex_inst.opcode  = de_ex_ir[6:0];
+    assign de_ex_inst.aluFun  = aluFun;
+    assign de_ex_inst.rfWrSel = rfWrSel;
+    assign de_ex_inst.func3   = de_ex_ir[14:12];
+    assign de_ex_inst.rd      = de_ex_ir[11:7];
 end
 
 // ~~~~~~~~~~~~ //
@@ -121,6 +126,7 @@ wire  [31:0] aluRes;
 wire   [1:0] pcSel;
 logic [31:0] ex_mem_jalrPc=0, ex_mem_branchPc=0, ex_mem_jalPc=0;
 logic [31:0] ex_mem_aluRes=0;
+logic [31:0] ex_mem_pc=0;
 logic  [1:0] ex_mem_pcSel=0;               
 inst_t ex_mem_inst;
 
@@ -130,6 +136,8 @@ always_ff @(posedge CLK) begin
         ex_mem_jalrPc   <= jalrPc;
         ex_mem_branchPc <= branchPc;
         ex_mem_jalPc    <= jalPc;
+        ex_mem_inst     <= de_ex_inst;
+        ex_mem_pc       <= de_ex_pc;
     end
 end
 
@@ -137,15 +145,29 @@ end
 // WRITEBACK STAGE //
 // ~~~~~~~~~~~~~~~ //
 
-wire [31:0] memData;     // Tied to MEM2 output
+wire  [31:0] memData;   
+wire  [31:0] dataToRegWrite;
+logic [31:0] mem_wb_memData=0;
+logic [31:0] mem_wb_pc=0;
+logic [31:0] mem_wb_aluRes=0;
+inst_t mem_wb_inst;
+
+always_ff @(posedge CLK) begin
+    if (!stallWb) begin
+        mem_wb_inst    <= ex_mem_inst;
+        mem_wb_pc      <= ex_mem_pc;
+        mem_wb_aluRes  <= ex_mem_aluRes;
+        mem_wb_memData <= memData;
+    end
+end
 
 // MODULES
 
 ProgCount prog_count(
     .PC_CLK    (CLK),    
     .PC_RST    (RESET),
-    .PC_LD     (~stallIf),  // Always 1 unless we should stall
-    .PC_DIN    (nextPc),   // Output of PC 4-1 MUX
+    .PC_LD     (~stallIf),  
+    .PC_DIN    (nextPc),   
     .PC_COUNT  (pc)
 );
 Mult4to1 prog_count_next_mux(
@@ -162,9 +184,9 @@ OTTER_mem_byte mem(
     .MEM_ADDR1   (pc),
     .MEM_ADDR2   (ex_mem_aluRes),               
     .MEM_DIN2    (ex_mem_inst.rs2),
-    .MEM_WRITE2  (ex_mem_inst.memWrite),
+    .MEM_WRITE2  (ex_mem_inst.memWrite),     // hook this up
     .MEM_READ1   (~stallIf),
-    .MEM_READ2   (ex_mem_inst.memRead2),
+    .MEM_READ2   (ex_mem_inst.memRead2),     // hook this up
     .IO_IN       (IOBUS_IN),
     .MEM_SIZE    (ex_mem_inst.memType[2:1]),
     .MEM_SIGN    (ex_mem_inst.memType[0]),
@@ -174,6 +196,50 @@ OTTER_mem_byte mem(
     .IO_WR       (IO_WR)
 );
 
+OTTER_CU_Decoder decoder(
+    .CU_OPCODE     (if_de_ir[6:0]),
+    .CU_FUNC3      (if_de_ir[14:12]),
+    .CU_FUNC7      (if_de_ir[31:25]),
+    .CU_ALU_SRCA   (aluSrcA),
+    .CU_ALU_SRCB   (aluSrcB),
+    .CU_ALU_FUN    (aluFun),           
+    .CU_RF_WR_SEL  (rfWrSel)            
+);
+
+OTTER_registerFile reg_file(
+    .READ1         (if_de_ir[19:15]),
+    .READ2         (if_de_ir[24:20]),
+    .DEST_REG      (mem_wb_inst.rd),
+    .DIN           (dataToRegWrite),
+    .WRITE_ENABLE  (mem_wb_inst.regWrite),    // hook this up 
+    .OUT1          (rs1),
+    .OUT2          (rs2),
+    .CLK           (CLK)
+);
+Mult4to1 reg_file_data_mux(
+    .In1  (mem_wb_pc + 4),             
+    .In2  (0),             
+    .In3  (mem_wb_data),          
+    .In4  (mem_wb_aluRes),            
+    .Sel  (ex_mem_inst.rfWrSel),      
+    .Out  (dataToRegWrite)
+);
+    
+target_gen target_gen(
+    .RS1        (rs1),            
+    .I_IMMED    (iTypeImmed), 
+    .PC         (de_ex_pc),      // Is this right?
+    .IR         (de_ex_ir),      // Is this right?
+    .JALR_PC    (jalrPc),
+    .BRANCH_PC  (branchPc),
+    .JAL_C      (jalPc)
+);
+immed_gen immed_gen(
+    .IR            (if_de_ir),
+    .S_TYPE_IMMED  (sTypeImmed),
+    .I_TYPE_IMMED  (iTypeImmed),
+    .U_TYPE_IMMED  (uTypeImmed)
+);
 branch_cond_gen branch_cond_gen(
     .A       (de_ex_aluAIn),         
     .B       (de_ex_aluBIn),          
@@ -182,31 +248,5 @@ branch_cond_gen branch_cond_gen(
     .PC_SEL  (pcSel)
 );
 
-OTTER_CU_Decoder decoder(
-    .CU_OPCODE     (if_de_ir[6:0]),
-    .CU_FUNC3      (if_de_ir[14:12]),
-    .CU_FUNC7      (if_de_ir[31:25]),
-    .CU_ALU_SRCA   (aluSrcA),
-    .CU_ALU_SRCB   (aluSrcB),
-    .CU_ALU_FUN    (),           // TODO
-    .CU_RF_WR_SEL  ()            // TODO
-);
-    
-target_gen target_gen(
-    .RS1        (rs1),            
-    .I_IMMED    (iTypeImmed), 
-    .PC         (de_ex_pc),       
-    .IR         (de_ex_ir),              
-    .JALR_PC    (jalrPc),
-    .BRANCH_PC  (branchPc),
-    .JAL_C      (jalPc)
-);
-    
-immed_gen immed_gen(
-    .IR            (if_de_ir),
-    .S_TYPE_IMMED  (sTypeImmed),
-    .I_TYPE_IMMED  (iTypeImmed),
-    .U_TYPE_IMMED  (uTypeImmed)
-);
 
 endmodule
