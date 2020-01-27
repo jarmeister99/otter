@@ -12,15 +12,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="192500fs"></ZoomStartTime>
-      <ZoomEndTime time="345501fs"></ZoomEndTime>
-      <Cursor1Time time="320000fs"></Cursor1Time>
+      <ZoomStartTime time="2296268fs"></ZoomStartTime>
+      <ZoomEndTime time="2492365fs"></ZoomEndTime>
+      <Cursor1Time time="2381694fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="175"></NameColumnWidth>
-      <ValueColumnWidth column_width="91"></ValueColumnWidth>
+      <ValueColumnWidth column_width="87"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="11" />
+   <WVObjectSize size="8" />
    <wvobject fp_name="/testbench_mcu/clock" type="logic">
       <obj_property name="ElementShortName">clock</obj_property>
       <obj_property name="ObjectShortName">clock</obj_property>
@@ -43,30 +43,16 @@
       <obj_property name="DisplayName">label</obj_property>
       <obj_property name="BkColor">#DCDCDC</obj_property>
    </wvobject>
-   <wvobject fp_name="/testbench_mcu/mcu/target_gen/RS1" type="array">
-      <obj_property name="ElementShortName">RS1[31:0]</obj_property>
-      <obj_property name="ObjectShortName">RS1[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/testbench_mcu/mcu/reg_file/READ1" type="array">
-      <obj_property name="ElementShortName">READ1[4:0]</obj_property>
-      <obj_property name="ObjectShortName">READ1[4:0]</obj_property>
-      <obj_property name="CustomSignalColor">#00FF00</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
-   </wvobject>
-   <wvobject fp_name="/testbench_mcu/mcu/reg_file/OUT1" type="array">
-      <obj_property name="ElementShortName">OUT1[31:0]</obj_property>
-      <obj_property name="ObjectShortName">OUT1[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/testbench_mcu/mcu/IOBUS_OUT" type="array">
-      <obj_property name="ElementShortName">IOBUS_OUT[31:0]</obj_property>
-      <obj_property name="ObjectShortName">IOBUS_OUT[31:0]</obj_property>
+   <wvobject fp_name="/testbench_mcu/mcu/IOBUS_WR" type="logic">
+      <obj_property name="ElementShortName">IOBUS_WR</obj_property>
+      <obj_property name="ObjectShortName">IOBUS_WR</obj_property>
    </wvobject>
    <wvobject fp_name="/testbench_mcu/mcu/IOBUS_ADDR" type="array">
       <obj_property name="ElementShortName">IOBUS_ADDR[31:0]</obj_property>
       <obj_property name="ObjectShortName">IOBUS_ADDR[31:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/testbench_mcu/mcu/IOBUS_WR" type="logic">
-      <obj_property name="ElementShortName">IOBUS_WR</obj_property>
-      <obj_property name="ObjectShortName">IOBUS_WR</obj_property>
+   <wvobject fp_name="/testbench_mcu/mcu/IOBUS_OUT" type="array">
+      <obj_property name="ElementShortName">IOBUS_OUT[31:0]</obj_property>
+      <obj_property name="ObjectShortName">IOBUS_OUT[31:0]</obj_property>
    </wvobject>
 </wave_config>

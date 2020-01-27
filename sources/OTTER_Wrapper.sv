@@ -41,7 +41,7 @@ module OTTER_Wrapper_Programmable(
     localparam CLKCNTHI_AD = 32'h11400004;
            
     // OUTPUT PORT IDS ///////////////////////////////////////////////////////////
-    localparam LEDS_AD     = 32'h11080000;
+    localparam LEDS_AD     = 32'h1107ffff;   // Was 11080000
     localparam SSEG_AD     = 32'h110C0000;
     
     // Signals for connecting OTTER_MCU to OTTER_wrapper /////////////////////////
