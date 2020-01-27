@@ -73,31 +73,47 @@ wire  [31:0] pc, nextPc;
 
 wire  [31:0] sTypeImmed, iTypeImmed, uTypeImmed;
 wire  [31:0] ir;         // May need to be stage reg?
+wire  [31:0] rs1, rs2;
 wire   [3:0] aluFun;
+wire   [1:0] rfWrSel;
 wire   [1:0] aluSrcB;
 wire         aluSrcA;
 logic [31:0] if_de_pc=0;
 logic [31:0] if_de_ir=0;
 
+instr_t if_de_inst;
+opcode_t opcode;
+
 always_ff @(posedge CLK) begin
     if (!stallDe) begin
-        if_de_pc <= pc;
-        if_de_ir <= ir;
+        if_de_pc            <= pc;
+        if_de_ir            <= ir;
+        opcode              <= opcode_t'(if_de_ir[6:0]);
+        if_de_inst.opcode   <= opcode;
+        if_de_inst.aluFun   <= aluFun;
+        if_de_inst.rfWrSel  <= rfWrSel;
+        if_de_inst.func3    <= if_de_ir[14:12];
+        if_de_inst.rd       <= if_de_ir[11:7];
+        if_de_inst.rs2      <= rs2;
+        if_de_inst.memType  <= if_de_ir[14:12];
+        if_de_inst.memWrite <= opcode == STORE;
+        if_de_inst.memRead2 <= opcode == LOAD;
+        if_de_inst.regWrite <= opcode != BRANCH &&
+                               opcode != LOAD   &&
+                               opcode != STORE;   
     end
 end
+
 
 // ~~~~~~~~~~~~~ //
 // EXECUTE STAGE //
 // ~~~~~~~~~~~~~ //
 
 wire  [31:0] aluAIn, aluBIn;
-wire  [31:0] rs1, rs2;
 logic [31:0] de_ex_ir=0;
 logic [31:0] de_ex_pc=0;
 logic [31:0] de_ex_aluAIn=0, de_ex_aluBIn=0;
-logic  [1:0] rfWrSel;
 logic        brLt, brEq, brLtu;
-opcode_t opcode;
 instr_t de_ex_inst;
 
 always_ff @(posedge CLK) begin
@@ -106,22 +122,11 @@ always_ff @(posedge CLK) begin
         de_ex_pc     <= if_de_pc;
         de_ex_aluAIn <= aluAIn;
         de_ex_aluBIn <= aluBIn;
+        de_ex_inst   <= if_de_inst;
     end
 end
 
-assign opcode              = opcode_t'(if_de_ir[6:0]);
-assign de_ex_inst.opcode   = opcode;
-assign de_ex_inst.aluFun   = aluFun;
-assign de_ex_inst.rfWrSel  = rfWrSel;
-assign de_ex_inst.func3    = if_de_ir[14:12];
-assign de_ex_inst.rd       = if_de_ir[11:7];
-assign de_ex_inst.rs2      = rs2;
-assign de_ex_inst.memType  = if_de_ir[14:12];
-assign de_ex_inst.memWrite = de_ex_inst.opcode==STORE;
-assign de_ex_inst.memRead2 = de_ex_inst.opcode==LOAD;
-assign de_ex_inst.regWrite = de_ex_inst.opcode != BRANCH &&
-                             de_ex_inst.opcode != LOAD   &&
-                             de_ex_inst.opcode != STORE;    // Maybe move to next stage?
+
 
 // ~~~~~~~~~~~~ //
 // MEMORY STAGE //
@@ -196,8 +201,8 @@ OTTER_mem_byte mem(
     .MEM_READ1   (~stallIf),
     .MEM_READ2   (ex_mem_inst.memRead2),     // hook this up
     .IO_IN       (IOBUS_IN),
-    .MEM_SIZE    (ex_mem_inst.memType[2:1]),
-    .MEM_SIGN    (ex_mem_inst.memType[0]),
+    .MEM_SIZE    (ex_mem_inst.memType[1:0]),
+    .MEM_SIGN    (ex_mem_inst.memType[2]),
     .ERR         (),
     .MEM_DOUT1   (ir),
     .MEM_DOUT2   (memData),
