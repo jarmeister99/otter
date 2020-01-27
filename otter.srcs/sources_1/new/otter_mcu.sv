@@ -86,22 +86,29 @@ opcode_t opcode;
 
 always_ff @(posedge CLK) begin
     if (!stallDe) begin
-        if_de_pc            <= pc;
+        if_de_pc            <= pc;       // May need to happen in fetch stage
         if_de_ir            <= ir;
-        opcode              <= opcode_t'(if_de_ir[6:0]);
-        if_de_inst.opcode   <= opcode;
-        if_de_inst.aluFun   <= aluFun;
-        if_de_inst.rfWrSel  <= rfWrSel;
-        if_de_inst.func3    <= if_de_ir[14:12];
-        if_de_inst.rd       <= if_de_ir[11:7];
-        if_de_inst.rs2      <= rs2;
-        if_de_inst.memType  <= if_de_ir[14:12];
-        if_de_inst.memWrite <= if_de_ir[6:0] == STORE;
-        if_de_inst.memRead2 <= if_de_ir[6:0] == LOAD;
-        if_de_inst.regWrite <= if_de_ir[6:0] != BRANCH &&
-                               if_de_ir[6:0] != LOAD   &&            // How does this make sense?
-                               if_de_ir[6:0] != STORE;   
     end
+    
+    opcode <= opcode_t'(ir[6:0]);
+    
+    assign if_de_inst.rfAddr1  = ir[19:15];
+    assign if_de_inst.rfAddr2  = ir[24:20];
+    assign if_de_pc            = pc;
+    assign if_de_ir            = ir;
+    assign if_de_inst.opcode   = opcode;
+    assign if_de_inst.aluFun   = aluFun;
+    assign if_de_inst.rfWrSel  = rfWrSel;
+    assign if_de_inst.func3    = ir[14:12];
+    assign if_de_inst.rd       = ir[11:7];
+    assign if_de_inst.rs2      = rs2;
+    assign if_de_inst.memType  = ir[14:12];
+    assign if_de_inst.memWrite = if_de_ir[6:0] == STORE;
+    assign if_de_inst.memRead2 = if_de_ir[6:0] == LOAD;
+    assign if_de_inst.regWrite = ir[6:0] != BRANCH &&
+                                 ir[6:0] != LOAD   &&            // How does this make sense?
+                                 ir[6:0] != STORE; 
+    
 end
 
 
@@ -114,7 +121,6 @@ logic [31:0] de_ex_iTypeImmed;
 logic [31:0] de_ex_ir=0;
 logic [31:0] de_ex_pc=0;
 logic [31:0] de_ex_aluAIn=0, de_ex_aluBIn=0;
-logic        brLt, brEq, brLtu;
 instr_t de_ex_inst;
 
 always_ff @(posedge CLK) begin
@@ -222,8 +228,8 @@ OTTER_CU_Decoder decoder(
 );
 
 OTTER_registerFile reg_file(
-    .READ1         (if_de_ir[19:15]),        // Given from IR @ DECODE STAGE
-    .READ2         (if_de_ir[24:20]),        // Given from IR @ DECODE STAGE
+    .READ1         (if_de_inst.rfAddr1),        // Given from IR @ DECODE STAGE
+    .READ2         (if_de_inst.rfAddr2),        // Given from IR @ DECODE STAGE
     .DEST_REG      (mem_wb_inst.rd),         // Given from inst package @ DECODE STAGE
     .DIN           (dataToRegWrite),         // dataToRegWrite is given from MUX 
     .WRITE_ENABLE  (mem_wb_inst.regWrite),   // The REG FILE can only be updated if the command is neither BRANCH nor LOAD nor STORE

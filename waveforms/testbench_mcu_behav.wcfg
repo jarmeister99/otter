@@ -12,15 +12,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="458463fs"></ZoomStartTime>
-      <ZoomEndTime time="602610fs"></ZoomEndTime>
-      <Cursor1Time time="840000fs"></Cursor1Time>
+      <ZoomStartTime time="8445fs"></ZoomStartTime>
+      <ZoomEndTime time="190311fs"></ZoomEndTime>
+      <Cursor1Time time="160000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="175"></NameColumnWidth>
-      <ValueColumnWidth column_width="103"></ValueColumnWidth>
+      <ValueColumnWidth column_width="99"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="16" />
+   <WVObjectSize size="8" />
    <wvobject fp_name="/testbench_mcu/clock" type="logic">
       <obj_property name="ElementShortName">clock</obj_property>
       <obj_property name="ObjectShortName">clock</obj_property>
@@ -38,14 +38,6 @@
       <obj_property name="ElementShortName">pc[31:0]</obj_property>
       <obj_property name="ObjectShortName">pc[31:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/testbench_mcu/mcu/nextPc" type="array">
-      <obj_property name="ElementShortName">nextPc[31:0]</obj_property>
-      <obj_property name="ObjectShortName">nextPc[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/testbench_mcu/mcu/ir" type="array">
-      <obj_property name="ElementShortName">ir[31:0]</obj_property>
-      <obj_property name="ObjectShortName">ir[31:0]</obj_property>
-   </wvobject>
    <wvobject type="divider" fp_name="divider187">
       <obj_property name="label">-------------------</obj_property>
       <obj_property name="DisplayName">label</obj_property>
@@ -55,38 +47,14 @@
       <obj_property name="ElementShortName">RS1[31:0]</obj_property>
       <obj_property name="ObjectShortName">RS1[31:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/testbench_mcu/mcu/rs1" type="array">
-      <obj_property name="ElementShortName">rs1[31:0]</obj_property>
-      <obj_property name="ObjectShortName">rs1[31:0]</obj_property>
-   </wvobject>
    <wvobject fp_name="/testbench_mcu/mcu/reg_file/READ1" type="array">
       <obj_property name="ElementShortName">READ1[4:0]</obj_property>
       <obj_property name="ObjectShortName">READ1[4:0]</obj_property>
       <obj_property name="CustomSignalColor">#00FF00</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
-   <wvobject fp_name="/testbench_mcu/mcu/reg_file/READ2" type="array">
-      <obj_property name="ElementShortName">READ2[4:0]</obj_property>
-      <obj_property name="ObjectShortName">READ2[4:0]</obj_property>
-   </wvobject>
    <wvobject fp_name="/testbench_mcu/mcu/reg_file/OUT1" type="array">
       <obj_property name="ElementShortName">OUT1[31:0]</obj_property>
       <obj_property name="ObjectShortName">OUT1[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/testbench_mcu/mcu/reg_file/OUT2" type="array">
-      <obj_property name="ElementShortName">OUT2[31:0]</obj_property>
-      <obj_property name="ObjectShortName">OUT2[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/testbench_mcu/mcu/if_de_ir" type="array">
-      <obj_property name="ElementShortName">if_de_ir[31:0]</obj_property>
-      <obj_property name="ObjectShortName">if_de_ir[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/testbench_mcu/mcu/reg_file/CLK" type="logic">
-      <obj_property name="ElementShortName">CLK</obj_property>
-      <obj_property name="ObjectShortName">CLK</obj_property>
-   </wvobject>
-   <wvobject fp_name="/testbench_mcu/mcu/reg_file/DIN" type="array">
-      <obj_property name="ElementShortName">DIN[31:0]</obj_property>
-      <obj_property name="ObjectShortName">DIN[31:0]</obj_property>
    </wvobject>
 </wave_config>
