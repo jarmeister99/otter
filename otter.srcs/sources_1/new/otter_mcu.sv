@@ -214,7 +214,7 @@ OTTER_mem_byte mem(
     .ERR         (),
     .MEM_DOUT1   (ir),                        // Output of MEM1 is the current instruction
     .MEM_DOUT2   (memData),                   // Output of MEM2 is the requested data
-    .IO_WR       (IO_WR)
+    .IO_WR       (IOBUS_WR)
 );
 
 OTTER_CU_Decoder decoder(

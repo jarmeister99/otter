@@ -12,15 +12,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="8445fs"></ZoomStartTime>
-      <ZoomEndTime time="190311fs"></ZoomEndTime>
-      <Cursor1Time time="160000fs"></Cursor1Time>
+      <ZoomStartTime time="767778fs"></ZoomStartTime>
+      <ZoomEndTime time="998445fs"></ZoomEndTime>
+      <Cursor1Time time="960000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="175"></NameColumnWidth>
-      <ValueColumnWidth column_width="99"></ValueColumnWidth>
+      <ValueColumnWidth column_width="95"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="8" />
+   <WVObjectSize size="10" />
    <wvobject fp_name="/testbench_mcu/clock" type="logic">
       <obj_property name="ElementShortName">clock</obj_property>
       <obj_property name="ObjectShortName">clock</obj_property>
@@ -56,5 +56,13 @@
    <wvobject fp_name="/testbench_mcu/mcu/reg_file/OUT1" type="array">
       <obj_property name="ElementShortName">OUT1[31:0]</obj_property>
       <obj_property name="ObjectShortName">OUT1[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench_mcu/mcu/IOBUS_OUT" type="array">
+      <obj_property name="ElementShortName">IOBUS_OUT[31:0]</obj_property>
+      <obj_property name="ObjectShortName">IOBUS_OUT[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench_mcu/mcu/IOBUS_WR" type="logic">
+      <obj_property name="ElementShortName">IOBUS_WR</obj_property>
+      <obj_property name="ObjectShortName">IOBUS_WR</obj_property>
    </wvobject>
 </wave_config>
