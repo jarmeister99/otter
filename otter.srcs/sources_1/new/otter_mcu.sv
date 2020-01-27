@@ -98,7 +98,7 @@ logic [31:0] de_ex_pc=0;
 logic [31:0] de_ex_aluAIn=0, de_ex_aluBIn=0;
 logic  [1:0] rfWrSel;
 logic        brLt, brEq, brLtu;
-inst_t de_ex_inst;
+instr_t de_ex_inst;
 
 always_ff @(posedge CLK) begin
     if (!stallEx) begin
@@ -133,7 +133,7 @@ logic [31:0] ex_mem_jalrPc=0, ex_mem_branchPc=0, ex_mem_jalPc=0;
 logic [31:0] ex_mem_aluRes=0;
 logic [31:0] ex_mem_pc=0;
 logic  [1:0] ex_mem_pcSel=0;               
-inst_t ex_mem_inst;
+instr_t ex_mem_inst;
 
 always_ff @(posedge CLK) begin
     if (!stallMem) begin
@@ -157,7 +157,7 @@ wire  [31:0] dataToRegWrite;
 logic [31:0] mem_wb_memData=0;
 logic [31:0] mem_wb_pc=0;
 logic [31:0] mem_wb_aluRes=0;
-inst_t mem_wb_inst;
+instr_t mem_wb_inst;
 
 always_ff @(posedge CLK) begin
     if (!stallWb) begin
@@ -260,7 +260,7 @@ target_gen target_gen(
     .IR         (de_ex_ir),      // Is this right?
     .JALR_PC    (jalrPc),
     .BRANCH_PC  (branchPc),
-    .JAL_C      (jalPc)
+    .JAL_PC      (jalPc)
 );
 immed_gen immed_gen(
     .IR            (if_de_ir),
