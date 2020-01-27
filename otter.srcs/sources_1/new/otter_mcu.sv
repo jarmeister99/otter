@@ -52,9 +52,9 @@ typedef struct packed{
 module otter_mcu(
     input CLK,
     input RESET,
-    input [31:0] IOBUS_IN,
-    input [31:0] IOBUS_OUT,
-    input [31:0] IOBUS_ADDR,
+    input  [31:0] IOBUS_IN,
+    input  [31:0] IOBUS_ADDR,
+    output logic [31:0] IOBUS_OUT,
     output logic IOBUS_WR
 );
 
@@ -110,11 +110,16 @@ always_ff @(posedge CLK) begin
 end
 
 always_comb begin
-    assign de_ex_inst.opcode  = de_ex_ir[6:0];
-    assign de_ex_inst.aluFun  = aluFun;
-    assign de_ex_inst.rfWrSel = rfWrSel;
-    assign de_ex_inst.func3   = de_ex_ir[14:12];
-    assign de_ex_inst.rd      = de_ex_ir[11:7];
+    assign de_ex_inst.opcode   = de_ex_ir[6:0];
+    assign de_ex_inst.aluFun   = aluFun;
+    assign de_ex_inst.rfWrSel  = rfWrSel;
+    assign de_ex_inst.func3    = de_ex_ir[14:12];
+    assign de_ex_inst.rd       = de_ex_ir[11:7];
+    assign de_ex_inst.memWrite = de_ex_inst.opcode==STORE;
+    assign de_ex_inst.memRead2 = de_ex_inst.opcode==LOAD;
+    assign de_ex_inst.regWrite = de_ex_inst.opcode != BRANCH &&
+                                 de_ex_inst.opcode != LOAD   &&
+                                 de_ex_inst.opcode != STORE;    // Maybe move to next stage?
 end
 
 // ~~~~~~~~~~~~ //
@@ -139,6 +144,7 @@ always_ff @(posedge CLK) begin
         ex_mem_jalPc    <= jalPc;
         ex_mem_inst     <= de_ex_inst;
         ex_mem_pc       <= de_ex_pc;
+        IOBUS_OUT       <= ex_mem_inst.rs2;
     end
 end
 
