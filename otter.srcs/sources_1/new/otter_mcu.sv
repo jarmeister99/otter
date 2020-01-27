@@ -66,8 +66,6 @@ logic stallIf=0, stallDe=0, stallEx=0, stallMem=0, stallWb=0;
 // ~~~~~~~~~~~ //
 
 wire  [31:0] pc, nextPc;
-wire  [31:0] rs1;
-logic  [1:0] pcSel;
 
 // ~~~~~~~~~~~~ //
 // DECODE STAGE //
@@ -75,6 +73,7 @@ logic  [1:0] pcSel;
 
 wire  [31:0] sTypeImmed, iTypeImmed, uTypeImmed;
 wire  [31:0] ir;         // May need to be stage reg?
+wire   [3:0] aluFun;
 wire   [1:0] aluSrcB;
 wire         aluSrcA;
 logic [31:0] if_de_pc=0;
@@ -98,6 +97,7 @@ logic [31:0] de_ex_pc=0;
 logic [31:0] de_ex_aluAIn=0, de_ex_aluBIn=0;
 logic  [1:0] rfWrSel;
 logic        brLt, brEq, brLtu;
+opcode_t opcode;
 instr_t de_ex_inst;
 
 always_ff @(posedge CLK) begin
@@ -109,18 +109,19 @@ always_ff @(posedge CLK) begin
     end
 end
 
-always_comb begin
-    assign de_ex_inst.opcode   = opcode_t'(de_ex_ir[6:0]);
-    assign de_ex_inst.aluFun   = aluFun;
-    assign de_ex_inst.rfWrSel  = rfWrSel;
-    assign de_ex_inst.func3    = de_ex_ir[14:12];
-    assign de_ex_inst.rd       = de_ex_ir[11:7];
-    assign de_ex_inst.memWrite = de_ex_inst.opcode==STORE;
-    assign de_ex_inst.memRead2 = de_ex_inst.opcode==LOAD;
-    assign de_ex_inst.regWrite = de_ex_inst.opcode != BRANCH &&
+assign opcode              = opcode_t'(de_ex_ir[6:0]);
+assign de_ex_inst.opcode   = opcode;
+assign de_ex_inst.aluFun   = aluFun;
+assign de_ex_inst.rfWrSel  = rfWrSel;
+assign de_ex_inst.func3    = de_ex_ir[14:12];
+assign de_ex_inst.rd       = de_ex_ir[11:7];
+assign de_ex_inst.rs2      = rs2;
+assign de_ex_inst.memType  = de_ex_ir[14:12];
+assign de_ex_inst.memWrite = de_ex_inst.opcode==STORE;
+assign de_ex_inst.memRead2 = de_ex_inst.opcode==LOAD;
+assign de_ex_inst.regWrite = de_ex_inst.opcode != BRANCH     &&
                                  de_ex_inst.opcode != LOAD   &&
                                  de_ex_inst.opcode != STORE;    // Maybe move to next stage?
-end
 
 // ~~~~~~~~~~~~ //
 // MEMORY STAGE //

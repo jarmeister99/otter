@@ -24,7 +24,7 @@ module branch_cond_gen(
     input  [31:0] B,
     input  [6:0]  OPCODE,
     input  [2:0]  FUNC3,
-    output logic  PC_SEL
+    output logic  [1:0] PC_SEL
 );
 
 logic brLt;
@@ -55,10 +55,10 @@ end
 
 always_comb begin
     case(OPCODE)
-        7'b1101111: assign PC_SEL=2'b11;
-        7'b1100111: assign PC_SEL=2'b01;
-        7'b1100011: assign PC_SEL=(brnCond)?2'b10:2'b00;
-        default:    assign PC_SEL=2'b00; 
+        7'b1101111: PC_SEL=2'b11;
+        7'b1100111: PC_SEL=2'b01;
+        7'b1100011: PC_SEL=(brnCond)?2'b10:2'b00;
+        default:    PC_SEL=2'b00; 
     endcase  
 end
 
