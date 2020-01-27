@@ -260,7 +260,7 @@ target_gen target_gen(
     .IR         (de_ex_ir),      // Is this right?
     .JALR_PC    (jalrPc),
     .BRANCH_PC  (branchPc),
-    .JAL_PC      (jalPc)
+    .JUMP_PC    (jalPc)
 );
 immed_gen immed_gen(
     .IR            (if_de_ir),
