@@ -110,7 +110,7 @@ always_ff @(posedge CLK) begin
 end
 
 always_comb begin
-    assign de_ex_inst.opcode   = de_ex_ir[6:0];
+    assign de_ex_inst.opcode   = opcode_t'(de_ex_ir[6:0]);
     assign de_ex_inst.aluFun   = aluFun;
     assign de_ex_inst.rfWrSel  = rfWrSel;
     assign de_ex_inst.func3    = de_ex_ir[14:12];
