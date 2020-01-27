@@ -53,7 +53,7 @@ module otter_mcu(
     input CLK,
     input RESET,
     input  [31:0] IOBUS_IN,
-    input  [31:0] IOBUS_ADDR,
+    output logic  [31:0] IOBUS_ADDR,
     output logic [31:0] IOBUS_OUT,
     output logic IOBUS_WR
 );
@@ -161,8 +161,10 @@ always_ff @(posedge CLK) begin
         ex_mem_jalPc    <= jalPc;
         ex_mem_inst     <= de_ex_inst;
         ex_mem_pc       <= de_ex_pc;
-        IOBUS_OUT       <= ex_mem_inst.rs2;   // Maybe a stage off?
     end
+end
+always_comb begin
+    IOBUS_OUT <= ex_mem_inst.rs2;
 end
 
 // ~~~~~~~~~~~~~~~ //
@@ -183,6 +185,9 @@ always_ff @(posedge CLK) begin
         mem_wb_aluRes  <= ex_mem_aluRes;
         mem_wb_memData <= memData;
     end
+end
+always_comb begin
+    IOBUS_ADDR <= mem_wb_aluRes;
 end
 
 // MODULES
