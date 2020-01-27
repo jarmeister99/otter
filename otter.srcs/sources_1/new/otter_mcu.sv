@@ -88,26 +88,29 @@ always_ff @(posedge CLK) begin
     if (!stallDe) begin
         if_de_pc            <= pc;       // May need to happen in fetch stage
         if_de_ir            <= ir;
+    
+        if_de_inst.opcode   <= opcode;
+        
+        if_de_inst.aluFun   <= aluFun;
+        if_de_inst.rfWrSel  <= rfWrSel;
+        if_de_inst.rs2      <= rs2;
+     
     end
 end
-    
-    assign opcode              = opcode_t'(ir[6:0]);
-    
-    assign if_de_inst.rfAddr1  = ir[19:15];
-    assign if_de_inst.rfAddr2  = ir[24:20];
 
-    assign if_de_inst.opcode   = opcode;
-    assign if_de_inst.aluFun   = aluFun;
-    assign if_de_inst.rfWrSel  = rfWrSel;
-    assign if_de_inst.func3    = ir[14:12];
-    assign if_de_inst.rd       = ir[11:7];
-    assign if_de_inst.rs2      = rs2;
-    assign if_de_inst.memType  = ir[14:12];
-    assign if_de_inst.memWrite = if_de_ir[6:0] == STORE;
-    assign if_de_inst.memRead2 = if_de_ir[6:0] == LOAD;
-    assign if_de_inst.regWrite = ir[6:0] != BRANCH &&
-                                 ir[6:0] != LOAD   &&            // How does this make sense?
-                                 ir[6:0] != STORE; 
+always_comb begin
+    opcode              = opcode_t'(ir[6:0]);
+    if_de_inst.rfAddr1  = ir[19:15];
+    if_de_inst.rfAddr2  = ir[24:20];
+    if_de_inst.func3    = ir[14:12];
+    if_de_inst.memType  = ir[14:12];
+    if_de_inst.rd       = ir[11:7];
+    if_de_inst.memWrite = ir[6:0] == STORE;
+    if_de_inst.memRead2 = ir[6:0] == LOAD;
+    if_de_inst.regWrite = ir[6:0] != BRANCH &&
+                          ir[6:0] != LOAD   &&            // How does this make sense?
+                          ir[6:0] != STORE; 
+end
     
 
 
