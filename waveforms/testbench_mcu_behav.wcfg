@@ -12,15 +12,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="0fs"></ZoomStartTime>
-      <ZoomEndTime time="129490fs"></ZoomEndTime>
-      <Cursor1Time time="0fs"></Cursor1Time>
+      <ZoomStartTime time="782304fs"></ZoomStartTime>
+      <ZoomEndTime time="948483fs"></ZoomEndTime>
+      <Cursor1Time time="830000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="175"></NameColumnWidth>
-      <ValueColumnWidth column_width="143"></ValueColumnWidth>
+      <ValueColumnWidth column_width="139"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="6" />
+   <WVObjectSize size="14" />
    <wvobject fp_name="/testbench_mcu/clock" type="logic">
       <obj_property name="ElementShortName">clock</obj_property>
       <obj_property name="ObjectShortName">clock</obj_property>
@@ -28,6 +28,36 @@
    <wvobject type="divider" fp_name="divider187">
       <obj_property name="label">-------------------</obj_property>
       <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="BkColor">#DCDCDC</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench_mcu/mcu/prog_count_next_mux/In1" type="array">
+      <obj_property name="ElementShortName">In1[31:0]</obj_property>
+      <obj_property name="ObjectShortName">In1[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench_mcu/mcu/prog_count_next_mux/In2" type="array">
+      <obj_property name="ElementShortName">In2[31:0]</obj_property>
+      <obj_property name="ObjectShortName">In2[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench_mcu/mcu/prog_count_next_mux/In3" type="array">
+      <obj_property name="ElementShortName">In3[31:0]</obj_property>
+      <obj_property name="ObjectShortName">In3[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench_mcu/mcu/prog_count_next_mux/In4" type="array">
+      <obj_property name="ElementShortName">In4[31:0]</obj_property>
+      <obj_property name="ObjectShortName">In4[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench_mcu/mcu/prog_count_next_mux/Sel" type="array">
+      <obj_property name="ElementShortName">Sel[1:0]</obj_property>
+      <obj_property name="ObjectShortName">Sel[1:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench_mcu/mcu/prog_count_next_mux/Out" type="array">
+      <obj_property name="ElementShortName">Out[31:0]</obj_property>
+      <obj_property name="ObjectShortName">Out[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider187">
+      <obj_property name="label">-------------------</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="BkColor">#DCDCDC</obj_property>
    </wvobject>
    <wvobject fp_name="/testbench_mcu/mcu/pc" type="array">
       <obj_property name="ElementShortName">pc[31:0]</obj_property>
@@ -37,12 +67,17 @@
       <obj_property name="ElementShortName">ir[31:0]</obj_property>
       <obj_property name="ObjectShortName">ir[31:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/testbench_mcu/mcu/opcode" type="array">
-      <obj_property name="ElementShortName">opcode[6:0]</obj_property>
-      <obj_property name="ObjectShortName">opcode[6:0]</obj_property>
-   </wvobject>
    <wvobject fp_name="/testbench_mcu/mcu/if_de_ir" type="array">
       <obj_property name="ElementShortName">if_de_ir[31:0]</obj_property>
       <obj_property name="ObjectShortName">if_de_ir[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench_mcu/mcu/de_ex_ir" type="array">
+      <obj_property name="ElementShortName">de_ex_ir[31:0]</obj_property>
+      <obj_property name="ObjectShortName">de_ex_ir[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench_mcu/mcu/opcode" type="array">
+      <obj_property name="ElementShortName">opcode[6:0]</obj_property>
+      <obj_property name="ObjectShortName">opcode[6:0]</obj_property>
+      <obj_property name="Radix">BINARYRADIX</obj_property>
    </wvobject>
 </wave_config>

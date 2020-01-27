@@ -109,19 +109,19 @@ always_ff @(posedge CLK) begin
     end
 end
 
-assign opcode              = opcode_t'(de_ex_ir[6:0]);
+assign opcode              = opcode_t'(if_de_ir[6:0]);
 assign de_ex_inst.opcode   = opcode;
 assign de_ex_inst.aluFun   = aluFun;
 assign de_ex_inst.rfWrSel  = rfWrSel;
-assign de_ex_inst.func3    = de_ex_ir[14:12];
-assign de_ex_inst.rd       = de_ex_ir[11:7];
+assign de_ex_inst.func3    = if_de_ir[14:12];
+assign de_ex_inst.rd       = if_de_ir[11:7];
 assign de_ex_inst.rs2      = rs2;
-assign de_ex_inst.memType  = de_ex_ir[14:12];
+assign de_ex_inst.memType  = if_de_ir[14:12];
 assign de_ex_inst.memWrite = de_ex_inst.opcode==STORE;
 assign de_ex_inst.memRead2 = de_ex_inst.opcode==LOAD;
-assign de_ex_inst.regWrite = de_ex_inst.opcode != BRANCH     &&
-                                 de_ex_inst.opcode != LOAD   &&
-                                 de_ex_inst.opcode != STORE;    // Maybe move to next stage?
+assign de_ex_inst.regWrite = de_ex_inst.opcode != BRANCH &&
+                             de_ex_inst.opcode != LOAD   &&
+                             de_ex_inst.opcode != STORE;    // Maybe move to next stage?
 
 // ~~~~~~~~~~~~ //
 // MEMORY STAGE //
