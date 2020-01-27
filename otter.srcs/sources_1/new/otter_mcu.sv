@@ -132,6 +132,7 @@ inst_t ex_mem_inst;
 
 always_ff @(posedge CLK) begin
     if (!stallMem) begin
+        ex_mem_aluRes   <= aluRes;
         ex_mem_pcSel    <= pcSel;
         ex_mem_jalrPc   <= jalrPc;
         ex_mem_branchPc <= branchPc;
@@ -223,6 +224,27 @@ Mult4to1 reg_file_data_mux(
     .In4  (mem_wb_aluRes),            
     .Sel  (ex_mem_inst.rfWrSel),      
     .Out  (dataToRegWrite)
+);
+
+OTTER_ALU alu(
+    .ALU_FUN  (de_ex_inst.aluFun),
+    .A        (aluAIn),
+    .B        (aluBIn),
+    .ALU_OUT  (aluRes)
+);
+Mult2to1 alu_ain_mux(
+    .In1  (rs1),
+    .In2  (uTypeImmed),
+    .Sel  (aluSrcA),
+    .Out  (aluAIn)
+);
+Mult4to1 alu_bin_mux(
+    .In1  (rs2),
+    .In2  (iTypeImmed),
+    .In3  (sTypeImmed),
+    .In4  (if_de_pc),
+    .Sel  (aluSrcB),
+    .Out  (aluBIn)
 );
     
 target_gen target_gen(
