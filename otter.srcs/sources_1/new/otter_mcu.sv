@@ -187,7 +187,6 @@ always_ff @(posedge CLK) begin
     else begin
         mem_wb_aluRes  <= 0;
     end
-    
     mem_wb_inst    <= ex_mem_inst;
     mem_wb_pc      <= ex_mem_pc;
     mem_wb_memData <= memData;
@@ -259,7 +258,7 @@ Mult4to1 reg_file_data_mux(
     .In2  (0),                         // Option 2: NONE
     .In3  (mem_wb_memData),            // Option 3: Output of MEM1 from WRITEBACK STAGE
     .In4  (mem_wb_aluRes),             // Option 4: Output of ALU from WRITEBACK STAGE
-    .Sel  ((!ex_mem_inst.invalid) & ex_mem_inst.rfWrSel),     
+    .Sel  (ex_mem_inst.rfWrSel),     
     .Out  (dataToRegWrite)
 );
 
