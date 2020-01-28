@@ -60,7 +60,7 @@ module otter_mcu(
 );
 
 // PIPELINE CONTROLS
-logic stallIf=0,     stallDe=0;
+logic stallIf, stallDe;
 logic invalidate;
 
 // ~~~~~~~~~~~ //
@@ -179,7 +179,7 @@ instr_t mem_wb_inst;
 always_ff @(posedge CLK) begin
     mem_wb_inst    <= ex_mem_inst;
     mem_wb_pc      <= ex_mem_pc;
-    mem_wb_aluRes  <= ex_mem_aluRes;
+    mem_wb_aluRes  <= ex_mem_aluRes && ex_mem_inst.invalid;
     mem_wb_memData <= memData;
 end
 always_comb begin
@@ -191,17 +191,6 @@ always_ff @(posedge CLK) begin
     if_de_inst.invalid  = invalidate;
     de_ex_inst.invalid  = invalidate;
     ex_mem_inst.invalid = invalidate; // Maybe don't need this one?
-end
-always_comb begin
-    if (ex_mem_inst.invalid == 1) begin
-        ex_mem_inst.memWrite2 = 0;
-        ex_mem_inst.pcSel     = 0; // Think about this
-        ex_mem_aluRes         = 0;
-        
-    end
-    if (mem_wb_inst.invalid == 1) begin
-        mem_wb_inst.regWrite = 0;
-    end
 end
 
 // MODULES
@@ -227,7 +216,7 @@ OTTER_mem_byte mem(
     .MEM_ADDR1   (pc),                        // Current PC -> IR
     .MEM_ADDR2   (ex_mem_aluRes),             // Access memory at the location corresponding to the ALU RESULT during the MEM STAGE 
     .MEM_DIN2    (ex_mem_inst.rs2),           // Save the value from register 2 during the MEM STAGE
-    .MEM_WRITE2  (ex_mem_inst.memWrite),      // MEM2 can only be written to if command is STORE
+    .MEM_WRITE2  ((!ex_mem_inst.invalid) && ex_mem_inst.memWrite),     
     .MEM_READ1   (~stallIf),                  // An instruction can only be fetched from MEM1 if STALL_FETCH signal is not given
     .MEM_READ2   (ex_mem_inst.memRead2),      // MEM2 can only be read from if command is LOAD
     .IO_IN       (IOBUS_IN),                 
@@ -250,13 +239,13 @@ OTTER_CU_Decoder decoder(
 );
 
 OTTER_registerFile reg_file(
-    .READ1         (if_de_inst.rfAddr1),        // Given from IR @ DECODE STAGE
-    .READ2         (if_de_inst.rfAddr2),        // Given from IR @ DECODE STAGE
-    .DEST_REG      (mem_wb_inst.rd),         // Given from inst package @ DECODE STAGE
-    .DIN           (dataToRegWrite),         // dataToRegWrite is given from MUX 
-    .WRITE_ENABLE  (mem_wb_inst.regWrite),   // The REG FILE can only be updated if the command is neither BRANCH nor LOAD nor STORE
-    .OUT1          (rs1),                    // Used for DECODE STAGE logic
-    .OUT2          (rs2),                    // Used for DECODE STAGE logic, and saved for MEM STAGE logic
+    .READ1         (if_de_inst.rfAddr1),        
+    .READ2         (if_de_inst.rfAddr2),      
+    .DEST_REG      (mem_wb_inst.rd),       
+    .DIN           (dataToRegWrite),        
+    .WRITE_ENABLE  ((!mem_wb_inst.invalid) && mem_wb_inst.regWrite),  
+    .OUT1          (rs1),                   
+    .OUT2          (rs2),                    
     .CLK           (CLK)
 );
 Mult4to1 reg_file_data_mux(
@@ -264,7 +253,7 @@ Mult4to1 reg_file_data_mux(
     .In2  (0),                         // Option 2: NONE
     .In3  (mem_wb_memData),            // Option 3: Output of MEM1 from WRITEBACK STAGE
     .In4  (mem_wb_aluRes),             // Option 4: Output of ALU from WRITEBACK STAGE
-    .Sel  (ex_mem_inst.rfWrSel),       // Determined by control signal retrieved during MEM STAGE
+    .Sel  ((!ex_mem_inst.invalid) && ex_mem_inst.rfWrSel),     
     .Out  (dataToRegWrite)
 );
 

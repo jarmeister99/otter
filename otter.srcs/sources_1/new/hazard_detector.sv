@@ -29,10 +29,6 @@ module hazard_detector(
     input logic [1:0] EX_MEM_PC_SEL,
     output logic STALL_IF,
     output logic STALL_DE,
-    output logic INVALID_IF_DE,
-    output logic INVALID_DE_EX,
-    output logic INVALID_EX_MEM,
-    output logic INVALID_MEM_WB,
     output logic INVALIDATE
 );
 always_ff @(posedge CLK) begin
