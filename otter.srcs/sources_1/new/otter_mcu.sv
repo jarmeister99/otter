@@ -73,6 +73,7 @@ instr_t if_de_inst;
 // On each clock_edge, save the current PC into the IF_DE register
 always_ff @(posedge CLK) begin
     if_de_inst.pc <= pc;
+    if_de_inst.ir <= ir;
 end
 
 // ~~~~~~~~~~~~ //
@@ -96,7 +97,7 @@ logic [31:0] de_ex_aluAIn, de_ex_aluBIn;
 
 // Combinatorially populate de_inst structure with information from the instruction, and other combinatorial modules in the decode stage
 always_comb begin
-    de_inst.ir       = ir;
+    de_inst.ir       = if_de_inst.ir;
     de_inst.pc       = if_de_inst.pc;
     
     opcode           = opcode_t'(de_inst.ir[6:0]);
@@ -132,7 +133,7 @@ end
 
 wire [31:0] jalrPc, branchPc, jalPc;    // Set by Target Gen that operates on DE_EX data
 wire [31:0] aluRes; 
-wire [31:0] pcSel;                      // Set by Branch Gen that operators on DE_EX data
+wire  [1:0] pcSel;                      // Set by Branch Gen that operators on DE_EX data
 instr_t ex_mem_inst;
 logic [31:0] ex_mem_aluRes;
 
@@ -291,7 +292,7 @@ hazard_detector hazard_detector(
     .MEM_WB_RD      (mem_wb_inst.rd),
     .DE_EX_RF_ADDR1 (de_ex_inst.rfAddr1),
     .DE_EX_RF_ADDR2 (de_ex_inst.rfAddr2),
-    .EX_MEM_PC_SEL  (ex_mem_pcSel),
+    .EX_MEM_PC_SEL  (pcSel),
     .STALL_IF       (stallIf),
     .STALL_DE       (stallDe),
     .INVALIDATE     (invalidate)

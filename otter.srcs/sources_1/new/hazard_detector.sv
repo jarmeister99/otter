@@ -33,16 +33,7 @@ module hazard_detector(
 );
 always_ff @(posedge CLK) begin
     
-//    if (EX_MEM_PC_SEL != 0) begin
-//        INVALID_IF_DE  <= 1;
-//        INVALID_DE_EX  <= 1;
-//        INVALID_EX_MEM <= 1; // Maybe don't need to invalidate this one
-//    end
-//    else begin
-//        INVALID_IF_DE  <= 0;
-//        INVALID_DE_EX  <= 0;
-//        INVALID_EX_MEM <= 0;
-//    end
+
     if (EX_MEM_PC_SEL != 0) begin
         INVALIDATE = 1;
     end
