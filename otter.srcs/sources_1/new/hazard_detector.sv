@@ -22,11 +22,11 @@
 
 module hazard_detector(
     input CLK,
-    input logic [4:0] EX_MEM_RD,
-    input logic [4:0] MEM_WB_RD,
-    input logic [4:0] DE_EX_RF_ADDR1,
-    input logic [4:0] DE_EX_RF_ADDR2,
-    input logic [1:0] EX_MEM_PC_SEL,
+    input [4:0] EX_MEM_RD,
+    input [4:0] MEM_WB_RD,
+    input [4:0] DE_EX_RF_ADDR1,
+    input [4:0] DE_EX_RF_ADDR2,
+    input [1:0] EX_MEM_PC_SEL,
     output logic STALL_IF,
     output logic STALL_DE,
     output logic INVALIDATE

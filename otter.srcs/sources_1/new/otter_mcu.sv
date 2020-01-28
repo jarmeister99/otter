@@ -95,6 +95,7 @@ always_ff @(posedge CLK) begin
         if_de_inst.rfWrSel  <= rfWrSel;
         if_de_inst.rs1      <= rs1;
         if_de_inst.rs2      <= rs2;
+        if_de_inst.invalid  <= invalidate;
      
     end
 end
@@ -128,12 +129,13 @@ logic [31:0] de_ex_aluAIn=0, de_ex_aluBIn=0;
 instr_t de_ex_inst;
 
 always_ff @(posedge CLK) begin
-    de_ex_ir         <= if_de_ir;
-    de_ex_pc         <= if_de_pc;
-    de_ex_aluAIn     <= aluAIn;
-    de_ex_aluBIn     <= aluBIn;
-    de_ex_inst       <= if_de_inst;
-    de_ex_iTypeImmed <= iTypeImmed;
+    de_ex_ir           <= if_de_ir;
+    de_ex_pc           <= if_de_pc;
+    de_ex_aluAIn       <= aluAIn;
+    de_ex_aluBIn       <= aluBIn;
+    de_ex_inst         <= if_de_inst;
+    de_ex_iTypeImmed   <= iTypeImmed;
+    de_ex_inst.invalid <= invalidate;
    
 end
 
@@ -153,13 +155,14 @@ logic  [1:0] ex_mem_pcSel=0;
 instr_t ex_mem_inst;
 
 always_ff @(posedge CLK) begin
-    ex_mem_aluRes   <= aluRes;
-    ex_mem_pcSel    <= pcSel;
-    ex_mem_jalrPc   <= jalrPc;
-    ex_mem_branchPc <= branchPc;
-    ex_mem_jalPc    <= jalPc;
-    ex_mem_inst     <= de_ex_inst;
-    ex_mem_pc       <= de_ex_pc;
+    ex_mem_aluRes       <= aluRes;
+    ex_mem_pcSel        <= pcSel;
+    ex_mem_jalrPc       <= jalrPc;
+    ex_mem_branchPc     <= branchPc;
+    ex_mem_jalPc        <= jalPc;
+    ex_mem_inst         <= de_ex_inst;
+    ex_mem_pc           <= de_ex_pc;
+    ex_mem_inst.invalid <= invalidate; // Maybe don't need this one?
 end
 always_comb begin
     IOBUS_OUT <= ex_mem_inst.rs2;
@@ -187,11 +190,7 @@ always_comb begin
 end
 
 // PIPELINE CONTROL LOGIC
-always_ff @(posedge CLK) begin
-    if_de_inst.invalid  = invalidate;
-    de_ex_inst.invalid  = invalidate;
-    ex_mem_inst.invalid = invalidate; // Maybe don't need this one?
-end
+
 
 // MODULES
 
