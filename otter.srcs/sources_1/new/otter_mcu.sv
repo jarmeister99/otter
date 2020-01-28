@@ -182,7 +182,7 @@ instr_t mem_wb_inst;
 always_ff @(posedge CLK) begin
     mem_wb_inst    <= ex_mem_inst;
     mem_wb_pc      <= ex_mem_pc;
-    mem_wb_aluRes  <= ex_mem_aluRes & ex_mem_inst.invalid;
+    mem_wb_aluRes  <= ex_mem_aluRes & (!ex_mem_inst.invalid);
     mem_wb_memData <= memData;
 end
 always_comb begin
