@@ -107,7 +107,7 @@ always_comb begin
                        de_inst.ir[6:0] != STORE; 
     de_inst.rd       = de_inst.ir[11:7];
     de_inst.rfAddr1  = de_inst.ir[19:15];
-    de_inst.rdAddr2  = de_inst.ir[24:20];
+    de_inst.rfAddr2  = de_inst.ir[24:20];
     de_inst.func3    = de_inst.ir[14:12]; // func3 is also memType
     de_inst.opcode   = opcode;
     de_inst.aluFun   = aluFun;     // received from decoder
