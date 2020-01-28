@@ -263,7 +263,7 @@ Mult4to1 alu_bin_mux(
 );
     
 target_gen target_gen(
-    .RS1        (de_ex_rs1),            
+    .RS1        (de_ex_inst.rs1),            
     .I_IMMED    (de_ex_iTypeImmed), 
     .PC         (de_ex_inst.pc),   
     .IR         (de_ex_inst.ir),     
