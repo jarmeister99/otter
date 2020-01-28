@@ -132,7 +132,7 @@ end
 
 wire [31:0] jalrPc, branchPc, jalPc;    // Set by Target Gen that operates on DE_EX data
 wire [31:0] aluRes; 
-wire [31:0] pcSel;                      // Set by Branch Gen that operators on DE_EX data
+wire  [1:0] pcSel;                      // Set by Branch Gen that operators on DE_EX data
 instr_t ex_mem_inst;
 logic [31:0] ex_mem_aluRes;
 
@@ -262,7 +262,7 @@ Mult4to1 alu_bin_mux(
 );
     
 target_gen target_gen(
-    .RS1        (de_ex_rs1),            
+    .RS1        (de_ex_inst.rs1),            
     .I_IMMED    (de_ex_iTypeImmed), 
     .PC         (de_ex_inst.pc),   
     .IR         (de_ex_inst.ir),     
@@ -291,7 +291,7 @@ hazard_detector hazard_detector(
     .MEM_WB_RD      (mem_wb_inst.rd),
     .DE_EX_RF_ADDR1 (de_ex_inst.rfAddr1),
     .DE_EX_RF_ADDR2 (de_ex_inst.rfAddr2),
-    .EX_MEM_PC_SEL  (ex_mem_pcSel),
+    .EX_MEM_PC_SEL  (pcSel),
     .STALL_IF       (stallIf),
     .STALL_DE       (stallDe),
     .INVALIDATE     (invalidate)
