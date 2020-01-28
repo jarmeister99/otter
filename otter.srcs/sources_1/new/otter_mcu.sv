@@ -180,9 +180,16 @@ logic [31:0] mem_wb_aluRes=0;
 instr_t mem_wb_inst;
 
 always_ff @(posedge CLK) begin
+
+    if (!ex_mem_inst.invalid) begin
+        mem_wb_aluRes  <= ex_mem_aluRes;
+    end
+    else begin
+        mem_wb_aluRes  <= 0;
+    end
+    
     mem_wb_inst    <= ex_mem_inst;
     mem_wb_pc      <= ex_mem_pc;
-    mem_wb_aluRes  <= ex_mem_aluRes & (!ex_mem_inst.invalid);
     mem_wb_memData <= memData;
 end
 always_comb begin
