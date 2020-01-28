@@ -46,24 +46,24 @@ always_ff @(posedge CLK) begin
     if (EX_MEM_RD == DE_EX_RF_ADDR1) begin
         STALL_IF <= 1;
         STALL_DE <= 1;
-        STALL_EX <= 1;
+        //STALL_EX <= 1;
     end
     else begin
         STALL_IF <= 0;
         STALL_DE <= 0;
-        STALL_EX <= 0;
+        //STALL_EX <= 0;
     end
     // ...
     /// Stall IF, DE, EX
     if (EX_MEM_RD == DE_EX_RF_ADDR2) begin
         STALL_IF <= 1;
         STALL_DE <= 1;
-        STALL_EX <= 1;
+        //STALL_EX <= 1;
     end
     else begin
         STALL_IF <= 0;
         STALL_DE <= 0;
-        STALL_EX <= 0;
+        //STALL_EX <= 0;
     end
     // If the first output (data) of the REG_FILE at the DECODE STAGE is equal to
     // ... the register to save data to in the MEMORY STAGE
@@ -71,26 +71,26 @@ always_ff @(posedge CLK) begin
     if (MEM_WB_RD == DE_EX_RF_ADDR1) begin
         STALL_IF  <= 1;
         STALL_DE  <= 1;
-        STALL_EX  <= 1;
-        STALL_MEM <= 1;
+        //STALL_EX  <= 1;
+        //STALL_MEM <= 1;
     end
     else begin
         STALL_IF  <= 0;
         STALL_DE  <= 0;
-        STALL_EX  <= 0;
-        STALL_MEM <= 0;
+        //STALL_EX  <= 0;
+        //STALL_MEM <= 0;
     end
     if (MEM_WB_RD == DE_EX_RF_ADDR2) begin
         STALL_IF  <= 1;
         STALL_DE  <= 1;
-        STALL_EX  <= 1;
-        STALL_MEM <= 1;
+        //STALL_EX  <= 1;
+        //STALL_MEM <= 1;
     end
     else begin
         STALL_IF  <= 0;
         STALL_DE  <= 0;
-        STALL_EX  <= 0;
-        STALL_MEM <= 0;
+        //STALL_EX  <= 0;
+        //STALL_MEM <= 0;
     end
 end
 endmodule
