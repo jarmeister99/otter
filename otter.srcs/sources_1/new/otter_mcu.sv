@@ -33,6 +33,7 @@ typedef enum logic [6:0] {
 
 typedef struct packed{
     opcode_t opcode;
+    logic invalid;
     logic [2:0] func3;
     logic [4:0] rfAddr1;
     logic [4:0] rfAddr2;
@@ -59,8 +60,8 @@ module otter_mcu(
 );
 
 // PIPELINE CONTROLS
-logic stallIf=0,   stallDe=0,   stallEx=0,   stallMem=0,   stallWb=0; 
-logic invalidIf=0, invalidDe=0, invalidEx=0, invalidMem=0, invalidWb=0;
+logic stallIf=0,     stallDe=0;
+logic invalidate;
 
 // ~~~~~~~~~~~ //
 // FETCH STAGE //
@@ -87,7 +88,7 @@ opcode_t opcode;
 
 always_ff @(posedge CLK) begin
     if (!stallDe) begin
-        if_de_pc            <= pc;       // May need to happen in fetch stage
+        if_de_pc            <= pc;     
         if_de_ir            <= ir;
         if_de_inst.opcode   <= opcode;
         if_de_inst.aluFun   <= aluFun;
@@ -127,14 +128,13 @@ logic [31:0] de_ex_aluAIn=0, de_ex_aluBIn=0;
 instr_t de_ex_inst;
 
 always_ff @(posedge CLK) begin
-    if (!stallEx) begin
-        de_ex_ir         <= if_de_ir;
-        de_ex_pc         <= if_de_pc;
-        de_ex_aluAIn     <= aluAIn;
-        de_ex_aluBIn     <= aluBIn;
-        de_ex_inst       <= if_de_inst;
-        de_ex_iTypeImmed <= iTypeImmed;
-    end
+    de_ex_ir         <= if_de_ir;
+    de_ex_pc         <= if_de_pc;
+    de_ex_aluAIn     <= aluAIn;
+    de_ex_aluBIn     <= aluBIn;
+    de_ex_inst       <= if_de_inst;
+    de_ex_iTypeImmed <= iTypeImmed;
+   
 end
 
 
@@ -153,15 +153,13 @@ logic  [1:0] ex_mem_pcSel=0;
 instr_t ex_mem_inst;
 
 always_ff @(posedge CLK) begin
-    if (!stallMem) begin
-        ex_mem_aluRes   <= aluRes;
-        ex_mem_pcSel    <= pcSel;
-        ex_mem_jalrPc   <= jalrPc;
-        ex_mem_branchPc <= branchPc;
-        ex_mem_jalPc    <= jalPc;
-        ex_mem_inst     <= de_ex_inst;
-        ex_mem_pc       <= de_ex_pc;
-    end
+    ex_mem_aluRes   <= aluRes;
+    ex_mem_pcSel    <= pcSel;
+    ex_mem_jalrPc   <= jalrPc;
+    ex_mem_branchPc <= branchPc;
+    ex_mem_jalPc    <= jalPc;
+    ex_mem_inst     <= de_ex_inst;
+    ex_mem_pc       <= de_ex_pc;
 end
 always_comb begin
     IOBUS_OUT <= ex_mem_inst.rs2;
@@ -179,15 +177,31 @@ logic [31:0] mem_wb_aluRes=0;
 instr_t mem_wb_inst;
 
 always_ff @(posedge CLK) begin
-    if (!stallWb) begin
-        mem_wb_inst    <= ex_mem_inst;
-        mem_wb_pc      <= ex_mem_pc;
-        mem_wb_aluRes  <= ex_mem_aluRes;
-        mem_wb_memData <= memData;
-    end
+    mem_wb_inst    <= ex_mem_inst;
+    mem_wb_pc      <= ex_mem_pc;
+    mem_wb_aluRes  <= ex_mem_aluRes;
+    mem_wb_memData <= memData;
 end
 always_comb begin
     IOBUS_ADDR <= mem_wb_aluRes;
+end
+
+// PIPELINE CONTROL LOGIC
+always_ff @(posedge CLK) begin
+    if_de_inst.invalid  = invalidate;
+    de_ex_inst.invalid  = invalidate;
+    ex_mem_inst.invalid = invalidate; // Maybe don't need this one?
+end
+always_comb begin
+    if (ex_mem_inst.invalid == 1) begin
+        ex_mem_inst.memWrite2 = 0;
+        ex_mem_inst.pcSel     = 0; // Think about this
+        ex_mem_aluRes         = 0;
+        
+    end
+    if (mem_wb_inst.invalid == 1) begin
+        mem_wb_inst.regWrite = 0;
+    end
 end
 
 // MODULES
@@ -307,11 +321,7 @@ hazard_detector hazard_detector(
     .EX_MEM_PC_SEL  (ex_mem_pcSel),
     .STALL_IF       (stallIf),
     .STALL_DE       (stallDe),
-    .INVALID_IF     (invalidIf),
-    .INVALID_DE     (invalidDe),
-    .INVALID_EX     (invalidEx),
-    .INVALID_MEM    (invalidMem),
-    .INVALID_WB     (invalidWb)
+    .INVALIDATE     (invalidate)
 );
 
 

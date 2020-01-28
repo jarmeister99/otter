@@ -29,68 +29,70 @@ module hazard_detector(
     input logic [1:0] EX_MEM_PC_SEL,
     output logic STALL_IF,
     output logic STALL_DE,
-    output logic STALL_EX,
-    output logic STALL_MEM,
-    output logic STALL_WB,
-    output logic INVALID_IF,
-    output logic INVALID_DE,
-    output logic INVALID_EX,
-    output logic INVALID_MEM,
-    output logic INVALID_WB
+    output logic INVALID_IF_DE,
+    output logic INVALID_DE_EX,
+    output logic INVALID_EX_MEM,
+    output logic INVALID_MEM_WB,
+    output logic INVALIDATE
 );
 always_ff @(posedge CLK) begin
     
+//    if (EX_MEM_PC_SEL != 0) begin
+//        INVALID_IF_DE  <= 1;
+//        INVALID_DE_EX  <= 1;
+//        INVALID_EX_MEM <= 1; // Maybe don't need to invalidate this one
+//    end
+//    else begin
+//        INVALID_IF_DE  <= 0;
+//        INVALID_DE_EX  <= 0;
+//        INVALID_EX_MEM <= 0;
+//    end
+    if (EX_MEM_PC_SEL != 0) begin
+        INVALIDATE = 1;
+    end
+    else begin
+        INVALIDATE = 0;
+    end
+    
     // If the first output (data) of the REG_FILE at the DECODE STAGE is equal to
     // ... the register to save data to in the EXECUTE STAGE 
-    // Then stall IF, DE, EX
+    // Then stall IF, DE
     if (EX_MEM_RD == DE_EX_RF_ADDR1) begin
         STALL_IF <= 1;
         STALL_DE <= 1;
-        //STALL_EX <= 1;
     end
     else begin
         STALL_IF <= 0;
         STALL_DE <= 0;
-        //STALL_EX <= 0;
     end
     // ...
-    /// Stall IF, DE, EX
+    /// Stall IF, DE
     if (EX_MEM_RD == DE_EX_RF_ADDR2) begin
         STALL_IF <= 1;
         STALL_DE <= 1;
-        //STALL_EX <= 1;
     end
     else begin
         STALL_IF <= 0;
         STALL_DE <= 0;
-        //STALL_EX <= 0;
     end
     // If the first output (data) of the REG_FILE at the DECODE STAGE is equal to
     // ... the register to save data to in the MEMORY STAGE
-    // Then stall IF, DE, EX, MEM
+    // Then stall IF, DE
     if (MEM_WB_RD == DE_EX_RF_ADDR1) begin
         STALL_IF  <= 1;
         STALL_DE  <= 1;
-        //STALL_EX  <= 1;
-        //STALL_MEM <= 1;
     end
     else begin
         STALL_IF  <= 0;
         STALL_DE  <= 0;
-        //STALL_EX  <= 0;
-        //STALL_MEM <= 0;
     end
     if (MEM_WB_RD == DE_EX_RF_ADDR2) begin
         STALL_IF  <= 1;
         STALL_DE  <= 1;
-        //STALL_EX  <= 1;
-        //STALL_MEM <= 1;
     end
     else begin
         STALL_IF  <= 0;
         STALL_DE  <= 0;
-        //STALL_EX  <= 0;
-        //STALL_MEM <= 0;
     end
 end
 endmodule

@@ -12,15 +12,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="2454451fs"></ZoomStartTime>
-      <ZoomEndTime time="2611452fs"></ZoomEndTime>
-      <Cursor1Time time="2880000fs"></Cursor1Time>
+      <ZoomStartTime time="4403867fs"></ZoomStartTime>
+      <ZoomEndTime time="4610324fs"></ZoomEndTime>
+      <Cursor1Time time="4840000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="175"></NameColumnWidth>
-      <ValueColumnWidth column_width="71"></ValueColumnWidth>
+      <ValueColumnWidth column_width="67"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="17" />
+   <WVObjectSize size="8" />
    <wvobject fp_name="/testbench_mcu/clock" type="logic">
       <obj_property name="ElementShortName">clock</obj_property>
       <obj_property name="ObjectShortName">clock</obj_property>
@@ -51,45 +51,9 @@
       <obj_property name="ElementShortName">STALL_DE</obj_property>
       <obj_property name="ObjectShortName">STALL_DE</obj_property>
    </wvobject>
-   <wvobject fp_name="/testbench_mcu/mcu/hazard_detector/STALL_EX" type="logic">
-      <obj_property name="ElementShortName">STALL_EX</obj_property>
-      <obj_property name="ObjectShortName">STALL_EX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/testbench_mcu/mcu/hazard_detector/STALL_MEM" type="logic">
-      <obj_property name="ElementShortName">STALL_MEM</obj_property>
-      <obj_property name="ObjectShortName">STALL_MEM</obj_property>
-   </wvobject>
-   <wvobject fp_name="/testbench_mcu/mcu/hazard_detector/STALL_WB" type="logic">
-      <obj_property name="ElementShortName">STALL_WB</obj_property>
-      <obj_property name="ObjectShortName">STALL_WB</obj_property>
-   </wvobject>
    <wvobject type="divider" fp_name="divider187">
       <obj_property name="label">-------------------</obj_property>
       <obj_property name="DisplayName">label</obj_property>
       <obj_property name="BkColor">#DCDCDC</obj_property>
-   </wvobject>
-   <wvobject fp_name="/testbench_mcu/mcu/hazard_detector/DE_EX_RF_ADDR1" type="array">
-      <obj_property name="ElementShortName">DE_EX_RF_ADDR1[4:0]</obj_property>
-      <obj_property name="ObjectShortName">DE_EX_RF_ADDR1[4:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/testbench_mcu/mcu/hazard_detector/DE_EX_RF_ADDR2" type="array">
-      <obj_property name="ElementShortName">DE_EX_RF_ADDR2[4:0]</obj_property>
-      <obj_property name="ObjectShortName">DE_EX_RF_ADDR2[4:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/testbench_mcu/mcu/de_ex_inst.rd" type="array">
-      <obj_property name="ElementShortName">.rd[4:0]</obj_property>
-      <obj_property name="ObjectShortName">.rd[4:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/testbench_mcu/mcu/ex_mem_inst.rd" type="array">
-      <obj_property name="ElementShortName">.rd[4:0]</obj_property>
-      <obj_property name="ObjectShortName">.rd[4:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/testbench_mcu/mcu/mem_wb_inst.rd" type="array">
-      <obj_property name="ElementShortName">.rd[4:0]</obj_property>
-      <obj_property name="ObjectShortName">.rd[4:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/testbench_mcu/mcu/hazard_detector/MEM_WB_RD" type="array">
-      <obj_property name="ElementShortName">MEM_WB_RD[4:0]</obj_property>
-      <obj_property name="ObjectShortName">MEM_WB_RD[4:0]</obj_property>
    </wvobject>
 </wave_config>
