@@ -47,7 +47,7 @@ typedef struct packed{
     logic regWrite;
     logic [1:0] rfWrSel;
     logic [31:0] rs1, rs2;
-    logic [31:0] pc;
+    logic [31:0] pc, ir;
 } instr_t;
 
 module otter_mcu(
