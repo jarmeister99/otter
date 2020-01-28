@@ -12,15 +12,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="2296268fs"></ZoomStartTime>
-      <ZoomEndTime time="2492365fs"></ZoomEndTime>
-      <Cursor1Time time="2381694fs"></Cursor1Time>
+      <ZoomStartTime time="6610815114fs"></ZoomStartTime>
+      <ZoomEndTime time="6611240978fs"></ZoomEndTime>
+      <Cursor1Time time="6611170000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="175"></NameColumnWidth>
-      <ValueColumnWidth column_width="87"></ValueColumnWidth>
+      <ValueColumnWidth column_width="75"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="8" />
+   <WVObjectSize size="13" />
    <wvobject fp_name="/testbench_mcu/clock" type="logic">
       <obj_property name="ElementShortName">clock</obj_property>
       <obj_property name="ObjectShortName">clock</obj_property>
@@ -54,5 +54,25 @@
    <wvobject fp_name="/testbench_mcu/mcu/IOBUS_OUT" type="array">
       <obj_property name="ElementShortName">IOBUS_OUT[31:0]</obj_property>
       <obj_property name="ObjectShortName">IOBUS_OUT[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench_mcu/mcu/hazard_detector/STALL_IF" type="logic">
+      <obj_property name="ElementShortName">STALL_IF</obj_property>
+      <obj_property name="ObjectShortName">STALL_IF</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench_mcu/mcu/hazard_detector/STALL_DE" type="logic">
+      <obj_property name="ElementShortName">STALL_DE</obj_property>
+      <obj_property name="ObjectShortName">STALL_DE</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench_mcu/mcu/hazard_detector/STALL_EX" type="logic">
+      <obj_property name="ElementShortName">STALL_EX</obj_property>
+      <obj_property name="ObjectShortName">STALL_EX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench_mcu/mcu/hazard_detector/STALL_MEM" type="logic">
+      <obj_property name="ElementShortName">STALL_MEM</obj_property>
+      <obj_property name="ObjectShortName">STALL_MEM</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench_mcu/mcu/hazard_detector/STALL_WB" type="logic">
+      <obj_property name="ElementShortName">STALL_WB</obj_property>
+      <obj_property name="ObjectShortName">STALL_WB</obj_property>
    </wvobject>
 </wave_config>
