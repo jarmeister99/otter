@@ -46,7 +46,7 @@ typedef struct packed{
     logic regWrite;
     logic [1:0] rfWrSel;
     logic [2:0] memType;  //sign, size
-    logic [31:0] rs2;
+    logic [31:0] rs1, rs2;
 } instr_t;
 
 module otter_mcu(
@@ -59,7 +59,8 @@ module otter_mcu(
 );
 
 // PIPELINE CONTROLS
-logic stallIf=0, stallDe=0, stallEx=0, stallMem=0, stallWb=0; 
+logic stallIf=0,   stallDe=0,   stallEx=0,   stallMem=0,   stallWb=0; 
+logic invalidIf=0, invalidDe=0, invalidEx=0, invalidMem=0, invalidWb=0;
 
 // ~~~~~~~~~~~ //
 // FETCH STAGE //
@@ -88,11 +89,10 @@ always_ff @(posedge CLK) begin
     if (!stallDe) begin
         if_de_pc            <= pc;       // May need to happen in fetch stage
         if_de_ir            <= ir;
-    
         if_de_inst.opcode   <= opcode;
-        
         if_de_inst.aluFun   <= aluFun;
         if_de_inst.rfWrSel  <= rfWrSel;
+        if_de_inst.rs1      <= rs1;
         if_de_inst.rs2      <= rs2;
      
     end
@@ -296,6 +296,25 @@ branch_cond_gen branch_cond_gen(
     .OPCODE  (de_ex_inst.opcode),
     .FUNC3   (de_ex_inst.func3),
     .PC_SEL  (pcSel)
+);
+
+hazard_detector hazard_detector(
+    .CLK            (CLK),
+    .EX_MEM_RD      (ex_mem_inst.rd),
+    .MEM_WB_RD      (mem_wb_inst.rd),
+    .DE_EX_RS1      (de_ex_inst.rs1),
+    .DE_EX_RS2      (de_ex_inst.rs1),
+    .EX_MEM_PC_SEL  (ex_mem_pcSel),
+    .STALL_IF       (stallIf),
+    .STALL_DE       (stallDe),
+    .STALL_EX       (stallEx),
+    .STALL_MEM      (stallMem),
+    .STALL_WB       (stallWb),
+    .INVALID_IF     (invalidIf),
+    .INVALID_DE     (invalidDe),
+    .INVALID_EX     (invalidEx),
+    .INVALID_MEM    (invalidMem),
+    .INVALID_WB     (invalidWb)
 );
 
 
