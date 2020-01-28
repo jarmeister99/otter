@@ -182,7 +182,7 @@ instr_t mem_wb_inst;
 always_ff @(posedge CLK) begin
     mem_wb_inst    <= ex_mem_inst;
     mem_wb_pc      <= ex_mem_pc;
-    mem_wb_aluRes  <= ex_mem_aluRes && ex_mem_inst.invalid;
+    mem_wb_aluRes  <= ex_mem_aluRes & ex_mem_inst.invalid;
     mem_wb_memData <= memData;
 end
 always_comb begin
@@ -215,7 +215,7 @@ OTTER_mem_byte mem(
     .MEM_ADDR1   (pc),                        // Current PC -> IR
     .MEM_ADDR2   (ex_mem_aluRes),             // Access memory at the location corresponding to the ALU RESULT during the MEM STAGE 
     .MEM_DIN2    (ex_mem_inst.rs2),           // Save the value from register 2 during the MEM STAGE
-    .MEM_WRITE2  ((!ex_mem_inst.invalid) && ex_mem_inst.memWrite),     
+    .MEM_WRITE2  ((!ex_mem_inst.invalid) & ex_mem_inst.memWrite),     
     .MEM_READ1   (~stallIf),                  // An instruction can only be fetched from MEM1 if STALL_FETCH signal is not given
     .MEM_READ2   (ex_mem_inst.memRead2),      // MEM2 can only be read from if command is LOAD
     .IO_IN       (IOBUS_IN),                 
@@ -252,7 +252,7 @@ Mult4to1 reg_file_data_mux(
     .In2  (0),                         // Option 2: NONE
     .In3  (mem_wb_memData),            // Option 3: Output of MEM1 from WRITEBACK STAGE
     .In4  (mem_wb_aluRes),             // Option 4: Output of ALU from WRITEBACK STAGE
-    .Sel  ((!ex_mem_inst.invalid) && ex_mem_inst.rfWrSel),     
+    .Sel  ((!ex_mem_inst.invalid) & ex_mem_inst.rfWrSel),     
     .Out  (dataToRegWrite)
 );
 
