@@ -159,7 +159,7 @@ instr_t mem_wb_inst;
 logic [31:0] mem_wb_aluRes;
 
 always_ff @(posedge CLK) begin
-    mem_wb_inst <= ex_mem_inst;
+    mem_wb_inst     <= ex_mem_inst;
     mem_wb_aluRes   <= ex_mem_aluRes; // If the EX_MEM stage has been invalidated, future stages must be no-ops
 end 
 
@@ -309,6 +309,7 @@ branch_cond_gen branch_cond_gen(
 
 // CHECK INPUTS, MAYBE WRONG? //
 hazard_detector hazard_detector(
+    .DE_EX_RD       (de_ex_inst.rd),
     .EX_MEM_RD      (ex_mem_inst.rd),     // Why does Vivado say this is an unconnected port?
     .MEM_WB_RD      (mem_wb_inst.rd),
     .DE_RF_ADDR1    (de_inst.rfAddr1),
