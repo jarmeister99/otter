@@ -25,6 +25,7 @@ module hazard_detector(
     input [4:0] EX_MEM_RD,
     input [4:0] MEM_WB_RD,
     input [4:0] DE_RF_ADDR1,
+    input [4:0] DE_RF_ADDR2,
     output logic STALL_IF,
     output logic STALL_DE
 );
@@ -41,6 +42,18 @@ always_comb begin
         STALL_DE = 1;
     end
     if (DE_RF_ADDR1 == MEM_WB_RD) begin
+        STALL_IF = 1;
+        STALL_DE = 1;
+    end
+    if (DE_RF_ADDR2 == DE_EX_RD) begin
+        STALL_IF = 1;
+        STALL_DE = 1;
+    end
+    if (DE_RF_ADDR2 == EX_MEM_RD) begin
+        STALL_IF = 1;
+        STALL_DE = 1;
+    end
+    if (DE_RF_ADDR2 == MEM_WB_RD) begin
         STALL_IF = 1;
         STALL_DE = 1;
     end
