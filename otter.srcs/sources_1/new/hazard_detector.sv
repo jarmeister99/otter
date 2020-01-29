@@ -21,7 +21,6 @@
 
 
 module hazard_detector(
-    input CLK,
     input [4:0] EX_MEM_RD,
     input [4:0] MEM_WB_RD,
     input [4:0] DE_EX_RF_ADDR1,
@@ -31,7 +30,7 @@ module hazard_detector(
     output logic STALL_DE,
     output logic INVALIDATE
 );
-always_ff @(posedge CLK) begin
+always_comb begin
     
 
     if (EX_MEM_PC_SEL != 0) begin
@@ -45,41 +44,41 @@ always_ff @(posedge CLK) begin
     // ... the register to save data to in the EXECUTE STAGE 
     // Then stall IF, DE
     if (EX_MEM_RD == DE_EX_RF_ADDR1) begin
-        STALL_IF <= 1;
-        STALL_DE <= 1;
+        STALL_IF = 1;
+        STALL_DE = 1;
     end
     else begin
-        STALL_IF <= 0;
-        STALL_DE <= 0;
+        STALL_IF = 0;
+        STALL_DE = 0;
     end
     // ...
     /// Stall IF, DE
     if (EX_MEM_RD == DE_EX_RF_ADDR2) begin
-        STALL_IF <= 1;
-        STALL_DE <= 1;
+        STALL_IF = 1;
+        STALL_DE = 1;
     end
     else begin
-        STALL_IF <= 0;
-        STALL_DE <= 0;
+        STALL_IF = 0;
+        STALL_DE = 0;
     end
     // If the first output (data) of the REG_FILE at the DECODE STAGE is equal to
     // ... the register to save data to in the MEMORY STAGE
     // Then stall IF, DE
     if (MEM_WB_RD == DE_EX_RF_ADDR1) begin
-        STALL_IF  <= 1;
-        STALL_DE  <= 1;
+        STALL_IF  = 1;
+        STALL_DE  = 1;
     end
     else begin
-        STALL_IF  <= 0;
-        STALL_DE  <= 0;
+        STALL_IF  = 0;
+        STALL_DE  = 0;
     end
     if (MEM_WB_RD == DE_EX_RF_ADDR2) begin
-        STALL_IF  <= 1;
-        STALL_DE  <= 1;
+        STALL_IF  = 1;
+        STALL_DE  = 1;
     end
     else begin
-        STALL_IF  <= 0;
-        STALL_DE  <= 0;
+        STALL_IF  = 0;
+        STALL_DE  = 0;
     end
 end
 endmodule

@@ -162,8 +162,8 @@ always_ff @(posedge CLK) begin
 end 
 
 always_comb begin
-    IOBUS_OUT <= ex_mem_inst.rs2;
-    IOBUS_ADDR <= ex_mem_aluRes;
+    IOBUS_OUT = ex_mem_inst.rs2;
+    IOBUS_ADDR = ex_mem_aluRes;
 end
 
 // ~~~~~~~~~~~~~~~ //
@@ -178,13 +178,32 @@ wire  [31:0] dataToRegWrite;
 
 // MODULES
 
+// The PC should determine a new PC every clock cycle.
+// -- It receives its next PC from the PC_NEXT_MUX
+// -- It receives PC_LOAD signal (aka PC_WRITE) from the stallIf signal,
+// Meaning if the stallIf signal is asserted, the PC will not load the next PC (it will stay the same)
+
 ProgCount prog_count(
     .PC_CLK    (CLK),    
     .PC_RST    (RESET),
     .PC_LD     (~stallIf),  
-    .PC_DIN    (nextPc),       // nextPC is provided by MUX (either sequential PC, or branch/jump target)
+    .PC_DIN    (nextPc),     
     .PC_COUNT  (pc)
 );
+
+// The PC_NEXT_MUX determines the next value for the PC
+// -- Its first input is equal to the PC from the FETCH STAGE, plus 4
+// -- Its second input is equal to jalrPc. 
+// jalrPc is supplied from the Target Generator, which operates on data from the DE_EX register
+// -- Its third input is equal to branchPc.
+// branchPs is supplied from the Target Generator, ...
+// -- Its fourth input is equal to jalPc.
+// jalPc is supplied from the Target Generator, ...
+// -- It is controlled by pcSel
+// pcSel is supplied from the Branch CondGen, which operates on data from the DE_EX register 
+// -- It outputs to the PC, which uses its output as the next PC value.
+// Meaning whatever this MUX selects is the value of PC at the next clock edge.
+
 Mult4to1 prog_count_next_mux(
     .In1  (pc + 4),      // Option 1: Current PC + 4
     .In2  (jalrPc),      // Option 2: JALR TARGET calculated during EX STAGE
@@ -194,9 +213,11 @@ Mult4to1 prog_count_next_mux(
     .Out  (nextPc)              
 );    
 
+// The MEM is used to store or access data, including the current instruction.
+// -- Its first address
 OTTER_mem_byte mem(
     .MEM_CLK     (CLK),
-    .MEM_ADDR1   (if_de_inst.pc),              
+    .MEM_ADDR1   (pc),              
     .MEM_ADDR2   (ex_mem_aluRes),             // Access memory at the location corresponding to the ALU RESULT during the MEM STAGE 
     .MEM_DIN2    (ex_mem_inst.rs2),           // Save the value from register 2 during the MEM STAGE
     .MEM_WRITE2  ((!ex_mem_inst.invalid) & ex_mem_inst.memWrite),     
@@ -286,7 +307,6 @@ branch_cond_gen branch_cond_gen(
 
 // CHECK INPUTS, MAYBE WRONG? //
 hazard_detector hazard_detector(
-    .CLK            (CLK),
     .EX_MEM_RD      (ex_mem_inst.rd),     // Why does Vivado say this is an unconnected port?
     .MEM_WB_RD      (mem_wb_inst.rd),
     .DE_EX_RF_ADDR1 (de_ex_inst.rfAddr1),
