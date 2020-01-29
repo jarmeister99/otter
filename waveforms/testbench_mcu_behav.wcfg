@@ -12,68 +12,37 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="4750216500fs"></ZoomStartTime>
-      <ZoomEndTime time="4750376701fs"></ZoomEndTime>
-      <Cursor1Time time="4750350000fs"></Cursor1Time>
+      <ZoomStartTime time="15635416083fs"></ZoomStartTime>
+      <ZoomEndTime time="15635504784fs"></ZoomEndTime>
+      <Cursor1Time time="15635490000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="172"></NameColumnWidth>
-      <ValueColumnWidth column_width="58"></ValueColumnWidth>
+      <NameColumnWidth column_width="175"></NameColumnWidth>
+      <ValueColumnWidth column_width="146"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="13" />
-   <wvobject fp_name="/testbench_mcu/clock" type="logic">
-      <obj_property name="ElementShortName">clock</obj_property>
-      <obj_property name="ObjectShortName">clock</obj_property>
+   <WVObjectSize size="6" />
+   <wvobject type="logic" fp_name="/testbench_mcu/MCU/CLK">
+      <obj_property name="ElementShortName">CLK</obj_property>
+      <obj_property name="ObjectShortName">CLK</obj_property>
    </wvobject>
-   <wvobject type="divider" fp_name="divider187">
-      <obj_property name="label">-------------------</obj_property>
-      <obj_property name="DisplayName">label</obj_property>
-      <obj_property name="BkColor">#DCDCDC</obj_property>
-   </wvobject>
-   <wvobject fp_name="/testbench_mcu/mcu/opcode" type="array">
-      <obj_property name="ElementShortName">opcode[6:0]</obj_property>
-      <obj_property name="ObjectShortName">opcode[6:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/testbench_mcu/mcu/pc" type="array">
+   <wvobject type="array" fp_name="/testbench_mcu/MCU/pc">
       <obj_property name="ElementShortName">pc[31:0]</obj_property>
       <obj_property name="ObjectShortName">pc[31:0]</obj_property>
    </wvobject>
-   <wvobject type="divider" fp_name="divider187">
-      <obj_property name="label">-------------------</obj_property>
-      <obj_property name="DisplayName">label</obj_property>
-      <obj_property name="BkColor">#DCDCDC</obj_property>
+   <wvobject type="array" fp_name="/testbench_mcu/MCU/ir">
+      <obj_property name="ElementShortName">ir[31:0]</obj_property>
+      <obj_property name="ObjectShortName">ir[31:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/testbench_mcu/mcu/hazard_detector/STALL_IF" type="logic">
-      <obj_property name="ElementShortName">STALL_IF</obj_property>
-      <obj_property name="ObjectShortName">STALL_IF</obj_property>
-   </wvobject>
-   <wvobject fp_name="/testbench_mcu/mcu/hazard_detector/STALL_DE" type="logic">
-      <obj_property name="ElementShortName">STALL_DE</obj_property>
-      <obj_property name="ObjectShortName">STALL_DE</obj_property>
-   </wvobject>
-   <wvobject type="divider" fp_name="divider187">
-      <obj_property name="label">-------------------</obj_property>
-      <obj_property name="DisplayName">label</obj_property>
-      <obj_property name="BkColor">#DCDCDC</obj_property>
-   </wvobject>
-   <wvobject fp_name="/testbench_mcu/mcu/invalidate" type="logic">
-      <obj_property name="ElementShortName">invalidate</obj_property>
-      <obj_property name="ObjectShortName">invalidate</obj_property>
-   </wvobject>
-   <wvobject fp_name="/testbench_mcu/mcu/IOBUS_ADDR" type="array">
-      <obj_property name="ElementShortName">IOBUS_ADDR[31:0]</obj_property>
-      <obj_property name="ObjectShortName">IOBUS_ADDR[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/testbench_mcu/mcu/IOBUS_OUT" type="array">
-      <obj_property name="ElementShortName">IOBUS_OUT[31:0]</obj_property>
-      <obj_property name="ObjectShortName">IOBUS_OUT[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/testbench_mcu/mcu/IOBUS_WR" type="logic">
+   <wvobject type="logic" fp_name="/testbench_mcu/MCU/IOBUS_WR">
       <obj_property name="ElementShortName">IOBUS_WR</obj_property>
       <obj_property name="ObjectShortName">IOBUS_WR</obj_property>
    </wvobject>
-   <wvobject fp_name="/testbench_mcu/mcu/mem/MEM_WRITE2" type="logic">
-      <obj_property name="ElementShortName">MEM_WRITE2</obj_property>
-      <obj_property name="ObjectShortName">MEM_WRITE2</obj_property>
+   <wvobject type="array" fp_name="/testbench_mcu/MCU/IOBUS_ADDR">
+      <obj_property name="ElementShortName">IOBUS_ADDR[31:0]</obj_property>
+      <obj_property name="ObjectShortName">IOBUS_ADDR[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/testbench_mcu/MCU/IOBUS_OUT">
+      <obj_property name="ElementShortName">IOBUS_OUT[31:0]</obj_property>
+      <obj_property name="ObjectShortName">IOBUS_OUT[31:0]</obj_property>
    </wvobject>
 </wave_config>
