@@ -124,6 +124,12 @@ always_ff @(posedge CLK) begin
         de_ex_aluBIn     <= aluBIn;
         de_ex_iTypeImmed <= iTypeImmed;
     end
+    else begin
+        de_ex_inst       <= 0;
+        de_ex_aluAIn     <= 0;
+        de_ex_aluBIn     <= 0;
+        de_ex_iTypeImmed <= 0;
+    end
 end
 
 // ~~~~~~~~~~~~~ //
@@ -139,9 +145,7 @@ logic [31:0] ex_mem_aluRes;
 
 always_ff @(posedge CLK) begin
     ex_mem_inst     <= de_ex_inst;
-    if (!de_ex_inst.invalid) begin
-        ex_mem_aluRes   <= aluRes; // If the DE_EX stage has been invalidated, future stages must be no-ops
-    end
+    ex_mem_aluRes   <= aluRes; // If the DE_EX stage has been invalidated, future stages must be no-ops
 end
 
 
@@ -156,9 +160,7 @@ logic [31:0] mem_wb_aluRes;
 
 always_ff @(posedge CLK) begin
     mem_wb_inst <= ex_mem_inst;
-    if (!ex_mem_inst.invalid) begin
-        mem_wb_aluRes   <= ex_mem_aluRes; // If the EX_MEM stage has been invalidated, future stages must be no-ops
-    end
+    mem_wb_aluRes   <= ex_mem_aluRes; // If the EX_MEM stage has been invalidated, future stages must be no-ops
 end 
 
 always_comb begin
@@ -220,7 +222,7 @@ OTTER_mem_byte mem(
     .MEM_ADDR1   (pc),              
     .MEM_ADDR2   (ex_mem_aluRes),             // Access memory at the location corresponding to the ALU RESULT during the MEM STAGE 
     .MEM_DIN2    (ex_mem_inst.rs2),           // Save the value from register 2 during the MEM STAGE
-    .MEM_WRITE2  ((!ex_mem_inst.invalid) & ex_mem_inst.memWrite),     
+    .MEM_WRITE2  (ex_mem_inst.memWrite),     
     .MEM_READ1   (~stallIf),                  // An instruction can only be fetched from MEM1 if STALL_FETCH signal is not given
     .MEM_READ2   (ex_mem_inst.memRead2),      // MEM2 can only be read from if command is LOAD
     .IO_IN       (IOBUS_IN),                 
@@ -247,7 +249,7 @@ OTTER_registerFile reg_file(
     .READ2         (de_inst.rfAddr2),      
     .DEST_REG      (mem_wb_inst.rd),       
     .DIN           (dataToRegWrite),        
-    .WRITE_ENABLE  ((!mem_wb_inst.invalid) && mem_wb_inst.regWrite),  
+    .WRITE_ENABLE  (mem_wb_inst.regWrite),  
     .OUT1          (rs1),                   
     .OUT2          (rs2),                    
     .CLK           (CLK)
@@ -309,12 +311,9 @@ branch_cond_gen branch_cond_gen(
 hazard_detector hazard_detector(
     .EX_MEM_RD      (ex_mem_inst.rd),     // Why does Vivado say this is an unconnected port?
     .MEM_WB_RD      (mem_wb_inst.rd),
-    .DE_EX_RF_ADDR1 (de_ex_inst.rfAddr1),
-    .DE_EX_RF_ADDR2 (de_ex_inst.rfAddr2),
-    .EX_MEM_PC_SEL  (pcSel),
+    .DE_RF_ADDR1    (de_inst.rfAddr1),
     .STALL_IF       (stallIf),
-    .STALL_DE       (stallDe),
-    .INVALIDATE     (invalidate)
+    .STALL_DE       (stallDe)
 );
 
 

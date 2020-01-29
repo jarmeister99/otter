@@ -49,7 +49,7 @@ module OTTER_CU_Decoder(
         logic brn_cond;
         always_comb
             case(CU_OPCODE)
-                OP_IMM:     CU_ALU_FUN= (CU_FUNC3==3'b101)?{CU_FUNC7[5],CU_FUNC3}:{1'b0,CU_FUNC3};
+                OP_IMM:     CU_ALU_FUN = (CU_FUNC3==3'b101)?{CU_FUNC7[5],CU_FUNC3}:{1'b0,CU_FUNC3};
                 LUI,SYSTEM: CU_ALU_FUN = 4'b1001;
                 OP:         CU_ALU_FUN = {CU_FUNC7[5],CU_FUNC3};
                 default:    CU_ALU_FUN = 4'b0;

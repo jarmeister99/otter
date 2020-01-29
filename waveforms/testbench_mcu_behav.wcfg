@@ -12,37 +12,101 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="15635416083fs"></ZoomStartTime>
-      <ZoomEndTime time="15635504784fs"></ZoomEndTime>
-      <Cursor1Time time="15635490000fs"></Cursor1Time>
+      <ZoomStartTime time="20000fs"></ZoomStartTime>
+      <ZoomEndTime time="140001fs"></ZoomEndTime>
+      <Cursor1Time time="80544fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="175"></NameColumnWidth>
-      <ValueColumnWidth column_width="146"></ValueColumnWidth>
+      <ValueColumnWidth column_width="194"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="6" />
-   <wvobject type="logic" fp_name="/testbench_mcu/MCU/CLK">
+   <WVObjectSize size="22" />
+   <wvobject fp_name="/testbench_mcu/mcu/CLK" type="logic">
       <obj_property name="ElementShortName">CLK</obj_property>
       <obj_property name="ObjectShortName">CLK</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/testbench_mcu/MCU/pc">
+   <wvobject fp_name="/testbench_mcu/mcu/pc" type="array">
       <obj_property name="ElementShortName">pc[31:0]</obj_property>
       <obj_property name="ObjectShortName">pc[31:0]</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/testbench_mcu/MCU/ir">
+   <wvobject fp_name="/testbench_mcu/mcu/ir" type="array">
       <obj_property name="ElementShortName">ir[31:0]</obj_property>
       <obj_property name="ObjectShortName">ir[31:0]</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/testbench_mcu/MCU/IOBUS_WR">
-      <obj_property name="ElementShortName">IOBUS_WR</obj_property>
-      <obj_property name="ObjectShortName">IOBUS_WR</obj_property>
+   <wvobject fp_name="/testbench_mcu/mcu/reg_file/RF[1]" type="array">
+      <obj_property name="ElementShortName">[1][31:0]</obj_property>
+      <obj_property name="ObjectShortName">[1][31:0]</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/testbench_mcu/MCU/IOBUS_ADDR">
-      <obj_property name="ElementShortName">IOBUS_ADDR[31:0]</obj_property>
-      <obj_property name="ObjectShortName">IOBUS_ADDR[31:0]</obj_property>
+   <wvobject fp_name="/testbench_mcu/mcu/stallIf" type="logic">
+      <obj_property name="ElementShortName">stallIf</obj_property>
+      <obj_property name="ObjectShortName">stallIf</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/testbench_mcu/MCU/IOBUS_OUT">
-      <obj_property name="ElementShortName">IOBUS_OUT[31:0]</obj_property>
-      <obj_property name="ObjectShortName">IOBUS_OUT[31:0]</obj_property>
+   <wvobject fp_name="/testbench_mcu/mcu/stallDe" type="logic">
+      <obj_property name="ElementShortName">stallDe</obj_property>
+      <obj_property name="ObjectShortName">stallDe</obj_property>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider177">
+      <obj_property name="label">RW</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench_mcu/mcu/de_ex_inst.regWrite" type="logic">
+      <obj_property name="ElementShortName">.regWrite</obj_property>
+      <obj_property name="ObjectShortName">.regWrite</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench_mcu/mcu/ex_mem_inst.regWrite" type="logic">
+      <obj_property name="ElementShortName">.regWrite</obj_property>
+      <obj_property name="ObjectShortName">.regWrite</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench_mcu/mcu/mem_wb_inst.regWrite" type="logic">
+      <obj_property name="ElementShortName">.regWrite</obj_property>
+      <obj_property name="ObjectShortName">.regWrite</obj_property>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider178">
+      <obj_property name="label">ALU_RES</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench_mcu/mcu/aluRes" type="array">
+      <obj_property name="ElementShortName">aluRes[31:0]</obj_property>
+      <obj_property name="ObjectShortName">aluRes[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench_mcu/mcu/ex_mem_aluRes" type="array">
+      <obj_property name="ElementShortName">ex_mem_aluRes[31:0]</obj_property>
+      <obj_property name="ObjectShortName">ex_mem_aluRes[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench_mcu/mcu/mem_wb_aluRes" type="array">
+      <obj_property name="ElementShortName">mem_wb_aluRes[31:0]</obj_property>
+      <obj_property name="ObjectShortName">mem_wb_aluRes[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider178">
+      <obj_property name="label">RF_SEL</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench_mcu/mcu/mem_wb_inst.rd" type="array">
+      <obj_property name="ElementShortName">.rd[4:0]</obj_property>
+      <obj_property name="ObjectShortName">.rd[4:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench_mcu/mcu/reg_file_data_mux/In1" type="array">
+      <obj_property name="ElementShortName">In1[31:0]</obj_property>
+      <obj_property name="ObjectShortName">In1[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench_mcu/mcu/reg_file_data_mux/In2" type="array">
+      <obj_property name="ElementShortName">In2[31:0]</obj_property>
+      <obj_property name="ObjectShortName">In2[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench_mcu/mcu/reg_file_data_mux/In3" type="array">
+      <obj_property name="ElementShortName">In3[31:0]</obj_property>
+      <obj_property name="ObjectShortName">In3[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench_mcu/mcu/reg_file_data_mux/In4" type="array">
+      <obj_property name="ElementShortName">In4[31:0]</obj_property>
+      <obj_property name="ObjectShortName">In4[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench_mcu/mcu/reg_file_data_mux/Sel" type="array">
+      <obj_property name="ElementShortName">Sel[1:0]</obj_property>
+      <obj_property name="ObjectShortName">Sel[1:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench_mcu/mcu/reg_file_data_mux/Out" type="array">
+      <obj_property name="ElementShortName">Out[31:0]</obj_property>
+      <obj_property name="ObjectShortName">Out[31:0]</obj_property>
    </wvobject>
 </wave_config>
