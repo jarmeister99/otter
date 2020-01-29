@@ -73,7 +73,6 @@ instr_t if_de_inst;
 // On each clock_edge, save the current PC into the IF_DE register
 always_ff @(posedge CLK) begin
     if_de_inst.pc <= pc;
-    if_de_inst.ir <= ir;
 end
 
 // ~~~~~~~~~~~~ //
@@ -97,7 +96,7 @@ logic [31:0] de_ex_aluAIn, de_ex_aluBIn;
 
 // Combinatorially populate de_inst structure with information from the instruction, and other combinatorial modules in the decode stage
 always_comb begin
-    de_inst.ir       = if_de_inst.ir;
+    de_inst.ir       = ir;
     de_inst.pc       = if_de_inst.pc;
     
     opcode           = opcode_t'(de_inst.ir[6:0]);
@@ -288,7 +287,7 @@ branch_cond_gen branch_cond_gen(
 // CHECK INPUTS, MAYBE WRONG? //
 hazard_detector hazard_detector(
     .CLK            (CLK),
-    .EX_MEM_RD      (ex_mem_inst.rd),
+    .EX_MEM_RD      (ex_mem_inst.rd),     // Why does Vivado say this is an unconnected port?
     .MEM_WB_RD      (mem_wb_inst.rd),
     .DE_EX_RF_ADDR1 (de_ex_inst.rfAddr1),
     .DE_EX_RF_ADDR2 (de_ex_inst.rfAddr2),
