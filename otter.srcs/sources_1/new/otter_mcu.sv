@@ -78,6 +78,7 @@ end
 always_ff @(posedge CLK) begin
     if (!stallIf) begin
         if_de_inst.pc <= pc;
+        if_de_inst.invalid <= invalidate;
     end
 end
 
@@ -120,7 +121,7 @@ always_comb begin
     de_inst.rfWrSel  = rfWrSel;    // received from decoder
     de_inst.rs1      = rs1;        // received from reg
     de_inst.rs2      = rs2;        // received from reg
-    de_inst.invalid  = invalidate;
+    de_inst.invalid  = if_de_inst.invalid;
     
 end
 always_ff @(posedge CLK) begin
