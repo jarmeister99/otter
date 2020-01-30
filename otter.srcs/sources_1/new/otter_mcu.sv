@@ -80,7 +80,7 @@ end
 always_ff @(posedge CLK) begin
     if (!stallIf) begin
         if_de_inst.pc <= pc;
-        if_invalid <= invalidate;
+        if_de.invalid <= invalidate;
     end
 end
 
@@ -105,8 +105,9 @@ logic [31:0] de_ex_aluAIn, de_ex_aluBIn;
 
 // Combinatorially populate de_inst structure with information from the instruction, and other combinatorial modules in the decode stage
 always_comb begin
-    de_inst.ir       = ir;
-    de_inst.pc       = if_de_inst.pc;
+    de_inst.ir         = ir;
+    de_inst.pc         = if_de_inst.pc;
+    de_inst.invalid    = if_de_inst.invalid;
     
     opcode           = opcode_t'(de_inst.ir[6:0]);
     de_inst.memWrite = opcode == STORE;
