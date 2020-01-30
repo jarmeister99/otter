@@ -12,6 +12,7 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
+<<<<<<< HEAD
       <ZoomStartTime time="0fs"></ZoomStartTime>
       <ZoomEndTime time="164738fs"></ZoomEndTime>
       <Cursor1Time time="240000fs"></Cursor1Time>
@@ -22,15 +23,110 @@
    </column_width_setting>
    <WVObjectSize size="3" />
    <wvobject type="logic" fp_name="/testbench_mcu/MCU/CLK">
+=======
+      <ZoomStartTime time="62489fs"></ZoomStartTime>
+      <ZoomEndTime time="287557fs"></ZoomEndTime>
+      <Cursor1Time time="117912fs"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="173"></NameColumnWidth>
+      <ValueColumnWidth column_width="58"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="20" />
+   <wvobject fp_name="/testbench_mcu/mcu/CLK" type="logic">
+>>>>>>> 4505ef4d924bdec250749d5e25ace689eb004406
       <obj_property name="ElementShortName">CLK</obj_property>
       <obj_property name="ObjectShortName">CLK</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/testbench_mcu/MCU/pc">
+   <wvobject fp_name="/testbench_mcu/mcu/pc" type="array">
       <obj_property name="ElementShortName">pc[31:0]</obj_property>
       <obj_property name="ObjectShortName">pc[31:0]</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/testbench_mcu/MCU/ir">
-      <obj_property name="ElementShortName">ir[31:0]</obj_property>
-      <obj_property name="ObjectShortName">ir[31:0]</obj_property>
+   <wvobject fp_name="/testbench_mcu/mcu/de_inst.opcode" type="array">
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="ElementShortName">.opcode[6:0]</obj_property>
+      <obj_property name="ObjectShortName">.opcode[6:0]</obj_property>
+      <obj_property name="label">OPCODE</obj_property>
    </wvobject>
+<<<<<<< HEAD
+=======
+   <wvobject fp_name="/testbench_mcu/mcu/de_inst.pc" type="array">
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="ElementShortName">.pc[31:0]</obj_property>
+      <obj_property name="ObjectShortName">.pc[31:0]</obj_property>
+      <obj_property name="label">PC</obj_property>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider84">
+      <obj_property name="label">STALLS</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench_mcu/mcu/hazard_detector/STALL_IF" type="logic">
+      <obj_property name="ElementShortName">STALL_IF</obj_property>
+      <obj_property name="ObjectShortName">STALL_IF</obj_property>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider84">
+      <obj_property name="label">IR PIPELINE</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench_mcu/mcu/de_inst.ir" type="array">
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="ElementShortName">.ir[31:0]</obj_property>
+      <obj_property name="ObjectShortName">.ir[31:0]</obj_property>
+      <obj_property name="label">DE IR</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench_mcu/mcu/de_ex_inst.ir" type="array">
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="ElementShortName">.ir[31:0]</obj_property>
+      <obj_property name="ObjectShortName">.ir[31:0]</obj_property>
+      <obj_property name="label">DE_EX IR</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench_mcu/mcu/ex_mem_inst.ir" type="array">
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="ElementShortName">.ir[31:0]</obj_property>
+      <obj_property name="ObjectShortName">.ir[31:0]</obj_property>
+      <obj_property name="label">EX_MEM IR</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench_mcu/mcu/mem_wb_inst.ir" type="array">
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="ElementShortName">.ir[31:0]</obj_property>
+      <obj_property name="ObjectShortName">.ir[31:0]</obj_property>
+      <obj_property name="label">MEM_WB IR</obj_property>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider84">
+      <obj_property name="label">PC_SEL</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench_mcu/mcu/prog_count_next_mux/Out" type="array">
+      <obj_property name="ElementShortName">Out[31:0]</obj_property>
+      <obj_property name="ObjectShortName">Out[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench_mcu/mcu/prog_count/PC_LD" type="logic">
+      <obj_property name="ElementShortName">PC_LD</obj_property>
+      <obj_property name="ObjectShortName">PC_LD</obj_property>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider84">
+      <obj_property name="label">REGISTERS</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench_mcu/mcu/reg_file/RF[1]" type="array">
+      <obj_property name="ElementShortName">[1][31:0]</obj_property>
+      <obj_property name="ObjectShortName">[1][31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench_mcu/mcu/hazard_detector/DE_EX_RD" type="array">
+      <obj_property name="ElementShortName">DE_EX_RD[4:0]</obj_property>
+      <obj_property name="ObjectShortName">DE_EX_RD[4:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench_mcu/mcu/hazard_detector/EX_MEM_RD" type="array">
+      <obj_property name="ElementShortName">EX_MEM_RD[4:0]</obj_property>
+      <obj_property name="ObjectShortName">EX_MEM_RD[4:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench_mcu/mcu/hazard_detector/MEM_WB_RD" type="array">
+      <obj_property name="ElementShortName">MEM_WB_RD[4:0]</obj_property>
+      <obj_property name="ObjectShortName">MEM_WB_RD[4:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench_mcu/mcu/hazard_detector/DE_RF_ADDR1" type="array">
+      <obj_property name="ElementShortName">DE_RF_ADDR1[4:0]</obj_property>
+      <obj_property name="ObjectShortName">DE_RF_ADDR1[4:0]</obj_property>
+   </wvobject>
+>>>>>>> 4505ef4d924bdec250749d5e25ace689eb004406
 </wave_config>

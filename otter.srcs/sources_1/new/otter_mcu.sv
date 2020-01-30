@@ -61,7 +61,7 @@ module otter_mcu(
 
 // PIPELINE CONTROLS
 logic stallIf, stallDe;
-logic invalidate;
+wire invalidate;
 
 // ~~~~~~~~~~~ //
 // FETCH STAGE //
@@ -70,9 +70,18 @@ logic invalidate;
 wire  [31:0] pc, nextPc, ir;
 instr_t if_de_inst;
 
+logic if_invalid;
+
+initial begin
+    if_de_inst.pc = 0;
+end
+
 // On each clock_edge, save the current PC into the IF_DE register
 always_ff @(posedge CLK) begin
-    if_de_inst.pc <= pc;
+    if (!stallIf) begin
+        if_de_inst.pc <= pc;
+        if_invalid <= invalidate;
+    end
 end
 
 // ~~~~~~~~~~~~ //
@@ -114,15 +123,22 @@ always_comb begin
     de_inst.rfWrSel  = rfWrSel;    // received from decoder
     de_inst.rs1      = rs1;        // received from reg
     de_inst.rs2      = rs2;        // received from reg
-    de_inst.invalid  = invalidate; // received from hazard detector (THINK ABOUT THIS MORE, A LOT MORE)
+    de_inst.invalid  = invalidate | if_invalid;
+    
 end
 always_ff @(posedge CLK) begin
     // Save decoded instructions to DE_EX register if appropriate
     if (!stallDe) begin
-        de_ex_inst       <= de_inst;
+        de_ex_inst <= de_inst;
         de_ex_aluAIn     <= aluAIn;
         de_ex_aluBIn     <= aluBIn;
         de_ex_iTypeImmed <= iTypeImmed;
+    end
+    else begin
+        de_ex_inst       <= 0;
+        de_ex_aluAIn     <= 0;
+        de_ex_aluBIn     <= 0;
+        de_ex_iTypeImmed <= 0;
     end
 end
 
@@ -130,18 +146,16 @@ end
 // EXECUTE STAGE //
 // ~~~~~~~~~~~~~ //
 
-wire [31:0] jalrPc, branchPc, jalPc;    // Set by Target Gen that operates on DE_EX data
+wire [31:0] jalrPc, branchPc, jalPc, seqPc;    
 wire [31:0] aluRes; 
-wire  [1:0] pcSel;                      // Set by Branch Gen that operators on DE_EX data
+wire  [1:0] pcSel;                    
 instr_t ex_mem_inst;
 logic [31:0] ex_mem_aluRes;
 
 
 always_ff @(posedge CLK) begin
     ex_mem_inst     <= de_ex_inst;
-    if (!de_ex_inst.invalid) begin
-        ex_mem_aluRes   <= aluRes; // If the DE_EX stage has been invalidated, future stages must be no-ops
-    end
+    ex_mem_aluRes   <= aluRes; // If the DE_EX stage has been invalidated, future stages must be no-ops
 end
 
 
@@ -155,10 +169,9 @@ instr_t mem_wb_inst;
 logic [31:0] mem_wb_aluRes;
 
 always_ff @(posedge CLK) begin
-    mem_wb_inst <= ex_mem_inst;
-    if (!ex_mem_inst.invalid) begin
-        mem_wb_aluRes   <= ex_mem_aluRes; // If the EX_MEM stage has been invalidated, future stages must be no-ops
-    end
+    mem_wb_inst     <= ex_mem_inst;
+    mem_wb_aluRes   <= ex_mem_aluRes; // If the EX_MEM stage has been invalidated, future stages must be no-ops
+   
 end 
 
 always_comb begin
@@ -220,9 +233,9 @@ OTTER_mem_byte mem(
     .MEM_ADDR1   (pc),              
     .MEM_ADDR2   (ex_mem_aluRes),             // Access memory at the location corresponding to the ALU RESULT during the MEM STAGE 
     .MEM_DIN2    (ex_mem_inst.rs2),           // Save the value from register 2 during the MEM STAGE
-    .MEM_WRITE2  ((!ex_mem_inst.invalid) & ex_mem_inst.memWrite),     
+    .MEM_WRITE2  (ex_mem_inst.memWrite & !ex_mem_inst.invalid),     
     .MEM_READ1   (~stallIf),                  // An instruction can only be fetched from MEM1 if STALL_FETCH signal is not given
-    .MEM_READ2   (ex_mem_inst.memRead2),      // MEM2 can only be read from if command is LOAD
+    .MEM_READ2   (ex_mem_inst.memRead2 & !ex_mem_inst.invalid),      // MEM2 can only be read from if command is LOAD
     .IO_IN       (IOBUS_IN),                 
     .MEM_SIZE    (ex_mem_inst.func3[1:0]),
     .MEM_SIGN    (ex_mem_inst.func3[2]),
@@ -247,7 +260,7 @@ OTTER_registerFile reg_file(
     .READ2         (de_inst.rfAddr2),      
     .DEST_REG      (mem_wb_inst.rd),       
     .DIN           (dataToRegWrite),        
-    .WRITE_ENABLE  ((!mem_wb_inst.invalid) && mem_wb_inst.regWrite),  
+    .WRITE_ENABLE  (mem_wb_inst.regWrite && !mem_wb_inst.invalid),  
     .OUT1          (rs1),                   
     .OUT2          (rs2),                    
     .CLK           (CLK)
@@ -307,11 +320,12 @@ branch_cond_gen branch_cond_gen(
 
 // CHECK INPUTS, MAYBE WRONG? //
 hazard_detector hazard_detector(
+    .EX_PC_SEL      (pcSel),
+    .DE_EX_RD       (de_ex_inst.rd),
     .EX_MEM_RD      (ex_mem_inst.rd),     // Why does Vivado say this is an unconnected port?
     .MEM_WB_RD      (mem_wb_inst.rd),
-    .DE_EX_RF_ADDR1 (de_ex_inst.rfAddr1),
-    .DE_EX_RF_ADDR2 (de_ex_inst.rfAddr2),
-    .EX_MEM_PC_SEL  (pcSel),
+    .DE_RF_ADDR1    (de_inst.rfAddr1),
+    .DE_RF_ADDR2    (de_inst.rfAddr2),
     .STALL_IF       (stallIf),
     .STALL_DE       (stallDe),
     .INVALIDATE     (invalidate)
