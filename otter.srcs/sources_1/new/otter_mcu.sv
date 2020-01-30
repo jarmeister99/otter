@@ -68,13 +68,20 @@ logic stallIf, stallDe;
 wire  [31:0] pc, nextPc, ir;
 instr_t if_de_inst;
 
+logic if_invalid;
+
 initial begin
     if_de_inst.pc = 0;
 end
 
 always_ff @(posedge CLK) begin
     if (!stallIf) begin
+<<<<<<< HEAD
+        if_de_inst.pc <= pc;
+        if_invalid <= invalidate;
+=======
         if_de_inst.pc <= pc; // If the STALL signal is asserted, the IF_DE register should not update
+>>>>>>> 119639d151f6b0209b6ce13e4ebeabfb752e4fbe
     end
 end
 
@@ -117,6 +124,10 @@ always_comb begin
     de_inst.rfWrSel  = rfWrSel;    // received from decoder
     de_inst.rs1      = rs1;        // received from reg
     de_inst.rs2      = rs2;        // received from reg
+<<<<<<< HEAD
+    de_inst.invalid  = invalidate | if_invalid;
+=======
+>>>>>>> 119639d151f6b0209b6ce13e4ebeabfb752e4fbe
     
 end
 always_ff @(posedge CLK) begin
@@ -162,7 +173,12 @@ logic [31:0] mem_wb_aluRes;
 
 always_ff @(posedge CLK) begin
     mem_wb_inst     <= ex_mem_inst;
+<<<<<<< HEAD
+    mem_wb_aluRes   <= ex_mem_aluRes; // If the EX_MEM stage has been invalidated, future stages must be no-ops
+   
+=======
     mem_wb_aluRes   <= ex_mem_aluRes;
+>>>>>>> 119639d151f6b0209b6ce13e4ebeabfb752e4fbe
 end 
 
 always_comb begin
@@ -191,7 +207,7 @@ ProgCount prog_count(
 );
 
 Mult4to1 prog_count_next_mux(
-    .In1  (if_de_inst.pc + 4),      // Option 1: Current PC + 4
+    .In1  (pc + 4),      // Option 1: Current PC + 4
     .In2  (jalrPc),      // Option 2: JALR TARGET calculated during EX STAGE
     .In3  (branchPc),    // Option 3: BRANCH TARGET calculated during EX STAGE
     .In4  (jalPc),       // Option 4: JAL TARGET calculated during EX STAGE
@@ -233,7 +249,11 @@ OTTER_registerFile reg_file(
     .READ2         (de_inst.rfAddr2),      
     .DEST_REG      (mem_wb_inst.rd),       
     .DIN           (dataToRegWrite),        
+<<<<<<< HEAD
+    .WRITE_ENABLE  (mem_wb_inst.regWrite && !mem_wb_inst.invalid),  
+=======
     .WRITE_ENABLE  (mem_wb_inst.regWrite),  
+>>>>>>> 119639d151f6b0209b6ce13e4ebeabfb752e4fbe
     .OUT1          (rs1),                   
     .OUT2          (rs2),                    
     .CLK           (CLK)
