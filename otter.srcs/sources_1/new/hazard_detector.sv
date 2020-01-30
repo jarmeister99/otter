@@ -21,6 +21,12 @@
 
 
 module hazard_detector(
+    input [4:0] DE_RF_ADDR1,
+    input [4:0] DE_EX_RD,
+    input [4:0] EX_MEM_RD,
+    input [4:0] MEM_WB_RD,
+    output logic STALL_IF,
+    output logic STALL_DE
 );
 typedef enum logic [6:0] {
     LUI      = 7'b0110111,
@@ -36,6 +42,19 @@ typedef enum logic [6:0] {
 } opcode_t;
 
 always_comb begin
-
+    STALL_IF = 0;
+    STALL_DE = 0;
+    if (DE_RF_ADDR1 == DE_EX_RD && DE_RF_ADDR1 != 0) begin
+        STALL_IF = 1;
+        STALL_DE = 1;
+    end
+    if (DE_RF_ADDR1 == EX_MEM_RD && DE_RF_ADDR1 != 0) begin
+        STALL_IF = 1;
+        STALL_DE = 1;
+    end
+    if (DE_RF_ADDR1 == MEM_WB_RD && DE_RF_ADDR1 != 0) begin
+        STALL_IF = 1;
+        STALL_DE = 1;
+    end
 end
 endmodule

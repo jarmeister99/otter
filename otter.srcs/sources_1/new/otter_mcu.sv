@@ -120,9 +120,8 @@ always_comb begin
     
 end
 always_ff @(posedge CLK) begin
-    // Save decoded instructions to DE_EX register if appropriate
     if (!stallDe) begin
-        de_ex_inst <= de_inst;
+        de_ex_inst       <= de_inst;
         de_ex_aluAIn     <= aluAIn;
         de_ex_aluBIn     <= aluBIn;
         de_ex_iTypeImmed <= iTypeImmed;
@@ -148,7 +147,7 @@ logic [31:0] ex_mem_aluRes;
 
 always_ff @(posedge CLK) begin
     ex_mem_inst     <= de_ex_inst;
-    ex_mem_aluRes   <= aluRes; // If the DE_EX stage has been invalidated, future stages must be no-ops
+    ex_mem_aluRes   <= aluRes;
 end
 
 
@@ -163,7 +162,7 @@ logic [31:0] mem_wb_aluRes;
 
 always_ff @(posedge CLK) begin
     mem_wb_inst     <= ex_mem_inst;
-    mem_wb_aluRes   <= ex_mem_aluRes; // If the EX_MEM stage has been invalidated, future stages must be no-ops
+    mem_wb_aluRes   <= ex_mem_aluRes;
 end 
 
 always_comb begin
@@ -294,6 +293,12 @@ branch_cond_gen branch_cond_gen(
 
 // CHECK INPUTS, MAYBE WRONG? //
 hazard_detector hazard_detector(
+    .DE_RF_ADDR1 (de_inst.rfAddr1),
+    .DE_EX_RD    (de_ex_inst.rd),
+    .EX_MEM_RD   (ex_mem_inst.rd),
+    .MEM_WB_RD   (mem_wb_inst.rd),
+    .STALL_IF    (stallIf),
+    .STALL_DE    (stallDe)
 );
 
 
