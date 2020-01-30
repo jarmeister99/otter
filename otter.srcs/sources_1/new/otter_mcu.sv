@@ -33,7 +33,6 @@ typedef enum logic [6:0] {
 
 typedef struct packed{
     opcode_t opcode;
-    logic invalid;
     logic [2:0] func3;
     logic [4:0] rfAddr1;
     logic [4:0] rfAddr2;
@@ -61,7 +60,6 @@ module otter_mcu(
 
 // PIPELINE CONTROLS
 logic stallIf, stallDe;
-wire invalidate;
 
 // ~~~~~~~~~~~ //
 // FETCH STAGE //
@@ -74,11 +72,9 @@ initial begin
     if_de_inst.pc = 0;
 end
 
-// On each clock_edge, save the current PC into the IF_DE register
 always_ff @(posedge CLK) begin
     if (!stallIf) begin
-        if_de_inst.pc <= pc;
-        if_de_inst.invalid <= invalidate;
+        if_de_inst.pc <= pc; // If the STALL signal is asserted, the IF_DE register should not update
     end
 end
 
@@ -121,7 +117,6 @@ always_comb begin
     de_inst.rfWrSel  = rfWrSel;    // received from decoder
     de_inst.rs1      = rs1;        // received from reg
     de_inst.rs2      = rs2;        // received from reg
-    de_inst.invalid  = if_de_inst.invalid;
     
 end
 always_ff @(posedge CLK) begin
@@ -188,31 +183,13 @@ wire  [31:0] dataToRegWrite;
 
 // MODULES
 
-// The PC should determine a new PC every clock cycle.
-// -- It receives its next PC from the PC_NEXT_MUX
-// -- It receives PC_LOAD signal (aka PC_WRITE) from the stallIf signal,
-// Meaning if the stallIf signal is asserted, the PC will not load the next PC (it will stay the same)
-
 ProgCount prog_count(
     .PC_CLK    (CLK),    
     .PC_RST    (RESET),
-    .PC_LD     (~stallIf),  
+    .PC_LD     (~stallIf),  // If the STALL signal is asserted, the PC should not update
     .PC_DIN    (nextPc),     
     .PC_COUNT  (pc)
 );
-
-// The PC_NEXT_MUX determines the next value for the PC
-// -- Its first input is equal to the PC from the FETCH STAGE, plus 4
-// -- Its second input is equal to jalrPc. 
-// jalrPc is supplied from the Target Generator, which operates on data from the DE_EX register
-// -- Its third input is equal to branchPc.
-// branchPs is supplied from the Target Generator, ...
-// -- Its fourth input is equal to jalPc.
-// jalPc is supplied from the Target Generator, ...
-// -- It is controlled by pcSel
-// pcSel is supplied from the Branch CondGen, which operates on data from the DE_EX register 
-// -- It outputs to the PC, which uses its output as the next PC value.
-// Meaning whatever this MUX selects is the value of PC at the next clock edge.
 
 Mult4to1 prog_count_next_mux(
     .In1  (if_de_inst.pc + 4),      // Option 1: Current PC + 4
@@ -230,9 +207,9 @@ OTTER_mem_byte mem(
     .MEM_ADDR1   (pc),              
     .MEM_ADDR2   (ex_mem_aluRes),             // Access memory at the location corresponding to the ALU RESULT during the MEM STAGE 
     .MEM_DIN2    (ex_mem_inst.rs2),           // Save the value from register 2 during the MEM STAGE
-    .MEM_WRITE2  (ex_mem_inst.memWrite & !ex_mem_inst.invalid),     
+    .MEM_WRITE2  (ex_mem_inst.memWrite),     
     .MEM_READ1   (~stallIf),                  // An instruction can only be fetched from MEM1 if STALL_FETCH signal is not given
-    .MEM_READ2   (ex_mem_inst.memRead2 & !ex_mem_inst.invalid),      // MEM2 can only be read from if command is LOAD
+    .MEM_READ2   (ex_mem_inst.memRead2),      // MEM2 can only be read from if command is LOAD
     .IO_IN       (IOBUS_IN),                 
     .MEM_SIZE    (ex_mem_inst.func3[1:0]),
     .MEM_SIGN    (ex_mem_inst.func3[2]),
@@ -257,7 +234,7 @@ OTTER_registerFile reg_file(
     .READ2         (de_inst.rfAddr2),      
     .DEST_REG      (mem_wb_inst.rd),       
     .DIN           (dataToRegWrite),        
-    .WRITE_ENABLE  (mem_wb_inst.regWrite & !mem_wb_inst.invalid),  
+    .WRITE_ENABLE  (mem_wb_inst.regWrite),  
     .OUT1          (rs1),                   
     .OUT2          (rs2),                    
     .CLK           (CLK)
@@ -317,15 +294,6 @@ branch_cond_gen branch_cond_gen(
 
 // CHECK INPUTS, MAYBE WRONG? //
 hazard_detector hazard_detector(
-    .EX_PC_SEL      (pcSel),
-    .DE_EX_RD       (de_ex_inst.rd),
-    .EX_MEM_RD      (ex_mem_inst.rd),     // Why does Vivado say this is an unconnected port?
-    .MEM_WB_RD      (mem_wb_inst.rd),
-    .DE_RF_ADDR1    (de_inst.rfAddr1),
-    .DE_RF_ADDR2    (de_inst.rfAddr2),
-    .STALL_IF       (stallIf),
-    .STALL_DE       (stallDe),
-    .INVALIDATE     (invalidate)
 );
 
 
