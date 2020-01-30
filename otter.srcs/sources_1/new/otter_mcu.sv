@@ -61,7 +61,7 @@ module otter_mcu(
 
 // PIPELINE CONTROLS
 logic stallIf, stallDe;
-logic invalidate;
+wire invalidate;
 
 // ~~~~~~~~~~~ //
 // FETCH STAGE //
@@ -120,17 +120,13 @@ always_comb begin
     de_inst.rfWrSel  = rfWrSel;    // received from decoder
     de_inst.rs1      = rs1;        // received from reg
     de_inst.rs2      = rs2;        // received from reg
+    de_inst.invalid  = invalidate;
     
 end
 always_ff @(posedge CLK) begin
     // Save decoded instructions to DE_EX register if appropriate
     if (!stallDe) begin
-        if (!stallIf) begin
-            de_ex_inst <= de_inst;
-        end
-        else begin
-            de_ex_inst <= 0;
-        end
+        de_ex_inst <= de_inst;
         de_ex_aluAIn     <= aluAIn;
         de_ex_aluBIn     <= aluBIn;
         de_ex_iTypeImmed <= iTypeImmed;
@@ -233,9 +229,9 @@ OTTER_mem_byte mem(
     .MEM_ADDR1   (pc),              
     .MEM_ADDR2   (ex_mem_aluRes),             // Access memory at the location corresponding to the ALU RESULT during the MEM STAGE 
     .MEM_DIN2    (ex_mem_inst.rs2),           // Save the value from register 2 during the MEM STAGE
-    .MEM_WRITE2  (ex_mem_inst.memWrite),     
+    .MEM_WRITE2  (ex_mem_inst.memWrite & !ex_mem_inst.invalid),     
     .MEM_READ1   (~stallIf),                  // An instruction can only be fetched from MEM1 if STALL_FETCH signal is not given
-    .MEM_READ2   (ex_mem_inst.memRead2),      // MEM2 can only be read from if command is LOAD
+    .MEM_READ2   (ex_mem_inst.memRead2 & !ex_mem_inst.invalid),      // MEM2 can only be read from if command is LOAD
     .IO_IN       (IOBUS_IN),                 
     .MEM_SIZE    (ex_mem_inst.func3[1:0]),
     .MEM_SIGN    (ex_mem_inst.func3[2]),
@@ -260,7 +256,7 @@ OTTER_registerFile reg_file(
     .READ2         (de_inst.rfAddr2),      
     .DEST_REG      (mem_wb_inst.rd),       
     .DIN           (dataToRegWrite),        
-    .WRITE_ENABLE  (mem_wb_inst.regWrite),  
+    .WRITE_ENABLE  (mem_wb_inst.regWrite & !mem_wb_inst.invalid),  
     .OUT1          (rs1),                   
     .OUT2          (rs2),                    
     .CLK           (CLK)
@@ -320,15 +316,15 @@ branch_cond_gen branch_cond_gen(
 
 // CHECK INPUTS, MAYBE WRONG? //
 hazard_detector hazard_detector(
-    .DE_EX_OPCODE   (de_ex_inst.opcode),
-    .EX_MEM_OPCODE  (ex_mem_inst.opcode),
+    .EX_PC_SEL      (pcSel),
     .DE_EX_RD       (de_ex_inst.rd),
     .EX_MEM_RD      (ex_mem_inst.rd),     // Why does Vivado say this is an unconnected port?
     .MEM_WB_RD      (mem_wb_inst.rd),
     .DE_RF_ADDR1    (de_inst.rfAddr1),
     .DE_RF_ADDR2    (de_inst.rfAddr2),
     .STALL_IF       (stallIf),
-    .STALL_DE       (stallDe)
+    .STALL_DE       (stallDe),
+    .INVALIDATE     (invalidate)
 );
 
 

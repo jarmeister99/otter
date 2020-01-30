@@ -21,16 +21,15 @@
 
 
 module hazard_detector(
-    input [6:0] DE_EX_OPCODE,
-    input [6:0] EX_MEM_OPCODE,
-    input [6:0] MEM_WB_OPCODE,
+    input EX_PC_SEL,
     input [4:0] DE_EX_RD,
     input [4:0] EX_MEM_RD,
     input [4:0] MEM_WB_RD,
     input [4:0] DE_RF_ADDR1,
     input [4:0] DE_RF_ADDR2,
     output logic STALL_IF,
-    output logic STALL_DE
+    output logic STALL_DE,
+    output logic INVALIDATE
 );
 typedef enum logic [6:0] {
     LUI      = 7'b0110111,
@@ -48,15 +47,12 @@ typedef enum logic [6:0] {
 logic branchActive;
 
 always_comb begin
-    STALL_IF = 0;
-    STALL_DE = 0;
+    INVALIDATE = 0;
+    STALL_IF   = 0;
+    STALL_DE   = 0;
     
-    branchActive =  ((DE_EX_OPCODE ==  JALR || DE_EX_OPCODE  == JAL || DE_EX_OPCODE  == BRANCH) ||
-                     (EX_MEM_OPCODE == JALR || EX_MEM_OPCODE == JAL || EX_MEM_OPCODE == BRANCH));
-    
-    // If we have chosen to branch
-    if (branchActive) begin
-        STALL_IF = 1;
+    if (EX_PC_SEL != 0) begin
+        INVALIDATE = 1;
     end
     
     // If we decoded an instruction that attempts to access a register that is in the process of being written to
