@@ -70,9 +70,15 @@ logic invalidate;
 wire  [31:0] pc, nextPc, ir;
 instr_t if_de_inst;
 
+initial begin
+    if_de_inst.pc = 0;
+end
+
 // On each clock_edge, save the current PC into the IF_DE register
 always_ff @(posedge CLK) begin
-    if_de_inst.pc <= pc;
+    if (!stallIf) begin
+        if_de_inst.pc <= pc;
+    end
 end
 
 // ~~~~~~~~~~~~ //
@@ -114,12 +120,17 @@ always_comb begin
     de_inst.rfWrSel  = rfWrSel;    // received from decoder
     de_inst.rs1      = rs1;        // received from reg
     de_inst.rs2      = rs2;        // received from reg
-    de_inst.invalid  = invalidate; // received from hazard detector (THINK ABOUT THIS MORE, A LOT MORE)
+    
 end
 always_ff @(posedge CLK) begin
     // Save decoded instructions to DE_EX register if appropriate
     if (!stallDe) begin
-        de_ex_inst       <= de_inst;
+        if (!stallIf) begin
+            de_ex_inst <= de_inst;
+        end
+        else begin
+            de_ex_inst <= 0;
+        end
         de_ex_aluAIn     <= aluAIn;
         de_ex_aluBIn     <= aluBIn;
         de_ex_iTypeImmed <= iTypeImmed;
@@ -136,9 +147,9 @@ end
 // EXECUTE STAGE //
 // ~~~~~~~~~~~~~ //
 
-wire [31:0] jalrPc, branchPc, jalPc;    // Set by Target Gen that operates on DE_EX data
+wire [31:0] jalrPc, branchPc, jalPc, seqPc;    
 wire [31:0] aluRes; 
-wire  [1:0] pcSel;                      // Set by Branch Gen that operators on DE_EX data
+wire  [1:0] pcSel;                    
 instr_t ex_mem_inst;
 logic [31:0] ex_mem_aluRes;
 
@@ -207,7 +218,7 @@ ProgCount prog_count(
 // Meaning whatever this MUX selects is the value of PC at the next clock edge.
 
 Mult4to1 prog_count_next_mux(
-    .In1  (pc + 4),      // Option 1: Current PC + 4
+    .In1  (if_de_inst.pc + 4),      // Option 1: Current PC + 4
     .In2  (jalrPc),      // Option 2: JALR TARGET calculated during EX STAGE
     .In3  (branchPc),    // Option 3: BRANCH TARGET calculated during EX STAGE
     .In4  (jalPc),       // Option 4: JAL TARGET calculated during EX STAGE
@@ -309,10 +320,13 @@ branch_cond_gen branch_cond_gen(
 
 // CHECK INPUTS, MAYBE WRONG? //
 hazard_detector hazard_detector(
+    .DE_EX_OPCODE   (de_ex_inst.opcode),
+    .EX_MEM_OPCODE  (ex_mem_inst.opcode),
     .DE_EX_RD       (de_ex_inst.rd),
     .EX_MEM_RD      (ex_mem_inst.rd),     // Why does Vivado say this is an unconnected port?
     .MEM_WB_RD      (mem_wb_inst.rd),
     .DE_RF_ADDR1    (de_inst.rfAddr1),
+    .DE_RF_ADDR2    (de_inst.rfAddr2),
     .STALL_IF       (stallIf),
     .STALL_DE       (stallDe)
 );
