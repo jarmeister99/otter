@@ -76,11 +76,16 @@ initial begin
     if_de_inst.invalid = 0;
 end
 
-// On each clock_edge, save the current PC into the IF_DE register
 always_ff @(posedge CLK) begin
     if (!stallIf) begin
-        if_de_inst.pc <= pc;
-        if_de_inst.invalid <= invalidate;
+        if_de_inst.pc <= pc; 
+        if_de_inst.invalid <= invalidate;       
+    end
+    else begin
+        // If we are stalling, and the invalid signal is low, but the hazard detector asserts INVALIDATE
+        if (if_de_inst.invalid == 0 && invalidate) begin
+            if_de_inst.invalid <= invalidate;
+        end
     end
 end
 
@@ -107,7 +112,7 @@ logic [31:0] de_ex_aluAIn, de_ex_aluBIn;
 always_comb begin
     de_inst.ir       = ir;
     de_inst.pc       = if_de_inst.pc;
-    de_inst.invalid  = if_de_inst.invalid | invalidate;
+    de_inst.invalid  = if_de_inst.invalid;
     
     opcode           = opcode_t'(de_inst.ir[6:0]);
     de_inst.memWrite = opcode == STORE;
@@ -127,7 +132,6 @@ always_comb begin
     
 end
 always_ff @(posedge CLK) begin
-    // Save decoded instructions to DE_EX register if appropriate
     if (!stallDe) begin
         de_ex_inst         <= de_inst;
         de_ex_aluAIn       <= aluAIn;
@@ -135,6 +139,7 @@ always_ff @(posedge CLK) begin
         de_ex_iTypeImmed   <= iTypeImmed;
     end
     else begin
+        // Inserts a bubble into the DE_EX pipeling register
         de_ex_inst       <= 0;
         de_ex_aluAIn     <= 0;
         de_ex_aluBIn     <= 0;
@@ -300,6 +305,7 @@ branch_cond_gen branch_cond_gen(
 
 // CHECK INPUTS, MAYBE WRONG? //
 hazard_detector hazard_detector(
+    .OPCODE         (de_ex_inst.opcode),
     .EX_PC_SEL      (pcSel),
     .DE_EX_RD       (de_ex_inst.rd),
     .EX_MEM_RD      (ex_mem_inst.rd),     // Why does Vivado say this is an unconnected port?
