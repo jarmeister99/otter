@@ -1,0 +1,20 @@
+# compile verilog/system verilog design source files
+sv xil_defaultlib  \
+"../../../../OtterV5.srcs/sources_1/imports/otter/sources/ArithLogicUnit.sv" \
+"../../../../OtterV5.srcs/sources_1/imports/otter/sources/CU_Decoder.sv" \
+"../../../../OtterV5.srcs/sources_1/imports/otter/sources/Mult4to1.sv" \
+"../../../../OtterV5.srcs/sources_1/imports/otter/sources/ProgCount.sv" \
+"../../../../OtterV5.srcs/sources_1/imports/sources/bram_dualport.sv" \
+"../../../../OtterV5.srcs/sources_1/imports/otter/otter.srcs/sources_1/new/branch_cond_gen.sv" \
+"../../../../OtterV5.srcs/sources_1/imports/otter/otter.srcs/sources_1/new/hazard_detector.sv" \
+"../../../../OtterV5.srcs/sources_1/imports/otter/otter.srcs/sources_1/new/immed_gen.sv" \
+"../../../../OtterV5.srcs/sources_1/imports/otter/otter.srcs/sources_1/new/otter_mcu.sv" \
+"../../../../OtterV5.srcs/sources_1/imports/otter/sources/registerFile.sv" \
+"../../../../OtterV5.srcs/sources_1/imports/otter/otter.srcs/sources_1/new/target_gen.sv" \
+"../../../../OtterV5.srcs/sim_1/imports/sim_sources/testbench_mcu.sv" \
+
+# compile glbl module
+verilog xil_defaultlib "glbl.v"
+
+# Do not sort compile order
+nosort

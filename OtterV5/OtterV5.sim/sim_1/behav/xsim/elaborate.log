@@ -1,0 +1,28 @@
+Vivado Simulator 2019.2
+Copyright 1986-1999, 2001-2019 Xilinx, Inc. All Rights Reserved.
+Running: /tools/Xilinx/Vivado/2019.2/bin/unwrapped/lnx64.o/xelab -wto bc93fc8242d44104b270ffb9b9e4b27e --incr --debug typical --relax --mt 8 -L xil_defaultlib -L unisims_ver -L unimacro_ver -L secureip --snapshot testbench_mcu_behav xil_defaultlib.testbench_mcu xil_defaultlib.glbl -log elaborate.log 
+Using 8 slave threads.
+Starting static elaboration
+Pass Through NonSizing Optimizer
+WARNING: [VRFC 10-3091] actual bit length 32 differs from formal bit length 2 for port 'Sel' [/home/jared/Dev/otter/OtterV5/OtterV5.srcs/sources_1/imports/otter/otter.srcs/sources_1/new/otter_mcu.sv:207]
+WARNING: [VRFC 10-5021] port 'RESET' is not connected on this instance [/home/jared/Dev/otter/OtterV5/OtterV5.srcs/sim_1/imports/sim_sources/testbench_mcu.sv:7]
+Completed static elaboration
+Starting simulation data flow analysis
+Completed simulation data flow analysis
+Time Resolution for simulation is 1ps
+Compiling package xil_defaultlib.$unit_ArithLogicUnit_sv
+Compiling module xil_defaultlib.ProgCount
+Compiling module xil_defaultlib.Mult4to1
+Compiling module xil_defaultlib.OTTER_mem_byte
+Compiling module xil_defaultlib.OTTER_CU_Decoder
+Compiling module xil_defaultlib.OTTER_registerFile
+Compiling module xil_defaultlib.OTTER_ALU
+Compiling module xil_defaultlib.Mult2to1
+Compiling module xil_defaultlib.target_gen
+Compiling module xil_defaultlib.immed_gen
+Compiling module xil_defaultlib.branch_cond_gen
+Compiling module xil_defaultlib.hazard_detector
+Compiling module xil_defaultlib.otter_mcu
+Compiling module xil_defaultlib.testbench_mcu
+Compiling module xil_defaultlib.glbl
+Built simulation snapshot testbench_mcu_behav
