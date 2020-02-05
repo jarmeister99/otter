@@ -28,4 +28,4 @@ addi x30, x30, 4
 j LOOP
 
 
-END:
+END: li x13, 255

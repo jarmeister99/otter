@@ -28,9 +28,9 @@ j GET_THREE
 
 NEXT_COL:
 sw x20, 0(x19)
-addi x22, x22, 1	# increment col
-addi x19, x19, 4	# increment MatrixC address
-mv x20, x0		# reset accumulator
+addi x22, x22, 1		# increment col
+addi x19, x19, 4		# increment MatrixC address
+mv x20, x0			# reset accumulator
 mv x21, x0		
 BEQ x22, x23, NEXT_ROW
 addi x9, x9, -12		# reset MatrixA address for next col - CHANGE BASED ON SIZE
@@ -39,8 +39,8 @@ j GET_THREE
 NEXT_ROW:
 addi x24, x24, 1
 BEQ x24, x23, DONE
-addi x18, x18, -36	# reset MatrixB address - CHANGE BASED ON SIZE
-mv x22, x0		# reset col
+addi x18, x18, -36		# reset MatrixB address - CHANGE BASED ON SIZE
+mv x22, x0			# reset col
 j GET_THREE
 
 MULT:
@@ -53,4 +53,4 @@ j LOOP
 END:
 ret 
 
-DONE:			# end is reached
+DONE: li x13, 255				# end is reached
